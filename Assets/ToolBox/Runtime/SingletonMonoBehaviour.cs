@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GS.ToolBox
+namespace Shalico.ToolBox
 {
     public class SingletonMonoBehaviour<T> : MonoBehaviour where T : SingletonMonoBehaviour<T>
     {
