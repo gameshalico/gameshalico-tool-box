@@ -37,7 +37,6 @@ namespace Shalico.ToolBox.Editor
                 );
             return scriptGenerator;
         }
-
         public static ScriptGenerator CreateSceneClassGenerator()
         {
             string[] scenePaths = EditorBuildSettings.scenes.Select(scene => scene.path).ToArray();
@@ -63,7 +62,8 @@ namespace Shalico.ToolBox.Editor
             return scriptGenerator;
         }
 
-        [MenuItem("Tools/Shalico/Generate All")]
+
+        [MenuItem("Tools/Shalico/Create/Setting Class")]
         public static void GenerateAll()
         {
             CreateLayerClassGenerator().Generate(DirectoryPath);
