@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "dotnet format",
+            "name": "Dotnet Format",
             "type": "PowerShell",
             "request": "launch",
-            "script": "dotnet format Assembly-Csharp.csproj",
+            "script": "dotnet-format Shalico.Toolbox.csproj",
             "cwd": "${cwd}"
         },
         {
