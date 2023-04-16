@@ -4,14 +4,11 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-/// <summary>
-/// プロジェクトを初期化する個人用のクラス。
-/// </summary>
-namespace Shalico.ToolBox
+namespace Shalico.ToolBox.Editor
 {
     public class ProjectInitializer : EditorWindow
     {
-        private static string _projectName = "ProjectName";
+        private static string s_projectName = "ProjectName";
 
         private string[] _folders = new string[] {
             "Art/Materials",
@@ -47,7 +44,7 @@ namespace Shalico.ToolBox
         {
             _folders.ForEach(folder =>
             {
-                Directory.CreateDirectory($"{Application.dataPath}/{_projectName}/{folder}");
+                Directory.CreateDirectory($"{Application.dataPath}/{s_projectName}/{folder}");
             });
             AssetDatabase.Refresh();
         }
@@ -61,7 +58,7 @@ namespace Shalico.ToolBox
         private void OnGUI()
         {
             EditorGUILayout.LabelField("Project Initializer");
-            _projectName = EditorGUILayout.TextField("Project Name", _projectName);
+            s_projectName = EditorGUILayout.TextField("Project Name", s_projectName);
             GUILayout.Space(10);
             if (GUILayout.Button("Initialize"))
             {
