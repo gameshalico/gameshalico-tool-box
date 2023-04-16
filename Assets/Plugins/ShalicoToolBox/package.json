@@ -1,6 +1,6 @@
 {
   "name": "jp.gameshalico.toolbox",
-  "displayName": "Gameshalico Tool Box",
+  "displayName": "Shalico Tool Box",
   "description": "My utility package for Unity.",
   "version": "0.1.0",
   "type": "library"
