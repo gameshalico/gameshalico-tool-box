@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using log4net.Core;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
@@ -35,11 +36,12 @@ namespace Shalico.ToolBox.Editor
             {
                 TreeViewItem item = FindItem(instanceID);
                 item.icon = HierarchyIcon.GetIcon(gameObject);
-                HierarchyIcon.DrawIcons(selectionRect, gameObject);
                 HierarchyRowStripe.FillRow(selectionRect);
                 HierarchyIndentGuide.Fill(selectionRect);
+                HierarchyItemDetails.Draw(gameObject, selectionRect);
             }
         }
+
 
         private static TreeViewItem FindItem(int instanceID)
         {

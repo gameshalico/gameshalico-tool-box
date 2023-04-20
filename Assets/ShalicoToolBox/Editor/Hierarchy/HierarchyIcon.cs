@@ -4,13 +4,12 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 using System;
-using UnityEditor.IMGUI.Controls;
 
 namespace Shalico.ToolBox.Editor
 {
     internal static class HierarchyIcon
     {
-        private static readonly Dictionary<Type, Texture2D> s_iconCache = new Dictionary<Type, Texture2D>();
+        private static readonly Dictionary<Type, Texture2D> s_iconCache = new();
         public static Texture2D GetIcon(GameObject gameObject)
         {
             var target = GetIconTarget(gameObject);
