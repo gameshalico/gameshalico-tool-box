@@ -4,7 +4,7 @@ using Shalico.ToolBox.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Shalico.ToolBox
+namespace Shalico.ToolBox.Editor
 {
     public class ProjectSettingsWatcher : AssetPostprocessor
     {

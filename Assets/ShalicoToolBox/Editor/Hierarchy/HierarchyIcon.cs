@@ -6,7 +6,7 @@ using System.Linq;
 using System;
 using UnityEditor.IMGUI.Controls;
 
-namespace Shalico.ToolBox.Hierarchy
+namespace Shalico.ToolBox.Editor
 {
     internal static class HierarchyIcon
     {
@@ -15,6 +15,21 @@ namespace Shalico.ToolBox.Hierarchy
         {
             var target = GetIconTarget(gameObject);
             return GetIconTexture(target);
+        }
+
+        public static void DrawIcons(Rect rect, GameObject gameObject)
+        {
+            var components = gameObject.GetComponents<Component>().Where(c => c is not Transform).Reverse();
+            float x = rect.xMax - 16;
+            foreach (var component in components)
+            {
+                var icon = GetIconTexture(component);
+                if (icon == null)
+                    continue;
+                var iconRect = new Rect(x, rect.y, 16, 16);
+                GUI.DrawTexture(iconRect, icon);
+                x -= 16;
+            }
         }
 
         private static Component GetIconTarget(GameObject gameObject)
@@ -32,9 +47,10 @@ namespace Shalico.ToolBox.Hierarchy
             return components[1];
         }
 
-        private static Texture2D GetIconTexture(Component component)
+        public static Texture2D GetIconTexture(Component component)
         {
-            var type = component.GetType();
+            var type = component?.GetType() ?? typeof(GameObject);
+            
             if (s_iconCache.ContainsKey(type))
                 return s_iconCache[type];
 

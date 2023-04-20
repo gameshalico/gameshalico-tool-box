@@ -4,17 +4,17 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace Shalico.ToolBox.Hierarchy
+namespace Shalico.ToolBox.Editor
 {
     [InitializeOnLoad]
-    internal static class HierarchyPass
+    internal static class HierarchyExtension
     {
         private static readonly PropertyInfo s_lastInteractedHierarchyWindowProperty;
         private static object s_treeView;
         private static MethodInfo s_findItem;
         private static MethodInfo s_initTree;
 
-        static HierarchyPass()
+        static HierarchyExtension()
         {
             EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyGUI;
         
@@ -35,6 +35,9 @@ namespace Shalico.ToolBox.Hierarchy
             {
                 TreeViewItem item = FindItem(instanceID);
                 item.icon = HierarchyIcon.GetIcon(gameObject);
+                HierarchyIcon.DrawIcons(selectionRect, gameObject);
+                HierarchyRowStripe.FillRow(selectionRect);
+                HierarchyIndentGuide.Fill(selectionRect);
             }
         }
 
