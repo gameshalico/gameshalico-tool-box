@@ -35,5 +35,25 @@ namespace Shalico.ToolBox.Editor
 
             EditorGUI.LabelField(textRect, labelText, style);
         }
+        
+        [MenuItem("Tools/Shalico/Hierarchy/Toggle Separator %j")]
+        private static void ToggleSeparator()
+        {
+            Undo.RecordObjects(Selection.gameObjects, "Toggle Separator");
+
+            GameObject[] gameObjects = Selection.gameObjects;
+            foreach(GameObject gameObject in gameObjects)
+            {
+                if(IsSeparator(gameObject))
+                {
+                    gameObject.name = gameObject.name.Substring(3).Trim();
+                }
+                else
+                {
+                    gameObject.name = "--- " + gameObject.name;
+                }
+            }
+            EditorApplication.RepaintHierarchyWindow();
+        }
     }
 }

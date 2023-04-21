@@ -38,7 +38,7 @@ namespace Shalico.ToolBox.Editor
             EditorGUI.LabelField(rect, label, guiStyle);
         }
 
-        [MenuItem("Tools/Shalico/Hierarchy/Toggle Side View %H")]
+        [MenuItem("Tools/Shalico/Hierarchy/Toggle Side View %T")]
         private static void ToggleSideView()
         {
             s_hierarchySideView = (HierarchySideView)(((int)s_hierarchySideView + 1) % 4);
