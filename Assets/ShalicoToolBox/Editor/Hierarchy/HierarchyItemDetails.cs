@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
+using UnityEditor;
+using UnityEngine;
 
 namespace Shalico.ToolBox.Editor
 {
@@ -31,7 +31,8 @@ namespace Shalico.ToolBox.Editor
         }
         private static void DrawLabelOnSide(Rect rect, string label, Color color)
         {
-            GUIStyle guiStyle = new(EditorStyles.label) {
+            GUIStyle guiStyle = new(EditorStyles.label)
+            {
                 alignment = TextAnchor.MiddleRight,
                 normal = { textColor = color }
             };
@@ -47,7 +48,7 @@ namespace Shalico.ToolBox.Editor
 
         public static void Draw(GameObject gameObject, Rect selectionRect)
         {
-            switch(s_hierarchySideView)
+            switch (s_hierarchySideView)
             {
                 case HierarchySideView.Component:
                     HierarchyIcon.DrawIcons(selectionRect, gameObject);

@@ -1,9 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
 using System.Linq;
-using System;
+using UnityEditor;
+using UnityEngine;
 
 namespace Shalico.ToolBox.Editor
 {
@@ -34,9 +34,9 @@ namespace Shalico.ToolBox.Editor
         private static Component GetIconTarget(GameObject gameObject)
         {
             var components = gameObject.GetComponents<Component>();
-            if(components.Length == 1)
+            if (components.Length == 1)
                 return components[0];
-            
+
             if (components[1] is CanvasRenderer &&
                 components.Length > 2)
             {
@@ -49,7 +49,7 @@ namespace Shalico.ToolBox.Editor
         public static Texture2D GetIconTexture(Component component)
         {
             var type = component?.GetType() ?? typeof(GameObject);
-            
+
             if (s_iconCache.ContainsKey(type))
                 return s_iconCache[type];
 

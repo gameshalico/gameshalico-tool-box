@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 namespace Shalico.ToolBox.Editor
 {
@@ -20,7 +20,7 @@ namespace Shalico.ToolBox.Editor
         {
             float xMax = selectionRect.xMin - 14;
             int depth = 0;
-            for(int ix = 32; ix < xMax; ix += 14)
+            for (int ix = 32; ix < xMax; ix += 14)
             {
                 Color color = s_colors[depth % s_colors.Length];
                 color.a = Alpha;

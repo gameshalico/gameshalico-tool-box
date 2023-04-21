@@ -18,11 +18,11 @@ namespace Shalico.ToolBox.Editor
         static HierarchyExtension()
         {
             EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyGUI;
-        
+
             Type sceneHierarchyWindowType = Type.GetType(
                 "UnityEditor.SceneHierarchyWindow, UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
             s_lastInteractedHierarchyWindowProperty = sceneHierarchyWindowType.GetProperty("lastInteractedHierarchyWindow", BindingFlags.Static | BindingFlags.Public);
-            
+
         }
 
         private static void OnHierarchyGUI(int instanceID, Rect selectionRect)
@@ -31,8 +31,8 @@ namespace Shalico.ToolBox.Editor
                 ExtractTreeView();
 
             var gameObject = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
-            
-            if(gameObject)
+
+            if (gameObject)
             {
                 if (HierarchySeparator.IsSeparator(gameObject))
                 {

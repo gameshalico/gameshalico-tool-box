@@ -129,7 +129,7 @@ namespace Shalico.ToolBox.Editor
         {
             StringBuilder builder = new();
             builder.AppendLine($"namespace {_namespace}");
-            
+
             builder.AppendLine("{");
             builder.AppendLine(Indent(1) + $"public class {_className}");
             builder.AppendLine(Indent(1) + "{");
@@ -147,7 +147,7 @@ namespace Shalico.ToolBox.Editor
         {
             string path = $"{directoryPath}/{_className}.cs";
 
-            if(!Directory.Exists(directoryPath))
+            if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
 
             File.WriteAllText(path, GenerateScript(), Encoding.UTF8);

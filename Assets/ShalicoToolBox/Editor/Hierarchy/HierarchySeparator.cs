@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor.IMGUI.Controls;
 using UnityEditor;
+using UnityEditor.IMGUI.Controls;
+using UnityEngine;
 
 namespace Shalico.ToolBox.Editor
 {
@@ -23,28 +23,29 @@ namespace Shalico.ToolBox.Editor
 
             string labelText = gameObject.name.Substring(3).Trim();
             EditorGUI.DrawRect(rect, s_backgroundColor);
-            
+
             GUIStyle style = new GUIStyle()
             {
                 alignment = TextAnchor.MiddleLeft,
                 fontStyle = FontStyle.Bold,
-                normal = new GUIStyleState() {
+                normal = new GUIStyleState()
+                {
                     textColor = s_textColor
                 }
             };
 
             EditorGUI.LabelField(textRect, labelText, style);
         }
-        
+
         [MenuItem("Tools/Shalico/Hierarchy/Toggle Separator %j")]
         private static void ToggleSeparator()
         {
             Undo.RecordObjects(Selection.gameObjects, "Toggle Separator");
 
             GameObject[] gameObjects = Selection.gameObjects;
-            foreach(GameObject gameObject in gameObjects)
+            foreach (GameObject gameObject in gameObjects)
             {
-                if(IsSeparator(gameObject))
+                if (IsSeparator(gameObject))
                 {
                     gameObject.name = gameObject.name.Substring(3).Trim();
                 }
