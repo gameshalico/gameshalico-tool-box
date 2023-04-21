@@ -42,6 +42,10 @@ namespace Shalico.ToolBox.Editor
 
                 TreeViewItem item = FindItem(instanceID);
                 item.icon = HierarchyIcon.GetIcon(gameObject);
+
+                if (HierarchyHighlight.IsHighlighted(gameObject))
+                    HierarchyHighlight.Fill(item, gameObject, selectionRect);
+
                 HierarchyRowStripe.FillRow(selectionRect);
                 HierarchyIndentGuide.Fill(selectionRect);
                 HierarchyItemDetails.Draw(gameObject, selectionRect);
