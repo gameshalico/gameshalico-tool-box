@@ -34,6 +34,12 @@ namespace Shalico.ToolBox.Editor
             
             if(gameObject)
             {
+                if (HierarchySeparator.IsSeparator(gameObject))
+                {
+                    HierarchySeparator.Draw(gameObject, selectionRect);
+                    return;
+                }
+
                 TreeViewItem item = FindItem(instanceID);
                 item.icon = HierarchyIcon.GetIcon(gameObject);
                 HierarchyRowStripe.FillRow(selectionRect);
