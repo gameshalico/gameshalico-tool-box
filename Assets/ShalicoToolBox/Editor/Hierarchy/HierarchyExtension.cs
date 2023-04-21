@@ -13,7 +13,6 @@ namespace Shalico.ToolBox.Editor
         private static readonly PropertyInfo s_lastInteractedHierarchyWindowProperty;
         private static object s_treeView;
         private static MethodInfo s_findItem;
-        private static MethodInfo s_initTree;
 
         static HierarchyExtension()
         {
@@ -27,6 +26,8 @@ namespace Shalico.ToolBox.Editor
 
         private static void OnHierarchyGUI(int instanceID, Rect selectionRect)
         {
+            if (Event.current.type != EventType.Repaint)
+                return;
             if (s_treeView == null)
                 ExtractTreeView();
 
@@ -75,10 +76,6 @@ namespace Shalico.ToolBox.Editor
             s_findItem = s_treeView
                 .GetType()
                 .GetMethod("FindItem", BindingFlags.Instance | BindingFlags.Public);
-
-            s_initTree = sceneHierarchy
-                .GetType()
-                .GetMethod("Init", BindingFlags.Instance | BindingFlags.NonPublic);
         }
     }
 
