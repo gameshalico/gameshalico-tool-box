@@ -32,6 +32,12 @@ namespace Shalico.ToolBox.Editor
 
             if (gameObject)
             {
+                if (Event.current.type == EventType.Repaint)
+                {
+                    HierarchyRowStripe.FillRow(selectionRect);
+                    HierarchyIndentGuide.Fill(selectionRect);
+                }
+
                 if (HierarchySeparator.IsSeparator(gameObject))
                 {
                     HierarchySeparator.Draw(gameObject, selectionRect);
@@ -45,12 +51,6 @@ namespace Shalico.ToolBox.Editor
                     HierarchyHighlight.Fill(item, gameObject, selectionRect);
 
                 HierarchyItemDetails.Draw(gameObject, selectionRect);
-                
-                if (Event.current.type == EventType.Repaint)
-                {
-                    HierarchyRowStripe.FillRow(selectionRect);
-                    HierarchyIndentGuide.Fill(selectionRect);
-                }
             }
         }
 

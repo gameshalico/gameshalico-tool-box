@@ -17,7 +17,7 @@ namespace Shalico.ToolBox.Editor
             var color = s_colors[index % s_colors.Length];
 
             var xMax = selectionRect.xMax;
-            selectionRect.x = 32;
+            selectionRect.x = 0;
             selectionRect.xMax = xMax + 16;
             EditorGUI.DrawRect(selectionRect, color);
         }
