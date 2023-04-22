@@ -50,7 +50,7 @@ namespace Shalico.ToolBox.Editor
                 if (HierarchyHighlight.IsHighlighted(gameObject))
                     HierarchyHighlight.Fill(item, gameObject, selectionRect);
 
-                HierarchyItemDetails.Draw(gameObject, selectionRect);
+                HierarchySideView.Draw(gameObject, selectionRect);
             }
         }
 

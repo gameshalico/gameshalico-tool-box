@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Shalico.ToolBox.Editor
 {
-    internal static class HierarchyItemDetails
+    internal static class HierarchySideView
     {
-        private static HierarchySideView s_hierarchySideView = HierarchySideView.None;
+        private static SideType s_hierarchySideView = SideType.None;
         private static readonly Color s_defaultColor = new(1f, 1f, 1f, 0.5f);
         private static readonly Color s_taggedColor = new(0.5f, 1f, 0.5f, 1f);
         private static readonly Color[] s_layerColors = new Color[]
@@ -21,7 +21,7 @@ namespace Shalico.ToolBox.Editor
             new Color(0.5f, 1f, 1f, 1f)
         };
 
-        private enum HierarchySideView
+        private enum SideType
         {
             None,
             Component,
@@ -42,7 +42,7 @@ namespace Shalico.ToolBox.Editor
         [MenuItem("Tools/Shalico/Hierarchy/Toggle Side View %T")]
         private static void ToggleSideView()
         {
-            s_hierarchySideView = (HierarchySideView)(((int)s_hierarchySideView + 1) % 5);
+            s_hierarchySideView = (SideType)(((int)s_hierarchySideView + 1) % 5);
             EditorApplication.RepaintHierarchyWindow();
         }
 
@@ -50,22 +50,22 @@ namespace Shalico.ToolBox.Editor
         {
             switch (s_hierarchySideView)
             {
-                case HierarchySideView.Component:
+                case SideType.Component:
                     if (Event.current.type == EventType.Repaint)
                         HierarchyIcon.DrawIcons(selectionRect, gameObject);
                     break;
-                case HierarchySideView.Layer:
+                case SideType.Layer:
                     if (Event.current.type == EventType.Repaint)
                     {
                         Color layerColor = gameObject.layer == 0 ? s_defaultColor : s_layerColors[(gameObject.layer - 1) % s_layerColors.Length];
                         DrawLabelOnSide(selectionRect, LayerMask.LayerToName(gameObject.layer), layerColor);
                     }
                     break;
-                case HierarchySideView.Tag:
+                case SideType.Tag:
                     if (Event.current.type == EventType.Repaint)
                         DrawLabelOnSide(selectionRect, gameObject.tag, gameObject.CompareTag("Untagged") ? s_defaultColor : s_taggedColor);
                     break;
-                case HierarchySideView.ActiveCheckbox:
+                case SideType.ActiveCheckbox:
                     HierarchyActiveCheckbox.Draw(gameObject, selectionRect);
                     break;
             }
