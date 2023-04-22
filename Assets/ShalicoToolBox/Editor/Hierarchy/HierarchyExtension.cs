@@ -44,11 +44,12 @@ namespace Shalico.ToolBox.Editor
                 if (HierarchyHighlight.IsHighlighted(gameObject))
                     HierarchyHighlight.Fill(item, gameObject, selectionRect);
 
+                HierarchyItemDetails.Draw(gameObject, selectionRect);
+                
                 if (Event.current.type == EventType.Repaint)
                 {
                     HierarchyRowStripe.FillRow(selectionRect);
                     HierarchyIndentGuide.Fill(selectionRect);
-                    HierarchyItemDetails.Draw(gameObject, selectionRect);
                 }
             }
         }
