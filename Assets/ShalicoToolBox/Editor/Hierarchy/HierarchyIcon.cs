@@ -10,6 +10,7 @@ namespace Shalico.ToolBox.Editor
     internal static class HierarchyIcon
     {
         private static readonly Dictionary<Type, Texture2D> s_iconCache = new();
+
         public static Texture2D GetIcon(GameObject gameObject)
         {
             var target = GetIconTarget(gameObject);
@@ -18,13 +19,16 @@ namespace Shalico.ToolBox.Editor
 
         public static void DrawIcons(Rect rect, GameObject gameObject)
         {
-            var components = gameObject.GetComponents<Component>().Where(c => c is not Transform).Reverse();
+            var icons = gameObject.GetComponents<Component>()
+                .Where(c => c is not Transform)
+                .Reverse()
+                .Select(c => GetIconTexture(c))
+                .Where(t => t != null)
+                .Distinct();
+
             float x = rect.xMax - 16;
-            foreach (var component in components)
+            foreach (var icon in icons)
             {
-                var icon = GetIconTexture(component);
-                if (icon == null)
-                    continue;
                 var iconRect = new Rect(x, rect.y, 16, 16);
                 GUI.DrawTexture(iconRect, icon);
                 x -= 16;
@@ -48,12 +52,12 @@ namespace Shalico.ToolBox.Editor
 
         public static Texture2D GetIconTexture(Component component)
         {
-            var type = component?.GetType() ?? typeof(GameObject);
+            var type = component.GetType();
 
             if (s_iconCache.ContainsKey(type))
                 return s_iconCache[type];
 
-            var icon = EditorGUIUtility.ObjectContent(component, type).image as Texture2D;
+            var icon = AssetPreview.GetMiniThumbnail(component);
             s_iconCache.Add(type, icon);
             return icon;
         }

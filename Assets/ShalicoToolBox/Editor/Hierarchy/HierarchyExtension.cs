@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using log4net.Core;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
@@ -19,15 +18,13 @@ namespace Shalico.ToolBox.Editor
             EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyGUI;
 
             Type sceneHierarchyWindowType = Type.GetType(
-                "UnityEditor.SceneHierarchyWindow, UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
+                "UnityEditor.SceneHierarchyWindow, UnityEditor.CoreModule");
             s_lastInteractedHierarchyWindowProperty = sceneHierarchyWindowType.GetProperty("lastInteractedHierarchyWindow", BindingFlags.Static | BindingFlags.Public);
 
         }
 
         private static void OnHierarchyGUI(int instanceID, Rect selectionRect)
         {
-            if (Event.current.type != EventType.Repaint)
-                return;
             if (s_treeView == null)
                 ExtractTreeView();
 
@@ -47,9 +44,12 @@ namespace Shalico.ToolBox.Editor
                 if (HierarchyHighlight.IsHighlighted(gameObject))
                     HierarchyHighlight.Fill(item, gameObject, selectionRect);
 
-                HierarchyRowStripe.FillRow(selectionRect);
-                HierarchyIndentGuide.Fill(selectionRect);
-                HierarchyItemDetails.Draw(gameObject, selectionRect);
+                if (Event.current.type == EventType.Repaint)
+                {
+                    HierarchyRowStripe.FillRow(selectionRect);
+                    HierarchyIndentGuide.Fill(selectionRect);
+                    HierarchyItemDetails.Draw(gameObject, selectionRect);
+                }
             }
         }
 

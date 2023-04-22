@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEditor;
 using UnityEngine;
 
@@ -54,7 +53,7 @@ namespace Shalico.ToolBox.Editor
                     HierarchyIcon.DrawIcons(selectionRect, gameObject);
                     break;
                 case HierarchySideView.Layer:
-                    Color layerColor = gameObject.layer == 0 ? s_defaultColor : s_layerColors[gameObject.layer - 1 % s_layerColors.Length];
+                    Color layerColor = gameObject.layer == 0 ? s_defaultColor : s_layerColors[(gameObject.layer - 1) % s_layerColors.Length];
                     DrawLabelOnSide(selectionRect, LayerMask.LayerToName(gameObject.layer), layerColor);
                     break;
                 case HierarchySideView.Tag:
