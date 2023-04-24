@@ -45,6 +45,11 @@ namespace Shalico.ToolBox.Editor
                 }
 
                 TreeViewItem item = FindItem(instanceID);
+                if (item == null)
+                {
+                    ExtractTreeView();
+                    return;
+                }
                 item.icon = HierarchyIcon.GetIcon(gameObject);
 
                 if (HierarchyHighlight.IsHighlighted(gameObject))
