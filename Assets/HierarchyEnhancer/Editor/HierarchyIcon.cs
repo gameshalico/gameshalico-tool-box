@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Shalico.ToolBox.Editor
+namespace HierarchyEnhancer.Editor
 {
     internal static class HierarchyIcon
     {
@@ -26,7 +25,7 @@ namespace Shalico.ToolBox.Editor
                 .Where(t => t != null)
                 .Distinct();
 
-            float x = rect.xMax - 16;
+            var x = rect.xMax - 16;
             foreach (var icon in icons)
             {
                 var iconRect = new Rect(x, rect.y, 16, 16);
@@ -43,9 +42,7 @@ namespace Shalico.ToolBox.Editor
 
             if (components[1] is CanvasRenderer &&
                 components.Length > 2)
-            {
                 return components[2];
-            }
 
             return components[1];
         }
@@ -54,8 +51,8 @@ namespace Shalico.ToolBox.Editor
         {
             var type = component.GetType();
 
-            if (s_iconCache.ContainsKey(type))
-                return s_iconCache[type];
+            if (s_iconCache.TryGetValue(type, out var cachedIcon))
+                return cachedIcon;
 
             var icon = AssetPreview.GetMiniThumbnail(component);
             s_iconCache.Add(type, icon);

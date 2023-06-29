@@ -1,15 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace Shalico.ToolBox.Editor
+namespace HierarchyEnhancer.Editor
 {
     internal static class HierarchySeparator
     {
         private static readonly Color s_backgroundColor = new(0.15f, 0.15f, 0.15f);
-        private static readonly Color s_textColor = new (1, 1, 1, 0.8f);
+        private static readonly Color s_textColor = new(1, 1, 1, 0.8f);
 
         public static bool IsSeparator(GameObject gameObject)
         {
@@ -21,14 +18,14 @@ namespace Shalico.ToolBox.Editor
             Rect rect = new(32, selectionRect.yMin, selectionRect.xMax, selectionRect.height);
             Rect textRect = new(rect.xMin + 16, rect.yMin, rect.width - 16, rect.height);
 
-            string labelText = gameObject.name.Substring(3).Trim();
+            var labelText = gameObject.name.Substring(3).Trim();
             EditorGUI.DrawRect(rect, s_backgroundColor);
 
             GUIStyle style = new()
             {
                 alignment = TextAnchor.MiddleLeft,
                 fontStyle = FontStyle.Bold,
-                normal = new GUIStyleState()
+                normal = new GUIStyleState
                 {
                     textColor = s_textColor
                 }
@@ -42,18 +39,12 @@ namespace Shalico.ToolBox.Editor
         {
             Undo.RecordObjects(Selection.gameObjects, "Toggle Separator");
 
-            GameObject[] gameObjects = Selection.gameObjects;
-            foreach (GameObject gameObject in gameObjects)
-            {
+            var gameObjects = Selection.gameObjects;
+            foreach (var gameObject in gameObjects)
                 if (IsSeparator(gameObject))
-                {
                     gameObject.name = gameObject.name.Substring(3).Trim();
-                }
                 else
-                {
                     gameObject.name = "--- " + gameObject.name;
-                }
-            }
             EditorApplication.RepaintHierarchyWindow();
         }
     }

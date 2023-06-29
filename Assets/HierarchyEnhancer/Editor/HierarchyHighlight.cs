@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace Shalico.ToolBox.Editor
+namespace HierarchyEnhancer.Editor
 {
     internal static class HierarchyHighlight
     {
@@ -28,18 +27,12 @@ namespace Shalico.ToolBox.Editor
         {
             Undo.RecordObjects(Selection.gameObjects, "Toggle Highlight");
 
-            GameObject[] gameObjects = Selection.gameObjects;
-            foreach (GameObject gameObject in gameObjects)
-            {
+            var gameObjects = Selection.gameObjects;
+            foreach (var gameObject in gameObjects)
                 if (IsHighlighted(gameObject))
-                {
                     gameObject.name = gameObject.name[3..].Trim();
-                }
                 else
-                {
                     gameObject.name = "+++ " + gameObject.name;
-                }
-            }
             EditorApplication.RepaintHierarchyWindow();
         }
 
@@ -50,7 +43,8 @@ namespace Shalico.ToolBox.Editor
             if (Selection.gameObjects.Length > 0)
             {
                 List<GameObject> list = new();
-                list.AddRange(Selection.gameObjects.SelectMany(go => go.GetComponentsInChildren<Transform>()).Select(t => t.gameObject));
+                list.AddRange(Selection.gameObjects.SelectMany(go => go.GetComponentsInChildren<Transform>())
+                    .Select(t => t.gameObject));
                 arrayToSearch = list.ToArray();
             }
             else

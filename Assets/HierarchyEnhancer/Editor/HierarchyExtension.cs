@@ -4,28 +4,29 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace Shalico.ToolBox.Editor
+namespace HierarchyEnhancer.Editor
 {
     [InitializeOnLoad]
     internal static class HierarchyExtension
     {
         private static readonly PropertyInfo s_lastInteractedHierarchyWindowProperty;
-        private static object s_treeView;
-        private static MethodInfo s_findItem;
+        private static object _treeView;
+        private static MethodInfo _findItem;
 
         static HierarchyExtension()
         {
             EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyGUI;
 
-            Type sceneHierarchyWindowType = Type.GetType(
+            var sceneHierarchyWindowType = Type.GetType(
                 "UnityEditor.SceneHierarchyWindow, UnityEditor.CoreModule");
-            s_lastInteractedHierarchyWindowProperty = sceneHierarchyWindowType.GetProperty("lastInteractedHierarchyWindow", BindingFlags.Static | BindingFlags.Public);
-
+            s_lastInteractedHierarchyWindowProperty =
+                sceneHierarchyWindowType?.GetProperty("lastInteractedHierarchyWindow",
+                    BindingFlags.Static | BindingFlags.Public);
         }
 
         private static void OnHierarchyGUI(int instanceID, Rect selectionRect)
         {
-            if (s_treeView == null)
+            if (_treeView == null)
                 ExtractTreeView();
 
             var gameObject = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
@@ -44,12 +45,13 @@ namespace Shalico.ToolBox.Editor
                     return;
                 }
 
-                TreeViewItem item = FindItem(instanceID);
+                var item = FindItem(instanceID);
                 if (item == null)
                 {
                     ExtractTreeView();
                     return;
                 }
+
                 item.icon = HierarchyIcon.GetIcon(gameObject);
 
                 if (HierarchyHighlight.IsHighlighted(gameObject))
@@ -62,7 +64,7 @@ namespace Shalico.ToolBox.Editor
 
         private static TreeViewItem FindItem(int instanceID)
         {
-            return (TreeViewItem)s_findItem.Invoke(s_treeView, new object[] { instanceID });
+            return (TreeViewItem)_findItem.Invoke(_treeView, new object[] { instanceID });
         }
 
         private static void ExtractTreeView()
@@ -74,15 +76,14 @@ namespace Shalico.ToolBox.Editor
                 .GetField("m_SceneHierarchy", BindingFlags.Instance | BindingFlags.NonPublic)
                 .GetValue(lastWindow);
 
-            s_treeView = sceneHierarchy
+            _treeView = sceneHierarchy
                 .GetType()
                 .GetField("m_TreeView", BindingFlags.Instance | BindingFlags.NonPublic)
                 .GetValue(sceneHierarchy);
 
-            s_findItem = s_treeView
+            _findItem = _treeView
                 .GetType()
                 .GetMethod("FindItem", BindingFlags.Instance | BindingFlags.Public);
         }
     }
-
 }

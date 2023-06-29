@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
-namespace Shalico.ToolBox.Editor
+namespace HierarchyEnhancer.Editor
 {
     internal static class HierarchyActiveCheckbox
     {
@@ -11,7 +9,7 @@ namespace Shalico.ToolBox.Editor
         {
             Rect rect = new(selectionRect.xMax - 16, selectionRect.yMin, 16, selectionRect.height);
             EditorGUI.BeginChangeCheck();
-            bool active = EditorGUI.Toggle(rect, gameObject.activeSelf);
+            var active = EditorGUI.Toggle(rect, gameObject.activeSelf);
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(gameObject, "Toggle Active");

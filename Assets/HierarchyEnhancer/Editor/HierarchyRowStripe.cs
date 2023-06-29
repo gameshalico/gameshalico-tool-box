@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Shalico.ToolBox.Editor
+namespace HierarchyEnhancer.Editor
 {
     internal static class HierarchyRowStripe
     {
         private const int RowHeight = 16;
         private const int OffsetY = -4;
-        private readonly static Color[] s_colors = new Color[] { new Color(0, 0, 0, 0.1f), new Color(0, 0, 0, 0) };
+        private static readonly Color[] s_colors = { new(0, 0, 0, 0.1f), new(0, 0, 0, 0) };
 
         public static void FillRow(Rect selectionRect)
         {
