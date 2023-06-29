@@ -5,7 +5,7 @@ Assets内のフォルダーを指定してインストールします。
 ## Auto Reference Generator
 Scene名、Tag名、Layer名、Sorting Layer名等、Unityの標準機能で参照できるものを自動でクラスにまとめます。
 ```
-https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/HierarchyEnhancer
+https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/AutoReferenceGenerator
 ```
 
 ## Hierarchy Enhancer
