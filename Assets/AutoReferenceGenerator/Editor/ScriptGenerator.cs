@@ -25,8 +25,8 @@ namespace AutoReferenceGenerator.Editor
         };
 
         private static readonly string s_indent = "    ";
-        private string _className;
         private readonly List<Field> _fields = new();
+        private string _className;
 
 
         public string Namespace { get; set; }
@@ -113,13 +113,13 @@ namespace AutoReferenceGenerator.Editor
             public AccessModifier AccessModifier { get; set; }
         }
 
-        public class Field : Member
+        private class Field : Member
         {
             public string Type { get; set; }
             public string Value { get; set; }
-            public bool IsStatic { get; set; }
+            public bool IsStatic { get; }
             public bool IsConstant { get; set; }
-            public bool IsReadonly { get; set; }
+            public bool IsReadonly { get; }
 
             public override string ToString()
             {

@@ -1,7 +1,7 @@
 ﻿# Hierarchy Enhancer
 
 ## 概要
-ヒエラルキーの機能を拡張するエディタ拡張です。
+ヒエラルキーを見やすくし、いくつかの便利機能を追加します。
 
 ## 導入方法
 - PackageManagerの"Add package from git URL..."から以下のURLを指定してインストールします。
