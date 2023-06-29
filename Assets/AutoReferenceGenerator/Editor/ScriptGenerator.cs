@@ -113,7 +113,7 @@ namespace AutoReferenceGenerator.Editor
             public AccessModifier AccessModifier { get; set; }
         }
 
-        private class Field : Member
+        public class Field : Member
         {
             public string Type { get; set; }
             public string Value { get; set; }
