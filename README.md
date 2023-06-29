@@ -9,7 +9,7 @@ https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/HierarchyEnh
 ```
 
 ## Shalico Tool Box
-未分類のコードがまとまっています。
+未分類のコード置き場です。
 ```
 https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoToolBox
 ```
