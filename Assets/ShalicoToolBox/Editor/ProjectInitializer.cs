@@ -24,7 +24,6 @@ namespace Shalico.ToolBox.Editor
             if (GUILayout.Button("Initialize"))
             {
                 CreateFolders();
-                ScriptBatchCreator.GenerateAll();
             }
         }
 

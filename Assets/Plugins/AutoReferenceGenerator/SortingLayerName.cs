@@ -1,4 +1,4 @@
-﻿namespace Shalico.ToolBox
+﻿namespace AutoReferenceGenerator
 {
     public class SortingLayerName
     {
