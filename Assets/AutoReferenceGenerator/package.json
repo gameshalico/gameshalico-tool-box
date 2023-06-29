@@ -1,0 +1,7 @@
+﻿{
+  "name": "jp.gameshalico.auto-reference-generator",
+  "displayName": "Auto Reference Generator",
+  "description": "Generate reference class automatically",
+  "version": "0.1.0",
+  "type": "library"
+}
