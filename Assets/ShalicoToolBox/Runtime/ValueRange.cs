@@ -37,12 +37,22 @@ namespace Shalico.ToolBox
 
         public float Clamp(float value)
         {
-            return Mathf.Clamp(value, Min, Max);
+            return Clamp(value, this);
         }
 
         public float Remap(float value, ValueRange from)
         {
             return Remap(value, from, this);
+        }
+
+        public static bool Contains(float value, ValueRange range)
+        {
+            return range.Min <= value && value <= range.Max;
+        }
+
+        public static float Clamp(float value, ValueRange range)
+        {
+            return Mathf.Clamp(value, range.Min, range.Max);
         }
 
         public static float Remap(float value, ValueRange from, ValueRange to)
