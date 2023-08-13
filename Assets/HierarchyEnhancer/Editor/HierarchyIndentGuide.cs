@@ -7,7 +7,7 @@ namespace HierarchyEnhancer.Editor
     {
         private const float Alpha = 0.1f;
 
-        private static readonly Color[] s_colors =
+        private static readonly Color[] IndentGuideColors =
         {
             new(1.0f, 1.0f, 0.5f),
             new(0.5f, 1, 0.5f),
@@ -21,7 +21,7 @@ namespace HierarchyEnhancer.Editor
             var depth = 0;
             for (var ix = 32; ix < xMax; ix += 14)
             {
-                var color = s_colors[depth % s_colors.Length];
+                var color = IndentGuideColors[depth % IndentGuideColors.Length];
                 color.a = Alpha;
                 EditorGUI.DrawRect(new Rect(ix, selectionRect.y, 14, 16), color);
                 depth++;

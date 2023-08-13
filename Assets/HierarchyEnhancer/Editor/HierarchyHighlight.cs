@@ -8,7 +8,7 @@ namespace HierarchyEnhancer.Editor
 {
     internal static class HierarchyHighlight
     {
-        private static readonly Color s_color = new(0.5f, 0.5f, 0.0f, 0.5f);
+        private static readonly Color HighlightColor = new(0.5f, 0.5f, 0.0f, 0.5f);
 
         public static bool IsHighlighted(GameObject gameObject)
         {
@@ -19,12 +19,15 @@ namespace HierarchyEnhancer.Editor
         {
             Rect rect = new(32, selectionRect.yMin, selectionRect.xMax, selectionRect.height);
             viewItem.displayName = gameObject.name.Substring(3).Trim();
-            EditorGUI.DrawRect(rect, s_color);
+            EditorGUI.DrawRect(rect, HighlightColor);
         }
 
-        [MenuItem("Tools/Shalico/Hierarchy/Toggle Highlight %H")]
+        [MenuItem("Tools/Hierarchy Enhancer/Toggle Highlight %H")]
         public static void ToggleHighlight()
         {
+            if (Selection.gameObjects.Length == 0)
+                return;
+
             Undo.RecordObjects(Selection.gameObjects, "Toggle Highlight");
 
             var gameObjects = Selection.gameObjects;
@@ -36,7 +39,7 @@ namespace HierarchyEnhancer.Editor
             EditorApplication.RepaintHierarchyWindow();
         }
 
-        [MenuItem("Tools/Shalico/Hierarchy/Select All Highlighted %#H")]
+        [MenuItem("Tools/Hierarchy Enhancer/Select All Highlighted %#H")]
         public static void SelectAllHighlighted()
         {
             GameObject[] arrayToSearch;
@@ -49,11 +52,12 @@ namespace HierarchyEnhancer.Editor
             }
             else
             {
-                arrayToSearch = Object.FindObjectsOfType<GameObject>();
+                arrayToSearch =
+                    Object.FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             }
 
             var highlighted = arrayToSearch
-                .Where(go => IsHighlighted(go)).ToArray();
+                .Where(IsHighlighted).ToArray();
             Selection.objects = highlighted;
         }
     }

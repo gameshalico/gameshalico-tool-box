@@ -7,19 +7,19 @@ using UnityEngine;
 namespace HierarchyEnhancer.Editor
 {
     [InitializeOnLoad]
-    internal static class HierarchyExtension
+    internal static class HierarchyExtensions
     {
-        private static readonly PropertyInfo s_lastInteractedHierarchyWindowProperty;
+        private static readonly PropertyInfo LastInteractedHierarchyWindowProperty;
         private static object _treeView;
         private static MethodInfo _findItem;
 
-        static HierarchyExtension()
+        static HierarchyExtensions()
         {
             EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyGUI;
 
             var sceneHierarchyWindowType = Type.GetType(
                 "UnityEditor.SceneHierarchyWindow, UnityEditor.CoreModule");
-            s_lastInteractedHierarchyWindowProperty =
+            LastInteractedHierarchyWindowProperty =
                 sceneHierarchyWindowType?.GetProperty("lastInteractedHierarchyWindow",
                     BindingFlags.Static | BindingFlags.Public);
         }
@@ -69,20 +69,18 @@ namespace HierarchyEnhancer.Editor
 
         private static void ExtractTreeView()
         {
-            var lastWindow = s_lastInteractedHierarchyWindowProperty
+            var lastWindow = LastInteractedHierarchyWindowProperty
                 .GetValue(null);
             var sceneHierarchy = lastWindow
                 .GetType()
                 .GetField("m_SceneHierarchy", BindingFlags.Instance | BindingFlags.NonPublic)
-                .GetValue(lastWindow);
+                ?.GetValue(lastWindow);
 
-            _treeView = sceneHierarchy
-                .GetType()
+            _treeView = sceneHierarchy?.GetType()
                 .GetField("m_TreeView", BindingFlags.Instance | BindingFlags.NonPublic)
-                .GetValue(sceneHierarchy);
+                ?.GetValue(sceneHierarchy);
 
-            _findItem = _treeView
-                .GetType()
+            _findItem = _treeView?.GetType()
                 .GetMethod("FindItem", BindingFlags.Instance | BindingFlags.Public);
         }
     }

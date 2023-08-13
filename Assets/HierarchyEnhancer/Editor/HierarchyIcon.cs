@@ -21,7 +21,7 @@ namespace HierarchyEnhancer.Editor
             var icons = gameObject.GetComponents<Component>()
                 .Where(c => c is not Transform)
                 .Reverse()
-                .Select(c => GetIconTexture(c))
+                .Select(GetIconTexture)
                 .Where(t => t != null)
                 .Distinct();
 

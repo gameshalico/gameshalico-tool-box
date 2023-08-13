@@ -5,8 +5,8 @@ namespace HierarchyEnhancer.Editor
 {
     internal static class HierarchySeparator
     {
-        private static readonly Color s_backgroundColor = new(0.15f, 0.15f, 0.15f);
-        private static readonly Color s_textColor = new(1, 1, 1, 0.8f);
+        private static readonly Color BackgroundColor = new(0.5f, 0.5f, 0.5f);
+        private static readonly Color TextColor = new(1, 1, 1, 0.8f);
 
         public static bool IsSeparator(GameObject gameObject)
         {
@@ -19,7 +19,7 @@ namespace HierarchyEnhancer.Editor
             Rect textRect = new(rect.xMin + 16, rect.yMin, rect.width - 16, rect.height);
 
             var labelText = gameObject.name.Substring(3).Trim();
-            EditorGUI.DrawRect(rect, s_backgroundColor);
+            EditorGUI.DrawRect(rect, BackgroundColor);
 
             GUIStyle style = new()
             {
@@ -27,14 +27,14 @@ namespace HierarchyEnhancer.Editor
                 fontStyle = FontStyle.Bold,
                 normal = new GUIStyleState
                 {
-                    textColor = s_textColor
+                    textColor = TextColor
                 }
             };
 
             EditorGUI.LabelField(textRect, labelText, style);
         }
 
-        [MenuItem("Tools/Shalico/Hierarchy/Toggle Separator %j")]
+        [MenuItem("Tools/Hierarchy Enhancer/Toggle Separator %j")]
         private static void ToggleSeparator()
         {
             Undo.RecordObjects(Selection.gameObjects, "Toggle Separator");

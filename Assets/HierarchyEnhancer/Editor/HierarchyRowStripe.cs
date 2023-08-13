@@ -7,12 +7,12 @@ namespace HierarchyEnhancer.Editor
     {
         private const int RowHeight = 16;
         private const int OffsetY = -4;
-        private static readonly Color[] s_colors = { new(0, 0, 0, 0.1f), new(0, 0, 0, 0) };
+        private static readonly Color[] RowColors = { new(0, 0, 0, 0.1f), new(0, 0, 0, 0) };
 
         public static void FillRow(Rect selectionRect)
         {
             var index = (int)(selectionRect.y + OffsetY) / RowHeight;
-            var color = s_colors[index % s_colors.Length];
+            var color = RowColors[index % RowColors.Length];
 
             var xMax = selectionRect.xMax;
             selectionRect.x = 0;
