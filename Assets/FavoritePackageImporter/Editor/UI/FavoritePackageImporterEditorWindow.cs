@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using FavoritePackageImporter.Editor.Model;
 using FavoritePackageImporter.Editor.UI.Controllers;
@@ -14,6 +13,8 @@ namespace FavoritePackageImporter.Editor.UI
     {
         [SerializeField] private VisualTreeAsset visualTreeAsset;
         [SerializeField] private VisualTreeAsset packagesEntryVisualTreeAsset;
+
+        private Task _importOrRemoveTask;
 
         private PackageRegistry _packageRegistry;
         private PackagesController _packagesController;
@@ -79,8 +80,15 @@ namespace FavoritePackageImporter.Editor.UI
 
             _packagesController.OnImportAllButtonClicked = async () =>
             {
+                if (_importOrRemoveTask?.IsCompleted == false)
+                {
+                    Debug.Log("[Favorite Package Importer] Other process is running");
+                    return;
+                }
+
                 Debug.Log("[Favorite Package Importer] Importing all packages...");
-                await ImportAllAsync();
+                _importOrRemoveTask = ImportAllAsync();
+                await _importOrRemoveTask;
                 Debug.Log("[Favorite Package Importer] All packages imported.");
             };
 
@@ -125,14 +133,26 @@ namespace FavoritePackageImporter.Editor.UI
                 ApplySelectedPackageData();
             };
 
-            _selectedPackageController.OnImportButtonClicked = async () =>
+            _selectedPackageController.OnImportButtonClicked = () =>
             {
-                await ImportPackageAsync(_packageRegistry.SelectedPackageData);
+                if (_importOrRemoveTask?.IsCompleted == false)
+                {
+                    Debug.Log("[Favorite Package Importer] Other process is running");
+                    return;
+                }
+
+                _importOrRemoveTask = ImportPackageAsync(_packageRegistry.SelectedPackageData);
             };
 
-            _selectedPackageController.OnRemoveButtonClicked = async () =>
+            _selectedPackageController.OnRemoveButtonClicked = () =>
             {
-                await RemovePackageAsync(_packageRegistry.SelectedPackageData);
+                if (_importOrRemoveTask?.IsCompleted == false)
+                {
+                    Debug.Log("[Favorite Package Importer] Other process is running");
+                    return;
+                }
+
+                _importOrRemoveTask = RemovePackageAsync(_packageRegistry.SelectedPackageData);
             };
         }
 
@@ -142,6 +162,7 @@ namespace FavoritePackageImporter.Editor.UI
             try
             {
                 var request = await packageData.ImportAsync();
+
                 if (request.Status == StatusCode.Success)
                     Debug.Log($"[Favorite Package Importer] Package imported: {packageData.name}");
                 else
@@ -172,15 +193,11 @@ namespace FavoritePackageImporter.Editor.UI
 
         private async Task ImportAllAsync()
         {
-            var tasks = new List<Task>();
             foreach (var packageData in _packageRegistry.PackageDataArray)
             {
                 if (!packageData.doImport) continue;
                 await ImportPackageAsync(packageData);
-                //tasks.Add(ImportPackageAsync(packageData));
             }
-
-            // await Task.WhenAll(tasks);
         }
 
         private void ApplyPackageDataArray()
