@@ -76,11 +76,15 @@ namespace FavoritePackageImporter.Editor.UI.Controllers
             _importAllButton.clicked += () => { OnImportAllButtonClicked?.Invoke(); };
         }
 
-        public void ApplyPackageDataArray(PackageData[] packageDataArray, bool checkAllToggleValue)
+        public void ApplyPackageDataArray(PackageData[] packageDataArray, PackageData selectedItem,
+            bool checkAllToggleValue)
         {
             _packageDataArray = packageDataArray;
             _listView.itemsSource = _packageDataArray;
+            _listView.SetSelection(Array.IndexOf(_packageDataArray, selectedItem));
             _listView.RefreshItems();
+
+
             _checkAllToggle.SetValueWithoutNotify(checkAllToggleValue);
 
             var checkedCount = 0;

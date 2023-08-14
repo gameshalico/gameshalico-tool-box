@@ -186,7 +186,8 @@ namespace FavoritePackageImporter.Editor.UI
         private void ApplyPackageDataArray()
         {
             var isCheckAny = _packageRegistry.IsCheckAny();
-            _packagesController.ApplyPackageDataArray(_packageRegistry.PackageDataArray, isCheckAny);
+            _packagesController.ApplyPackageDataArray(_packageRegistry.PackageDataArray,
+                _packageRegistry.SelectedPackageData, isCheckAny);
         }
 
         private void ApplySelectedPackageData()

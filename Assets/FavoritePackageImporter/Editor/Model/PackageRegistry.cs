@@ -70,8 +70,6 @@ namespace FavoritePackageImporter.Editor.Model
             _packageList.PackageDataList.RemoveAt(index);
             _packageList.PackageDataList.Insert(index - 1, packageData);
 
-            if (SelectedPackageData == packageData)
-                SelectedPackageData = null;
             Save();
         }
 
@@ -83,8 +81,6 @@ namespace FavoritePackageImporter.Editor.Model
             _packageList.PackageDataList.RemoveAt(index);
             _packageList.PackageDataList.Insert(index + 1, packageData);
 
-            if (SelectedPackageData == packageData)
-                SelectedPackageData = null;
             Save();
         }
     }
