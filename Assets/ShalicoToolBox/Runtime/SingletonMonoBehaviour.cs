@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Shalico.ToolBox
 {
-    public class SingletonMonoBehaviour<T> : MonoBehaviour where T : SingletonMonoBehaviour<T>
+    public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : SingletonMonoBehaviour<T>
     {
         private static T s_instance;
 
@@ -12,25 +12,27 @@ namespace Shalico.ToolBox
             {
                 if (s_instance == null)
                 {
-                    s_instance = (T)FindObjectOfType(typeof(T));
+                    s_instance = FindFirstObjectByType<T>();
 
                     if (s_instance == null)
                     {
                         Debug.LogError($"{typeof(T)} is not found.");
                     }
-                    s_instance.Initialize();
+                    else
+                    {
+                        s_instance.Initialize();
+                    }
                 }
+
                 return s_instance;
             }
         }
-
-        protected virtual void Initialize() { }
 
         private void Awake()
         {
             if (s_instance == null)
             {
-                s_instance = this as T;
+                s_instance = (T)this;
                 s_instance.Initialize();
             }
 
@@ -39,6 +41,7 @@ namespace Shalico.ToolBox
                 Debug.LogError($"{typeof(T)} is already exists.");
             }
         }
+
         private void OnDestroy()
         {
             if (s_instance == this)
@@ -46,5 +49,7 @@ namespace Shalico.ToolBox
                 s_instance = null;
             }
         }
+
+        protected virtual void Initialize() { }
     }
 }
