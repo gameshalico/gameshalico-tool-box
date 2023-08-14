@@ -16,6 +16,8 @@ namespace FavoritePackageImporter.Editor.UI.Controllers
         public Action<bool> OnCheckAllToggleValueChanged;
         public Action<PackageData> OnDeleteButtonClicked;
         public Action OnImportAllButtonClicked;
+        public Action<PackageData> OnMoveDownButtonClicked;
+        public Action<PackageData> OnMoveUpButtonClicked;
         public Action<PackageData, bool> OnPackageToggleValueChanged;
         public Action<PackageData> OnSelectedPackageChanged;
 
@@ -45,6 +47,14 @@ namespace FavoritePackageImporter.Editor.UI.Controllers
                 entryController.OnCheckToggleValueChanged = value =>
                 {
                     OnPackageToggleValueChanged?.Invoke(_packageDataArray[index], value);
+                };
+                entryController.OnMoveUpButtonClicked = () =>
+                {
+                    OnMoveUpButtonClicked?.Invoke(_packageDataArray[index]);
+                };
+                entryController.OnMoveDownButtonClicked = () =>
+                {
+                    OnMoveDownButtonClicked?.Invoke(_packageDataArray[index]);
                 };
             };
             _listView.selectionChanged += selection =>

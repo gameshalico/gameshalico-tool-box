@@ -61,5 +61,31 @@ namespace FavoritePackageImporter.Editor.Model
             _packageList.Remove(packageData);
             Save();
         }
+
+        public void MoveUp(PackageData packageData)
+        {
+            var index = _packageList.PackageDataList.IndexOf(packageData);
+            if (index <= 0) return;
+
+            _packageList.PackageDataList.RemoveAt(index);
+            _packageList.PackageDataList.Insert(index - 1, packageData);
+
+            if (SelectedPackageData == packageData)
+                SelectedPackageData = null;
+            Save();
+        }
+
+        public void MoveDown(PackageData packageData)
+        {
+            var index = _packageList.PackageDataList.IndexOf(packageData);
+            if (index < 0 || index >= _packageList.PackageDataList.Count - 1) return;
+
+            _packageList.PackageDataList.RemoveAt(index);
+            _packageList.PackageDataList.Insert(index + 1, packageData);
+
+            if (SelectedPackageData == packageData)
+                SelectedPackageData = null;
+            Save();
+        }
     }
 }

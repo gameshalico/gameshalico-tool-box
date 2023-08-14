@@ -83,6 +83,19 @@ namespace FavoritePackageImporter.Editor.UI
                 await ImportAllAsync();
                 Debug.Log("[Favorite Package Importer] All packages imported.");
             };
+
+            _packagesController.OnMoveUpButtonClicked = packageData =>
+            {
+                _packageRegistry.MoveUp(packageData);
+                ApplyPackageDataArray();
+                ApplySelectedPackageData();
+            };
+            _packagesController.OnMoveDownButtonClicked = packageData =>
+            {
+                _packageRegistry.MoveDown(packageData);
+                ApplyPackageDataArray();
+                ApplySelectedPackageData();
+            };
         }
 
         private void InitializeSelectedPackageController(VisualElement root)

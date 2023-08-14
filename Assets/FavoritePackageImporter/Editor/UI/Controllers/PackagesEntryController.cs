@@ -8,16 +8,24 @@ namespace FavoritePackageImporter.Editor.UI.Controllers
     {
         private Toggle _checkToggle;
         private Button _deleteButton;
+        private Button _moveDownButton;
+        private Button _moveUpButton;
         private Label _nameLabel;
 
         public Action<bool> OnCheckToggleValueChanged;
         public Action OnDeleteButtonClicked;
+        public Action OnMoveDownButtonClicked;
+        public Action OnMoveUpButtonClicked;
 
         public void SetVisualElement(VisualElement root)
         {
             _nameLabel = root.Q<Label>("packages-entry__name-label");
             _deleteButton = root.Q<Button>("packages-entry__delete-button");
             _deleteButton.clicked += () => { OnDeleteButtonClicked?.Invoke(); };
+            _moveUpButton = root.Q<Button>("packages-entry__up-button");
+            _moveUpButton.clicked += () => { OnMoveUpButtonClicked?.Invoke(); };
+            _moveDownButton = root.Q<Button>("packages-entry__down-button");
+            _moveDownButton.clicked += () => { OnMoveDownButtonClicked?.Invoke(); };
 
             _checkToggle = root.Q<Toggle>("packages-entry__check-toggle");
             _checkToggle.RegisterValueChangedCallback(evt => { OnCheckToggleValueChanged?.Invoke(evt.newValue); });
