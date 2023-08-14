@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/FavoritePackageImporter/Editor/UI/Uss/FavoritePackageImporterEditorWindow.uss?fileID=7433441132597879392&amp;guid=9ca76f22ffc5b0c4a9ea36283a83a925&amp;type=3#FavoritePackageImporterEditorWindow" />
+    <ui:VisualElement name="wrapper" style="flex-grow: 1; margin-left: 10px; margin-right: 10px; margin-top: 0; margin-bottom: 0;">
+        <ui:VisualElement name="packages" style="flex-grow: 1;" />
+        <ui:VisualElement name="packages__header" style="flex-grow: 0; flex-direction: row; align-self: stretch; align-items: center; justify-content: space-between;">
+            <ui:Label tabindex="-1" text="Favorite Packages" display-tooltip-when-elided="true" />
+        </ui:VisualElement>
+        <ui:VisualElement name="packages__container" style="flex-grow: 1; background-color: rgba(255, 255, 255, 0.04); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(32, 32, 32); border-right-color: rgb(32, 32, 32); border-top-color: rgb(32, 32, 32); border-bottom-color: rgb(32, 32, 32); border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-top: 5px; margin-bottom: 5px;">
+            <ui:VisualElement name="packages__list-header" style="flex-grow: 1; padding-left: 5px; padding-right: 5px; flex-direction: row; align-items: center; border-bottom-width: 1px; border-left-color: rgb(32, 32, 32); border-right-color: rgb(32, 32, 32); border-top-color: rgb(32, 32, 32); border-bottom-color: rgb(32, 32, 32); padding-bottom: 3px; background-color: rgb(48, 48, 48); padding-top: 3px;">
+                <ui:Toggle name="packages__check-all-toggle" />
+                <ui:Label tabindex="-1" text="Packages" display-tooltip-when-elided="true" />
+                <ui:VisualElement style="flex-grow: 1;" />
+                <ui:Button text="+" display-tooltip-when-elided="true" name="packages__add-button" />
+            </ui:VisualElement>
+            <ui:ListView name="packages__list-view" style="flex-grow: 1; min-height: 100px; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;" />
+        </ui:VisualElement>
+        <ui:Button text="Import All Checked Packages (0)" display-tooltip-when-elided="true" name="packages__import-all-button" />
+        <ui:VisualElement name="selected-package" style="flex-grow: 0;">
+            <ui:TextField picking-mode="Ignore" label="Name" name="selected-package__name-field" placeholder-text="Package Name" />
+            <ui:TextField picking-mode="Ignore" label="Path" name="selected-package__path-field" placeholder-text="com.example" />
+            <ui:TextField picking-mode="Ignore" label="Memo" name="selected-package__memo-field" multiline="true" />
+            <ui:VisualElement name="selected-package__buttons" style="flex-grow: 0; flex-direction: row; align-items: flex-start; justify-content: flex-end;">
+                <ui:Button text="Import" display-tooltip-when-elided="true" name="selected-package__import-button" />
+                <ui:Button text="Remove" display-tooltip-when-elided="true" name="selected-package__remove-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

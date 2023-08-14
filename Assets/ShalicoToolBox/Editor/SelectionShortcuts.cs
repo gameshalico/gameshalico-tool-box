@@ -6,7 +6,7 @@ namespace Shalico.ToolBox.Editor
 {
     public static class SelectionShortcuts
     {
-        [MenuItem("Tools/Hierarchy Enhancer/Group Selection %g")]
+        [MenuItem("Tools/Shalico/Group Selection %g")]
         public static void GroupSelection()
         {
             Debug.Log("Group Selection");
@@ -16,7 +16,7 @@ namespace Shalico.ToolBox.Editor
                 return;
             }
 
-            GameObject parent = new GameObject("Group");
+            GameObject parent = new("Group");
             Undo.RegisterCreatedObjectUndo(parent, "Group Selection");
             parent.transform.SetParent(selection[0].transform.parent, false);
             parent.transform.SetSiblingIndex(selection[0].transform.GetSiblingIndex());

@@ -72,7 +72,7 @@ namespace AutoReferenceGenerator.Editor
         }
 
 
-        [MenuItem("Tools/Shalico/Create/Setting Class/All")]
+        [MenuItem("Tools/Auto Reference Generator/Create/Setting Class/All")]
         internal static void GenerateAll()
         {
             CreateLayerClassGenerator().Generate(DirectoryPath);
