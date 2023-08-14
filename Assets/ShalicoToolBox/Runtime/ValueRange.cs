@@ -59,5 +59,21 @@ namespace Shalico.ToolBox
         {
             return Mathf.Lerp(to.Min, to.Max, Mathf.InverseLerp(from.Min, from.Max, value));
         }
+
+
+        public static implicit operator ValueRange((float min, float max) tuple)
+        {
+            return new ValueRange(tuple.min, tuple.max);
+        }
+
+        public static implicit operator (float min, float max)(ValueRange range)
+        {
+            return (range.Min, range.Max);
+        }
+
+        public float Random()
+        {
+            return UnityEngine.Random.Range(Min, Max);
+        }
     }
 }
