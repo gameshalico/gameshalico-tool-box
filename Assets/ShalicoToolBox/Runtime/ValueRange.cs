@@ -14,6 +14,12 @@ namespace Shalico.ToolBox
             this.max = max;
         }
 
+        public ValueRange(ValueRange<T> other)
+        {
+            min = other.min;
+            max = other.max;
+        }
+
         public bool Contains(T value)
         {
             return min.CompareTo(value) <= 0 && value.CompareTo(max) <= 0;
