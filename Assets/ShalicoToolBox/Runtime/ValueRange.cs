@@ -1,79 +1,119 @@
 ﻿using System;
-using UnityEngine;
 
 namespace Shalico.ToolBox
 {
     [Serializable]
-    public struct ValueRange
+    public struct ValueRange<T> where T : IComparable<T>
     {
-        public static readonly ValueRange ZeroToOne = new(0, 1);
-        public static readonly ValueRange MinusOneToOne = new(-1, 1);
+        public T min;
+        public T max;
 
-        [SerializeField] private float max;
-        [SerializeField] private float min;
-
-        public ValueRange(float min, float max)
+        public ValueRange(T min, T max)
         {
             this.min = min;
             this.max = max;
         }
 
-        public float Min
+        public bool Contains(T value)
         {
-            get => min;
-            set => min = value;
+            return min.CompareTo(value) <= 0 && value.CompareTo(max) <= 0;
         }
 
-        public float Max
+        public bool Contains(ValueRange<T> other)
         {
-            get => max;
-            set => max = value;
+            return Contains(other.min) && Contains(other.max);
         }
 
-        public bool Contains(float value)
+        public bool Overlaps(ValueRange<T> other)
         {
-            return Min <= value && value <= Max;
+            return Contains(other.min) || Contains(other.max);
         }
 
-        public float Clamp(float value)
+        public T Clamp(T value)
         {
-            return Clamp(value, this);
+            if (value.CompareTo(min) < 0)
+            {
+                return min;
+            }
+
+            if (value.CompareTo(max) > 0)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        public float Remap(float value, ValueRange from)
+        public ValueRange<T> Union(ValueRange<T> other)
         {
-            return Remap(value, from, this);
+            (min, max) = Union(this, other);
+            return this;
         }
 
-        public static bool Contains(float value, ValueRange range)
+        public ValueRange<T> Intersect(ValueRange<T> other)
         {
-            return range.Min <= value && value <= range.Max;
+            (min, max) = Intersect(this, other);
+            return this;
         }
 
-        public static float Clamp(float value, ValueRange range)
+        public static ValueRange<T> Union(ValueRange<T> a, ValueRange<T> b)
         {
-            return Mathf.Clamp(value, range.Min, range.Max);
+            return new ValueRange<T>(
+                a.min.CompareTo(b.min) < 0 ? a.min : b.min,
+                a.max.CompareTo(b.max) > 0 ? a.max : b.max
+            );
         }
 
-        public static float Remap(float value, ValueRange from, ValueRange to)
+        public static ValueRange<T> Intersect(ValueRange<T> a, ValueRange<T> b)
         {
-            return Mathf.Lerp(to.Min, to.Max, Mathf.InverseLerp(from.Min, from.Max, value));
+            return new ValueRange<T>(
+                a.min.CompareTo(b.min) > 0 ? a.min : b.min,
+                a.max.CompareTo(b.max) < 0 ? a.max : b.max
+            );
         }
 
-
-        public static implicit operator ValueRange((float min, float max) tuple)
+        public static ValueRange<T> Expand(ValueRange<T> range, T value)
         {
-            return new ValueRange(tuple.min, tuple.max);
+            return new ValueRange<T>(
+                range.min.CompareTo(value) < 0 ? range.min : value,
+                range.max.CompareTo(value) > 0 ? range.max : value
+            );
         }
 
-        public static implicit operator (float min, float max)(ValueRange range)
+        public static ValueRange<T> operator |(ValueRange<T> a, ValueRange<T> b)
         {
-            return (range.Min, range.Max);
+            return Union(a, b);
         }
 
-        public float Random()
+        public static ValueRange<T> operator &(ValueRange<T> a, ValueRange<T> b)
         {
-            return UnityEngine.Random.Range(Min, Max);
+            return Intersect(a, b);
+        }
+
+        public static implicit operator ValueRange<T>((T min, T max) tuple)
+        {
+            return new ValueRange<T>(tuple.min, tuple.max);
+        }
+
+        public static implicit operator (T min, T max)(ValueRange<T> range)
+        {
+            return (range.min, range.max);
+        }
+
+        public bool IsEmpty()
+        {
+            return min.CompareTo(max) == 0;
+        }
+
+        public bool IsValid()
+        {
+            return min.CompareTo(max) <= 0;
+        }
+
+        public void Deconstruct(out T minValue, out T maxValue)
+        {
+            minValue = min;
+            maxValue = max;
         }
     }
 }
