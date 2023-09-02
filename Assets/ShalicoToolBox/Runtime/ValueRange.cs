@@ -209,5 +209,15 @@ namespace Shalico.ToolBox
         {
             return $"[{min}, {max}]";
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ValueRange<T> other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(min, max);
+        }
     }
 }
