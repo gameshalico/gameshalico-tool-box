@@ -31,22 +31,33 @@ namespace Shalico.ToolBox
             return a.CompareTo(b) > 0 ? a : b;
         }
 
-
+        /// <summary>
+        ///     valueが範囲内にあるか判定する
+        /// </summary>
         public bool Contains(T value)
         {
             return min.CompareTo(value) <= 0 && value.CompareTo(max) <= 0;
         }
 
+        /// <summary>
+        ///     otherの範囲を包含するか判定する
+        /// </summary>
         public bool Contains(ValueRange<T> other)
         {
             return min.CompareTo(other.min) <= 0 && other.max.CompareTo(max) <= 0;
         }
 
+        /// <summary>
+        ///     otherと重なるか判定する
+        /// </summary>
         public bool Overlaps(ValueRange<T> other)
         {
             return min.CompareTo(other.max) <= 0 && other.min.CompareTo(max) <= 0;
         }
 
+        /// <summary>
+        ///     valueを範囲内に収める
+        /// </summary>
         public T Clamp(T value)
         {
             if (value.CompareTo(min) < 0)
@@ -62,16 +73,25 @@ namespace Shalico.ToolBox
             return value;
         }
 
+        /// <summary>
+        ///     otherと合成した範囲を返す(和)
+        /// </summary>
         public ValueRange<T> Union(ValueRange<T> other)
         {
             return Union(this, other);
         }
 
+        /// <summary>
+        ///     otherと重なる範囲を返す(積)
+        /// </summary>
         public ValueRange<T> Intersect(ValueRange<T> other)
         {
             return Intersect(this, other);
         }
 
+        /// <summary>
+        ///     otherの範囲を除外した範囲を返す
+        /// </summary>
         public ValueRange<T>[] Subtract(ValueRange<T> other)
         {
             return Subtract(this, other);
@@ -81,20 +101,14 @@ namespace Shalico.ToolBox
         /// <summary>
         ///     valueを含むように範囲を拡張する
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public ValueRange<T> Expand(T value)
         {
-            (min, max) = Expand(this, value);
-            return this;
+            return Expand(this, value);
         }
 
         /// <summary>
         ///     aとbの和となる範囲を返す
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
         public static ValueRange<T> Union(ValueRange<T> a, ValueRange<T> b)
         {
             return new ValueRange<T>(
@@ -106,9 +120,6 @@ namespace Shalico.ToolBox
         /// <summary>
         ///     aとbの積となる範囲を返す
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
         public static ValueRange<T> Intersect(ValueRange<T> a, ValueRange<T> b)
         {
             ValueRange<T> result = new(
@@ -127,9 +138,6 @@ namespace Shalico.ToolBox
         /// <summary>
         ///     aからbを除外した範囲を返す
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
         public static ValueRange<T>[] Subtract(ValueRange<T> a, ValueRange<T> b)
         {
             // 重なりがない場合
@@ -146,21 +154,22 @@ namespace Shalico.ToolBox
 
             // 重なっている場合
             List<ValueRange<T>> rangeList = new();
-            if (a.min.CompareTo(b.min) < 0)
+            if (a.min.CompareTo(b.min) < 0) // a.min < b.min
             {
-                // a.min < b.min
                 rangeList.Add(new ValueRange<T>(a.min, b.min));
             }
 
-            if (b.max.CompareTo(a.max) < 0)
+            if (b.max.CompareTo(a.max) < 0) // b.max < a.max
             {
-                // b.max < a.max
                 rangeList.Add(new ValueRange<T>(b.max, a.max));
             }
 
             return rangeList.ToArray();
         }
 
+        /// <summary>
+        ///     valueを含むように範囲を拡張する
+        /// </summary>
         public static ValueRange<T> Expand(ValueRange<T> range, T value)
         {
             return new ValueRange<T>(
@@ -189,11 +198,17 @@ namespace Shalico.ToolBox
             return (range.min, range.max);
         }
 
+        /// <summary>
+        ///     min=maxか判定する
+        /// </summary>
         public bool IsEmpty()
         {
             return min.CompareTo(max) == 0;
         }
 
+        /// <summary>
+        ///     minがmax未満であるか判定する
+        /// </summary>
         public bool IsValid()
         {
             return min.CompareTo(max) <= 0;
