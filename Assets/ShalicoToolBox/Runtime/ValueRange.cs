@@ -225,9 +225,24 @@ namespace Shalico.ToolBox
             return $"[{min}, {max}]";
         }
 
+        public static bool operator ==(ValueRange<T> a, ValueRange<T> b)
+        {
+            return a.min.Equals(b.min) && a.max.Equals(b.max);
+        }
+
+        public static bool operator !=(ValueRange<T> a, ValueRange<T> b)
+        {
+            return !(a == b);
+        }
+
         public override bool Equals(object obj)
         {
-            return obj is ValueRange<T> other && Equals(other);
+            if (obj is ValueRange<T> other)
+            {
+                return this == other;
+            }
+
+            return false;
         }
 
         public override int GetHashCode()
