@@ -14,52 +14,52 @@ namespace Shalico.ToolBox
 
         public static double Remap<T>(this ValueRange<T> range, T value) where T : struct, IComparable<T>, IConvertible
         {
-            var doubleMin = range.min.ToDouble(null);
-            var doubleMax = range.max.ToDouble(null);
-            var doubleValue = value.ToDouble(null);
+            double doubleMin = range.min.ToDouble(null);
+            double doubleMax = range.max.ToDouble(null);
+            double doubleValue = value.ToDouble(null);
             return (doubleValue - doubleMin) / (doubleMax - doubleMin);
         }
 
         public static T Lerp<T>(this ValueRange<T> range, double t) where T : struct, IComparable<T>, IConvertible
         {
-            var doubleMin = range.min.ToDouble(null);
-            var doubleMax = range.max.ToDouble(null);
-            var doubleValue = doubleMin + (doubleMax - doubleMin) * t;
+            double doubleMin = range.min.ToDouble(null);
+            double doubleMax = range.max.ToDouble(null);
+            double doubleValue = doubleMin + ((doubleMax - doubleMin) * t);
             return (T)Convert.ChangeType(doubleValue, typeof(T));
         }
 
         public static T InverseLerp<T>(this ValueRange<T> range, double t)
             where T : struct, IComparable<T>, IConvertible
         {
-            var doubleMin = range.min.ToDouble(null);
-            var doubleMax = range.max.ToDouble(null);
-            var doubleValue = doubleMin + (doubleMax - doubleMin) * t;
+            double doubleMin = range.min.ToDouble(null);
+            double doubleMax = range.max.ToDouble(null);
+            double doubleValue = doubleMin + ((doubleMax - doubleMin) * t);
             return (T)Convert.ChangeType((doubleValue - doubleMin) / (doubleMax - doubleMin), typeof(T));
         }
 
         public static T Random<T>(this ValueRange<T> range) where T : struct, IComparable<T>, IConvertible
         {
-            var doubleMin = range.min.ToDouble(null);
-            var doubleMax = range.max.ToDouble(null);
+            double doubleMin = range.min.ToDouble(null);
+            double doubleMax = range.max.ToDouble(null);
             double doubleValue = UnityEngine.Random.Range((float)doubleMin, (float)doubleMax);
             return (T)Convert.ChangeType(doubleValue, typeof(T));
         }
 
         public static T Median<T>(this ValueRange<T> range) where T : struct, IComparable<T>, IConvertible
         {
-            var doubleMin = range.min.ToDouble(null);
-            var doubleMax = range.max.ToDouble(null);
-            var doubleValue = doubleMin + (doubleMax - doubleMin) * 0.5;
+            double doubleMin = range.min.ToDouble(null);
+            double doubleMax = range.max.ToDouble(null);
+            double doubleValue = doubleMin + ((doubleMax - doubleMin) * 0.5);
             return (T)Convert.ChangeType(doubleValue, typeof(T));
         }
 
         public static ValueRange<T> Shifted<T>(this ValueRange<T> range, T value)
             where T : struct, IComparable<T>, IConvertible
         {
-            var doubleMin = range.min.ToDouble(null);
-            var doubleMax = range.max.ToDouble(null);
-            var doubleValue = value.ToDouble(null);
-            var doubleShift = doubleValue - doubleMin;
+            double doubleMin = range.min.ToDouble(null);
+            double doubleMax = range.max.ToDouble(null);
+            double doubleValue = value.ToDouble(null);
+            double doubleShift = doubleValue - doubleMin;
             return new ValueRange<T>((T)Convert.ChangeType(doubleMin + doubleShift, typeof(T)),
                 (T)Convert.ChangeType(doubleMax + doubleShift, typeof(T)));
         }
@@ -74,13 +74,13 @@ namespace Shalico.ToolBox
         public static ValueRange<T>[] Split<T>(this ValueRange<T> range, int count)
             where T : struct, IComparable<T>, IConvertible
         {
-            var result = new ValueRange<T>[count];
-            var doubleMin = range.min.ToDouble(null);
-            var doubleMax = range.max.ToDouble(null);
-            var doubleStep = (doubleMax - doubleMin) / count;
-            for (var i = 0; i < count; i++)
+            ValueRange<T>[] result = new ValueRange<T>[count];
+            double doubleMin = range.min.ToDouble(null);
+            double doubleMax = range.max.ToDouble(null);
+            double doubleStep = (doubleMax - doubleMin) / count;
+            for (int i = 0; i < count; i++)
             {
-                var doubleValue = doubleMin + doubleStep * i;
+                double doubleValue = doubleMin + (doubleStep * i);
                 result[i] = new ValueRange<T>((T)Convert.ChangeType(doubleValue, typeof(T)),
                     (T)Convert.ChangeType(doubleValue + doubleStep, typeof(T)));
             }
@@ -88,36 +88,51 @@ namespace Shalico.ToolBox
             return result;
         }
 
-        public static IEnumerable<T> Enumerate<T>(this ValueRange<T> range, int count)
+        public static T Length<T>(this ValueRange<T> range)
             where T : struct, IComparable<T>, IConvertible
         {
-            var doubleMin = range.min.ToDouble(null);
-            var doubleMax = range.max.ToDouble(null);
-            var doubleStep = (doubleMax - doubleMin) / count;
-            for (var i = 0; i < count; i++)
+            double doubleMin = range.min.ToDouble(null);
+            double doubleMax = range.max.ToDouble(null);
+            return (T)Convert.ChangeType(doubleMax - doubleMin, typeof(T));
+        }
+
+        public static IEnumerable<T> Enumerate<T>(this ValueRange<T> range, T step)
+            where T : struct, IComparable<T>, IConvertible
+        {
+            double doubleValue = range.min.ToDouble(null);
+            double doubleMax = range.max.ToDouble(null);
+            double doubleStep = step.ToDouble(null);
+            while (doubleValue < doubleMax)
             {
-                var doubleValue = doubleMin + doubleStep * i;
                 yield return (T)Convert.ChangeType(doubleValue, typeof(T));
+                doubleValue += doubleStep;
             }
+        }
+
+        public static int Length(this ValueRange<int> range)
+        {
+            return range.max - range.min;
         }
 
         public static IEnumerable<int> Enumerate(this ValueRange<int> range, int step = 1)
         {
-            for (var i = range.min; i < range.max; i += step)
+            for (int i = range.min; i < range.max; i += step)
+            {
                 yield return i;
+            }
         }
 
         public static ValueRange<T>[] Split<T>(this ValueRange<T> range, T step)
             where T : struct, IComparable<T>, IConvertible
         {
-            var doubleMin = range.min.ToDouble(null);
-            var doubleMax = range.max.ToDouble(null);
-            var doubleStep = step.ToDouble(null);
-            var count = (int)((doubleMax - doubleMin) / doubleStep);
-            var result = new ValueRange<T>[count];
-            for (var i = 0; i < count; i++)
+            double doubleMin = range.min.ToDouble(null);
+            double doubleMax = range.max.ToDouble(null);
+            double doubleStep = step.ToDouble(null);
+            int count = (int)((doubleMax - doubleMin) / doubleStep);
+            ValueRange<T>[] result = new ValueRange<T>[count];
+            for (int i = 0; i < count; i++)
             {
-                var doubleValue = doubleMin + doubleStep * i;
+                double doubleValue = doubleMin + (doubleStep * i);
                 result[i] = new ValueRange<T>((T)Convert.ChangeType(doubleValue, typeof(T)),
                     (T)Convert.ChangeType(doubleValue + doubleStep, typeof(T)));
             }
