@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Shalico.ToolBox
 {
@@ -18,6 +19,16 @@ namespace Shalico.ToolBox
         {
             min = other.min;
             max = other.max;
+        }
+
+        private static T Min(T a, T b)
+        {
+            return a.CompareTo(b) < 0 ? a : b;
+        }
+
+        private static T Max(T a, T b)
+        {
+            return a.CompareTo(b) > 0 ? a : b;
         }
 
 
@@ -63,11 +74,6 @@ namespace Shalico.ToolBox
             return this;
         }
 
-        public ValueRange<T> Except(ValueRange<T> other)
-        {
-            (min, max) = Except(this, other);
-            return this;
-        }
 
         public ValueRange<T> Expand(T value)
         {
@@ -75,50 +81,76 @@ namespace Shalico.ToolBox
             return this;
         }
 
+        /// <summary>
+        ///     aとbの和となる範囲を返す
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static ValueRange<T> Union(ValueRange<T> a, ValueRange<T> b)
         {
             return new ValueRange<T>(
-                a.min.CompareTo(b.min) < 0 ? a.min : b.min,
-                a.max.CompareTo(b.max) > 0 ? a.max : b.max
+                Min(a.min, b.min),
+                Max(a.max, b.max)
             );
         }
 
+        /// <summary>
+        ///     aとbの積となる範囲を返す
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static ValueRange<T> Intersect(ValueRange<T> a, ValueRange<T> b)
         {
             return new ValueRange<T>(
-                a.min.CompareTo(b.min) > 0 ? a.min : b.min,
-                a.max.CompareTo(b.max) < 0 ? a.max : b.max
+                Max(a.min, b.min),
+                Min(a.max, b.max)
             );
         }
 
-        public static ValueRange<T> Except(ValueRange<T> a, ValueRange<T> b)
+        /// <summary>
+        ///     aからbを除外した範囲を返す
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static ValueRange<T>[] Except(ValueRange<T> a, ValueRange<T> b)
         {
-            return new ValueRange<T>(
-                a.min.CompareTo(b.min) > 0 ? a.min : b.min,
-                a.max.CompareTo(b.max) < 0 ? a.max : b.max
-            );
-        }
+            // 重なりがない場合
+            if (!b.Overlaps(a))
+            {
+                return new[] { a };
+            }
 
-        public static ValueRange<T>[] Subtract(ValueRange<T> a, ValueRange<T> b)
-        {
+            // aがbに完全に含まれている場合
             if (b.Contains(a))
             {
                 return Array.Empty<ValueRange<T>>();
             }
 
-            if (a.Contains(b))
+            // 重なっている場合
+            List<ValueRange<T>> rangeList = new();
+            if (a.min.CompareTo(b.min) < 0)
             {
-                return new[] { new ValueRange<T>(a.min, b.min), new ValueRange<T>(b.max, a.max) };
+                // a.min < b.min
+                rangeList.Add(new ValueRange<T>(a.min, b.min));
             }
 
-            return new[] { Except(a, b) };
+            if (b.max.CompareTo(a.max) < 0)
+            {
+                // b.max < a.max
+                rangeList.Add(new ValueRange<T>(b.max, a.max));
+            }
+
+            return rangeList.ToArray();
         }
 
         public static ValueRange<T> Expand(ValueRange<T> range, T value)
         {
             return new ValueRange<T>(
-                range.min.CompareTo(value) < 0 ? range.min : value,
-                range.max.CompareTo(value) > 0 ? range.max : value
+                Min(range.min, value),
+                Max(range.max, value)
             );
         }
 
