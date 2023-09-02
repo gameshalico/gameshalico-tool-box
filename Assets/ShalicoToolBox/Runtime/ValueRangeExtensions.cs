@@ -5,13 +5,13 @@ namespace Shalico.ToolBox
 {
     public static class ValueRangeExtensions
     {
-        public static ValueRange<T> ToValueRange<T>(this RangeInt range) where T : IComparable<T>, IConvertible
+        public static ValueRange<T> ToValueRange<T>(this RangeInt range) where T : struct, IComparable<T>, IConvertible
         {
             return new ValueRange<T>((T)Convert.ChangeType(range.start, typeof(T)),
                 (T)Convert.ChangeType(range.end, typeof(T)));
         }
 
-        public static double Remap<T>(this ValueRange<T> range, T value) where T : IComparable<T>, IConvertible
+        public static double Remap<T>(this ValueRange<T> range, T value) where T : struct, IComparable<T>, IConvertible
         {
             double doubleMin = range.min.ToDouble(null);
             double doubleMax = range.max.ToDouble(null);
@@ -19,7 +19,7 @@ namespace Shalico.ToolBox
             return (doubleValue - doubleMin) / (doubleMax - doubleMin);
         }
 
-        public static T Lerp<T>(this ValueRange<T> range, double t) where T : IComparable<T>, IConvertible
+        public static T Lerp<T>(this ValueRange<T> range, double t) where T : struct, IComparable<T>, IConvertible
         {
             double doubleMin = range.min.ToDouble(null);
             double doubleMax = range.max.ToDouble(null);
@@ -27,7 +27,8 @@ namespace Shalico.ToolBox
             return (T)Convert.ChangeType(doubleValue, typeof(T));
         }
 
-        public static T InverseLerp<T>(this ValueRange<T> range, double t) where T : IComparable<T>, IConvertible
+        public static T InverseLerp<T>(this ValueRange<T> range, double t)
+            where T : struct, IComparable<T>, IConvertible
         {
             double doubleMin = range.min.ToDouble(null);
             double doubleMax = range.max.ToDouble(null);
@@ -35,7 +36,7 @@ namespace Shalico.ToolBox
             return (T)Convert.ChangeType((doubleValue - doubleMin) / (doubleMax - doubleMin), typeof(T));
         }
 
-        public static T Random<T>(this ValueRange<T> range) where T : IComparable<T>, IConvertible
+        public static T Random<T>(this ValueRange<T> range) where T : struct, IComparable<T>, IConvertible
         {
             double doubleMin = range.min.ToDouble(null);
             double doubleMax = range.max.ToDouble(null);
@@ -43,7 +44,7 @@ namespace Shalico.ToolBox
             return (T)Convert.ChangeType(doubleValue, typeof(T));
         }
 
-        public static T Median<T>(this ValueRange<T> range) where T : IComparable<T>, IConvertible
+        public static T Median<T>(this ValueRange<T> range) where T : struct, IComparable<T>, IConvertible
         {
             double doubleMin = range.min.ToDouble(null);
             double doubleMax = range.max.ToDouble(null);
@@ -52,7 +53,7 @@ namespace Shalico.ToolBox
         }
 
         public static ValueRange<T>[] Split<T>(this ValueRange<T> range, int count)
-            where T : IComparable<T>, IConvertible
+            where T : struct, IComparable<T>, IConvertible
         {
             ValueRange<T>[] result = new ValueRange<T>[count];
             double doubleMin = range.min.ToDouble(null);
@@ -69,7 +70,7 @@ namespace Shalico.ToolBox
         }
 
         public static ValueRange<T>[] Split<T>(this ValueRange<T> range, T step)
-            where T : IComparable<T>, IConvertible
+            where T : struct, IComparable<T>, IConvertible
         {
             double doubleMin = range.min.ToDouble(null);
             double doubleMax = range.max.ToDouble(null);

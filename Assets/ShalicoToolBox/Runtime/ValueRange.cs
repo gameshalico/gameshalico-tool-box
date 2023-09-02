@@ -3,7 +3,7 @@
 namespace Shalico.ToolBox
 {
     [Serializable]
-    public struct ValueRange<T> where T : IComparable<T>
+    public struct ValueRange<T> where T : struct, IComparable<T>
     {
         public T min;
         public T max;
@@ -53,6 +53,12 @@ namespace Shalico.ToolBox
         public ValueRange<T> Intersect(ValueRange<T> other)
         {
             (min, max) = Intersect(this, other);
+            return this;
+        }
+
+        public ValueRange<T> Expand(T value)
+        {
+            (min, max) = Expand(this, value);
             return this;
         }
 
