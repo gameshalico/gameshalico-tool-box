@@ -157,5 +157,10 @@ namespace Shalico.ToolBox
             minValue = min;
             maxValue = max;
         }
+
+        public override string ToString()
+        {
+            return $"[{min}, {max}]";
+        }
     }
 }

@@ -53,13 +53,12 @@ namespace Shalico.ToolBox
             return (T)Convert.ChangeType(doubleValue, typeof(T));
         }
 
-        public static ValueRange<T> Shifted<T>(this ValueRange<T> range, T value)
+        public static ValueRange<T> Shifted<T>(this ValueRange<T> range, T shift)
             where T : struct, IComparable<T>, IConvertible
         {
             double doubleMin = range.min.ToDouble(null);
             double doubleMax = range.max.ToDouble(null);
-            double doubleValue = value.ToDouble(null);
-            double doubleShift = doubleValue - doubleMin;
+            double doubleShift = shift.ToDouble(null);
             return new ValueRange<T>((T)Convert.ChangeType(doubleMin + doubleShift, typeof(T)),
                 (T)Convert.ChangeType(doubleMax + doubleShift, typeof(T)));
         }
