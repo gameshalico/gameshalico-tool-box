@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Shalico.ToolBox
@@ -85,6 +86,14 @@ namespace Shalico.ToolBox
             }
 
             return result;
+        }
+
+        public static IEnumerator<int> GetEnumerator(this ValueRange<int> range)
+        {
+            for (int i = range.min; i < range.max; i++)
+            {
+                yield return i;
+            }
         }
 
         public static ValueRange<T>[] Split<T>(this ValueRange<T> range, T step)
