@@ -39,12 +39,12 @@ namespace Shalico.ToolBox
 
         public bool Contains(ValueRange<T> other)
         {
-            return Contains(other.min) && Contains(other.max);
+            return min.CompareTo(other.min) <= 0 && other.max.CompareTo(max) <= 0;
         }
 
         public bool Overlaps(ValueRange<T> other)
         {
-            return Contains(other.min) || Contains(other.max);
+            return min.CompareTo(other.max) <= 0 && other.min.CompareTo(max) <= 0;
         }
 
         public T Clamp(T value)
@@ -64,17 +64,25 @@ namespace Shalico.ToolBox
 
         public ValueRange<T> Union(ValueRange<T> other)
         {
-            (min, max) = Union(this, other);
-            return this;
+            return Union(this, other);
         }
 
         public ValueRange<T> Intersect(ValueRange<T> other)
         {
-            (min, max) = Intersect(this, other);
-            return this;
+            return Intersect(this, other);
+        }
+
+        public ValueRange<T>[] Subtract(ValueRange<T> other)
+        {
+            return Subtract(this, other);
         }
 
 
+        /// <summary>
+        ///     valueを含むように範囲を拡張する
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public ValueRange<T> Expand(T value)
         {
             (min, max) = Expand(this, value);
@@ -103,10 +111,17 @@ namespace Shalico.ToolBox
         /// <returns></returns>
         public static ValueRange<T> Intersect(ValueRange<T> a, ValueRange<T> b)
         {
-            return new ValueRange<T>(
+            ValueRange<T> result = new(
                 Max(a.min, b.min),
                 Min(a.max, b.max)
             );
+
+            if (!result.IsValid())
+            {
+                result = new ValueRange<T>();
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -115,7 +130,7 @@ namespace Shalico.ToolBox
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static ValueRange<T>[] Except(ValueRange<T> a, ValueRange<T> b)
+        public static ValueRange<T>[] Subtract(ValueRange<T> a, ValueRange<T> b)
         {
             // 重なりがない場合
             if (!b.Overlaps(a))
