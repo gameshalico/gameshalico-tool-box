@@ -20,6 +20,7 @@ namespace Shalico.ToolBox
             max = other.max;
         }
 
+
         public bool Contains(T value)
         {
             return min.CompareTo(value) <= 0 && value.CompareTo(max) <= 0;
@@ -62,6 +63,12 @@ namespace Shalico.ToolBox
             return this;
         }
 
+        public ValueRange<T> Except(ValueRange<T> other)
+        {
+            (min, max) = Except(this, other);
+            return this;
+        }
+
         public ValueRange<T> Expand(T value)
         {
             (min, max) = Expand(this, value);
@@ -77,6 +84,14 @@ namespace Shalico.ToolBox
         }
 
         public static ValueRange<T> Intersect(ValueRange<T> a, ValueRange<T> b)
+        {
+            return new ValueRange<T>(
+                a.min.CompareTo(b.min) > 0 ? a.min : b.min,
+                a.max.CompareTo(b.max) < 0 ? a.max : b.max
+            );
+        }
+
+        public static ValueRange<T> Except(ValueRange<T> a, ValueRange<T> b)
         {
             return new ValueRange<T>(
                 a.min.CompareTo(b.min) > 0 ? a.min : b.min,
