@@ -99,6 +99,21 @@ namespace Shalico.ToolBox
             );
         }
 
+        public static ValueRange<T>[] Subtract(ValueRange<T> a, ValueRange<T> b)
+        {
+            if (b.Contains(a))
+            {
+                return Array.Empty<ValueRange<T>>();
+            }
+
+            if (a.Contains(b))
+            {
+                return new[] { new ValueRange<T>(a.min, b.min), new ValueRange<T>(b.max, a.max) };
+            }
+
+            return new[] { Except(a, b) };
+        }
+
         public static ValueRange<T> Expand(ValueRange<T> range, T value)
         {
             return new ValueRange<T>(
