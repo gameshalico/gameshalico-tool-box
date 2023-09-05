@@ -1,7 +1,11 @@
 ﻿{
-  "name": "jp.gameshalico.favorite-package-importer",
+  "name": "com.gameshalico.favorite-package-importer",
   "displayName": "Favorite Package Importer",
   "description": "Import your favorite packages from git URL.",
   "version": "1.0.0",
-  "type": "library"
+  "author": {
+    "name": "Gameshalico",
+    "email": "contact@gameshalico.com",
+    "url": "https://gameshalico.com"
+  }
 }

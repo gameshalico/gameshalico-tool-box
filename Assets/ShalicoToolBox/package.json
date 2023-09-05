@@ -1,7 +1,11 @@
 {
-  "name": "jp.gameshalico.toolbox",
+  "name": "com.gameshalico.toolbox",
+  "version": "0.1.0",
   "displayName": "Shalico Tool Box",
   "description": "My utility package for Unity.",
-  "version": "0.1.0",
-  "type": "library"
+  "author": {
+    "name": "Gameshalico",
+    "email": "contact@gameshalico.com",
+    "url": "https://gameshalico.com"
+  }
 }

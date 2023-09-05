@@ -1,7 +1,11 @@
 ﻿{
-  "name": "jp.gameshalico.hierarchy-enhancer",
+  "name": "com.gameshalico.hierarchy-enhancer",
   "displayName": "Hierarchy Enhancer",
   "description": "Enhances the Unity Hierarchy window with useful features.",
   "version": "0.1.0",
-  "type": "library"
+  "author": {
+    "name": "Gameshalico",
+    "email": "contact@gameshalico.com",
+    "url": "https://gameshalico.com"
+  }
 }
