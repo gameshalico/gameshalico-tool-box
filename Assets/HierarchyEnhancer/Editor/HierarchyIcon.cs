@@ -37,7 +37,7 @@ namespace HierarchyEnhancer.Editor
         private static Component GetIconTarget(GameObject gameObject)
         {
             var components = gameObject.GetComponents<Component>();
-            if (components.Length == 1)
+            if (components.Length == 1 || components[1] == null)
                 return components[0];
 
             if (components[1] is CanvasRenderer &&
@@ -49,6 +49,8 @@ namespace HierarchyEnhancer.Editor
 
         public static Texture2D GetIconTexture(Component component)
         {
+            if (component == null)
+                return null;
             var type = component.GetType();
 
             if (s_iconCache.TryGetValue(type, out var cachedIcon))
