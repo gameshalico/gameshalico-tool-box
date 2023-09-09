@@ -12,12 +12,16 @@ namespace Shalico.ToolBox
                 (T)Convert.ChangeType(range.end, typeof(T)));
         }
 
-        public static double Remap<T>(this ValueRange<T> range, T value) where T : struct, IComparable<T>, IConvertible
+        public static double Remap<T>(this ValueRange<T> range, ValueRange<T> from, T value)
+            where T : struct, IComparable<T>, IConvertible
         {
             double doubleMin = range.min.ToDouble(null);
             double doubleMax = range.max.ToDouble(null);
             double doubleValue = value.ToDouble(null);
-            return (doubleValue - doubleMin) / (doubleMax - doubleMin);
+            double doubleFromMin = from.min.ToDouble(null);
+            double doubleFromMax = from.max.ToDouble(null);
+            return doubleMin + ((doubleValue - doubleFromMin) / (doubleFromMax - doubleFromMin) *
+                                (doubleMax - doubleMin));
         }
 
         public static T Lerp<T>(this ValueRange<T> range, double t) where T : struct, IComparable<T>, IConvertible
