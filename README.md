@@ -14,6 +14,12 @@ https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/AutoReferenc
 https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/HierarchyEnhancer
 ```
 
+## Favorite Package Importer
+お気に入りのパッケージを登録し、一括でインポートできる拡張機能です。
+```
+https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/FavoritePackageImporter
+```
+
 ## Shalico Tool Box
 未分類のコード置き場です。
 ```
