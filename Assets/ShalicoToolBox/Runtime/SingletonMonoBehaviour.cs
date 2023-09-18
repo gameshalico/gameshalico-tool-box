@@ -6,11 +6,13 @@ namespace Shalico.ToolBox
     {
         private static T s_instance;
 
+        public static bool IsValid => s_instance != null;
+
         public static T Instance
         {
             get
             {
-                if (s_instance == null)
+                if (s_instance != null)
                 {
                     s_instance = FindFirstObjectByType<T>();
 
