@@ -12,7 +12,7 @@ namespace Shalico.ToolBox
         {
             get
             {
-                if (s_instance != null)
+                if (s_instance == null)
                 {
                     s_instance = FindFirstObjectByType<T>();
 
