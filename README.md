@@ -21,7 +21,7 @@ https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/AutoReferenc
 https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/HierarchyEnhancer
 ```
 
-## [SoundKit](/Assets/SoundKit/Documentation~/SoundKit.md)
+## [Sound Kit](/Assets/SoundKit/Documentation~/SoundKit.md)
 サウンドの再生やクロスフェード、ピッチ変更など、サウンドに関する機能を提供します。
 ```
 https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/SoundKit
