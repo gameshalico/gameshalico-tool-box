@@ -40,7 +40,7 @@ namespace Shalico.ToolBox
 
             if (s_instance != this)
             {
-                Debug.LogError($"{typeof(T)} is already exists.");
+                Destroy(gameObject);
             }
         }
 
