@@ -22,7 +22,7 @@ namespace Samples.SoundKit
             };
             _uiDocument.rootVisualElement.Q<Button>("random-pitch-button").clicked += () =>
             {
-                soundHandler = SoundManager.GetPlayer(audioClip).SetRandomPitchByEqualTemperament(-3, 3).Play();
+                soundHandler = SoundManager.GetPlayer(audioClip).SetRandomPitchByJustIntonation(-3, 3).Play();
             };
             _uiDocument.rootVisualElement.Q<Button>("fadeout-button").clicked += () =>
             {

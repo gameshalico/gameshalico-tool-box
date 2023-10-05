@@ -40,6 +40,11 @@ namespace SoundKit
             return handler.SetPitch(Mathf.Pow(2f, pitch / 12f));
         }
 
+        public static ISoundHandler SetPitchByJustIntonation(this ISoundHandler handler, int pitch)
+        {
+            return handler.SetPitch(Mathf.Pow(2f, pitch / 7f));
+        }
+
         public static ISoundHandler SetRandomPitch(this ISoundHandler handler, float min, float max)
         {
             return handler.SetPitch(Random.Range(min, max));
@@ -48,6 +53,11 @@ namespace SoundKit
         public static ISoundHandler SetRandomPitchByEqualTemperament(this ISoundHandler handler, int min, int max)
         {
             return handler.SetPitchByEqualTemperament(Random.Range(min, max));
+        }
+
+        public static ISoundHandler SetRandomPitchByJustIntonation(this ISoundHandler handler, int min, int max)
+        {
+            return handler.SetPitchByJustIntonation(Random.Range(min, max));
         }
 
         public static void CrossFade(this ISoundHandler handler, ISoundHandler other, float duration)
