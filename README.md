@@ -9,6 +9,13 @@ Assets内のフォルダーを指定してインストールします。
 https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/FavoritePackageImporter
 ```
 
+## [Attribute Pack](/Assets/AttributePack/Documentation~/AttributePack.md)
+ShowIf, Previewなどの便利なPropertyAttributeを追加します。
+```
+https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/AttributePack"
+```
+
+
 ## [Auto Reference Generator](/Assets/AutoReferenceGenerator/Documentation~/AutoReferenceGenerator.md)
 Scene名、Tag名、Layer名、Sorting Layer名等、Unityの標準機能で参照できるものを自動でクラスにまとめます。
 ```
