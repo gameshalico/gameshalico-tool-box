@@ -3,6 +3,8 @@
 ## 概要
 ヒエラルキーを見やすくし、いくつかの便利機能を追加します。
 
+![](/Images/he.png)
+
 ## 導入方法
 - PackageManagerの"Add package from git URL..."から以下のURLを指定してインストールします。
 ```
