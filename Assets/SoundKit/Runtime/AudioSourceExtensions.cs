@@ -15,30 +15,32 @@ namespace SoundKit.Obsolute
 
             for (var accumulatedTime = 0f; accumulatedTime < duration; accumulatedTime += Time.deltaTime)
             {
-                if (cancellationToken.IsCancellationRequested) return;
+                cancellationToken.ThrowIfCancellationRequested();
 
-                var t = (Mathf.Sin(accumulatedTime / duration * 2f) + 1f) / 2f;
+                var t = Mathf.Sin(accumulatedTime / duration * Mathf.PI / 2f);
                 audioSource.volume = initialVolume + volumeDiff * t;
-                await UniTask.Yield();
+                await UniTask.Yield(cancellationToken);
             }
+
+            audioSource.volume = volume;
         }
 
         public static async UniTask TweenVolumeDownAsync(this AudioSource audioSource,
             float duration, float volume = 0, CancellationToken cancellationToken = default)
         {
-            if (!audioSource.isPlaying) return;
-
             var initialVolume = audioSource.volume;
-            var volumeDiff = initialVolume - volume;
+            var volumeDiff = volume - initialVolume;
 
             for (var accumulatedTime = 0f; accumulatedTime < duration; accumulatedTime += Time.deltaTime)
             {
-                if (cancellationToken.IsCancellationRequested) return;
+                cancellationToken.ThrowIfCancellationRequested();
 
-                var t = (Mathf.Cos(accumulatedTime / duration * 2f) + 1f) / 2f;
-                audioSource.volume = initialVolume - volumeDiff * t;
-                await UniTask.Yield();
+                var t = 1 - Mathf.Cos(accumulatedTime / duration * Mathf.PI / 2f);
+                audioSource.volume = initialVolume + volumeDiff * t;
+                await UniTask.Yield(cancellationToken);
             }
+
+            audioSource.volume = volume;
         }
     }
 }

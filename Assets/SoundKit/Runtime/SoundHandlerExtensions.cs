@@ -24,8 +24,8 @@ namespace SoundKit
 
         public static ISoundHandler FadeOutAndStop(this ISoundHandler handler, float duration)
         {
-            handler.TweenVolumeDownAsync(duration, 0f).Forget();
-            return handler.Stop();
+            handler.FadeOutAndStopAsync(duration).Forget();
+            return handler;
         }
 
         public static async UniTask<ISoundHandler> FadeOutAndStopAsync(this ISoundHandler handler, float duration,
@@ -52,7 +52,7 @@ namespace SoundKit
 
         public static void CrossFade(this ISoundHandler handler, ISoundHandler other, float duration)
         {
-            handler.FadeOutAndStop(duration);
+            handler.FadeOutAndStopAsync(duration).Forget();
             other.PlayWithFadeIn(duration);
         }
 

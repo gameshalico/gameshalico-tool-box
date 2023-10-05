@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.Audio;
 
 namespace SoundKit
@@ -6,6 +8,7 @@ namespace SoundKit
     public class SoundManager : MonoBehaviour
     {
         private static SoundManager s_instance;
+        private static readonly LinkedList<SoundHandler> s_soundHandlers = new();
 
         private static SoundManager Instance
         {
@@ -38,6 +41,22 @@ namespace SoundKit
             }
         }
 
+        private void OnDestroy()
+        {
+            s_soundHandlers.Clear();
+        }
+
+        public static IEnumerable<ISoundHandler> GetAllHandlers()
+        {
+            return s_soundHandlers;
+        }
+
+        public static IEnumerable<ISoundHandler> GetHandlers(int soundID)
+        {
+            return s_soundHandlers.Where(x => x.SoundID == soundID);
+        }
+
+
         private static SoundPlayer GetSoundPlayer()
         {
             return SoundPlayer.GetOrCreate(Instance.transform);
@@ -46,6 +65,16 @@ namespace SoundKit
         public static ISoundHandler GetPlayer(AudioClip clip, AudioMixerGroup group = null)
         {
             return GetSoundPlayer().Initialize(clip, group);
+        }
+
+        internal static void RegisterHandler(SoundHandler soundHandler)
+        {
+            s_soundHandlers.AddLast(soundHandler);
+        }
+
+        internal static void UnregisterHandler(SoundHandler soundHandler)
+        {
+            s_soundHandlers.Remove(soundHandler);
         }
     }
 }

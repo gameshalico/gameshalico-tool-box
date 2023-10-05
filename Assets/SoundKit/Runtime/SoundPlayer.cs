@@ -8,71 +8,89 @@ using UnityEngine.Audio;
 namespace SoundKit
 {
     [AddComponentMenu("")]
-    internal class SoundPlayer : MonoBehaviour, ISoundHandler
+    internal class SoundPlayer : MonoBehaviour
     {
         private static readonly Queue<SoundPlayer> s_pool = new();
+
         private AudioSource _audioSource;
         private bool _releaseOnStop;
-        public int InstanceNo { get; private set; }
+        private CancellationTokenSource _tweenCancellationTokenSource;
+        public SoundHandler CurrentHandler { get; private set; }
 
-        public ISoundHandler Play(float volume)
+        private void Update()
+        {
+            if (!_audioSource.isPlaying && _releaseOnStop)
+                Release();
+        }
+
+        private void OnDestroy()
+        {
+            s_pool.Clear();
+        }
+
+        public void Play(float volume)
         {
             _audioSource.volume = volume;
             _audioSource.Play();
-            return this;
         }
 
-        public ISoundHandler SetVolume(float volume)
+        public void SetVolume(float volume)
         {
             _audioSource.volume = volume;
-            return this;
         }
 
-        public ISoundHandler SetPitch(float pitch)
+        public void SetPitch(float pitch)
         {
             _audioSource.pitch = pitch;
-            return this;
         }
 
-        public ISoundHandler SetLoop(bool loop)
+        public void SetLoop(bool loop)
         {
             _audioSource.loop = loop;
-            return this;
         }
 
         public async UniTask TweenVolumeUpAsync(float duration, float volume,
             CancellationToken cancellationToken = default)
         {
-            var linkedTokenSource =
-                CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, destroyCancellationToken);
-            await _audioSource.TweenVolumeUpAsync(duration, volume, linkedTokenSource.Token);
+            await _audioSource.TweenVolumeUpAsync(duration, volume,
+                CancelAndCreateTweenLinkedToken(cancellationToken));
         }
 
         public async UniTask TweenVolumeDownAsync(float duration, float volume,
             CancellationToken cancellationToken = default)
         {
-            var linkedTokenSource =
-                CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, destroyCancellationToken);
-            await _audioSource.TweenVolumeDownAsync(duration, volume, linkedTokenSource.Token);
+            await _audioSource.TweenVolumeDownAsync(duration, volume,
+                CancelAndCreateTweenLinkedToken(cancellationToken));
         }
 
-        public ISoundHandler Stop()
+        public void Stop()
         {
             _audioSource.Stop();
             if (_releaseOnStop)
                 Release();
-            return this;
         }
 
         public void Release()
         {
             s_pool.Enqueue(this);
             gameObject.SetActive(false);
+            SoundManager.UnregisterHandler(CurrentHandler);
+            CurrentHandler = null;
+        }
+
+        private CancellationToken CancelAndCreateTweenLinkedToken(CancellationToken cancellationToken)
+        {
+            _tweenCancellationTokenSource?.Cancel();
+            _tweenCancellationTokenSource = new CancellationTokenSource();
+            return CancellationTokenSource.CreateLinkedTokenSource(cancellationToken,
+                _tweenCancellationTokenSource.Token,
+                destroyCancellationToken).Token;
         }
 
 
         internal ISoundHandler Initialize(AudioClip clip, AudioMixerGroup group = null, bool releaseOnStop = true)
         {
+            _tweenCancellationTokenSource?.Cancel();
             if (_audioSource == null)
                 _audioSource = gameObject.AddComponent<AudioSource>();
 
@@ -87,9 +105,11 @@ namespace SoundKit
 
             _releaseOnStop = releaseOnStop;
 
-            InstanceNo++;
             gameObject.SetActive(true);
-            return this;
+            CurrentHandler = new SoundHandler(this);
+            SoundManager.RegisterHandler(CurrentHandler);
+
+            return CurrentHandler;
         }
 
         public static SoundPlayer GetOrCreate(Transform parent)
