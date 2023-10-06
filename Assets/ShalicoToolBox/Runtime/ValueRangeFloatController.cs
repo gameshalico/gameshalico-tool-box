@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Shalico.ToolBox
+namespace ShalicoToolBox
 {
     [Serializable]
     public class ValueRangeFloatController

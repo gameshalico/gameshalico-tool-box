@@ -1,0 +1,11 @@
+﻿{
+  "name": "com.gameshalico.shalico-package-importer",
+  "displayName": "Shalico Package Importer",
+  "description": "Import your favorite packages from git URL.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Gameshalico",
+    "email": "contact@gameshalico.com",
+    "url": "https://gameshalico.com"
+  }
+}

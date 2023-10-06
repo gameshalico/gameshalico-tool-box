@@ -1,0 +1,11 @@
+{
+  "name": "com.gameshalico.shalico-sound-kit",
+  "version": "0.1.0",
+  "displayName": "Shalico Sound Kit",
+  "description": "Easy sound player for Unity.",
+  "author": {
+    "name": "Gameshalico",
+    "email": "contact@gameshalico.com",
+    "url": "https://gameshalico.com"
+  }
+}

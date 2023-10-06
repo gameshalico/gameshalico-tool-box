@@ -3,35 +3,35 @@
 Assets内のフォルダーを指定してインストールします。
 
 
-## [Favorite Package Importer](/Assets/FavoritePackageImporter/Documentation~/FavoritePackageImporter.md)
+## [Shalico Package Importer](/Assets/ShalicoPackageImporter/Documentation~/ShalicoPackageImporter.md)
 お気に入りのパッケージを登録し、一括でインポートできる拡張機能です。
 ```
-https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/FavoritePackageImporter
+https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoPackageImporter
 ```
 
-## [Attribute Pack](/Assets/AttributePack/Documentation~/AttributePack.md)
+## [Shalico Attribute Pack](/Assets/ShalicoAttributePack/Documentation~/ShalicoAttributePack.md)
 ShowIf, Previewなどの便利なPropertyAttributeを追加します。
 ```
-https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/AttributePack"
+https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoAttributePack
 ```
 
 
-## [Auto Reference Generator](/Assets/AutoReferenceGenerator/Documentation~/AutoReferenceGenerator.md)
+## [Shalico Reference Generator](/Assets/ShalicoReferenceGenerator/Documentation~/ShalicoReferenceGenerator.md)
 Scene名、Tag名、Layer名、Sorting Layer名等、Unityの標準機能で参照できるものを自動でクラスにまとめます。
 ```
-https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/AutoReferenceGenerator
+https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoReferenceGenerator
 ```
 
-## [Hierarchy Enhancer](/Assets/HierarchyEnhancer/Documentation~/HierarchyEnhancer.md)
+## [Shalico Hierarchy Enhancer](/Assets/ShalicoHierarchyEnhancer/Documentation~/ShalicoHierarchyEnhancer.md)
 ヒエラルキーを見やすくし、いくつかの便利機能を追加します。
 ```
-https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/HierarchyEnhancer
+https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoHierarchyEnhancer
 ```
 
-## [Sound Kit](/Assets/SoundKit/Documentation~/SoundKit.md)
+## [Shalico Sound Kit](/Assets/ShalicoSoundKit/Documentation~/ShalicoSoundKit.md)
 サウンドの再生やクロスフェード、ピッチ変更など、サウンドに関する機能を提供します。
 ```
-https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/SoundKit
+https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoSoundKit
 ```
 
 ## Shalico Tool Box

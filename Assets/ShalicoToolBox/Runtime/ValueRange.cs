@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Shalico.ToolBox
+namespace ShalicoToolBox
 {
     [Serializable]
     public struct ValueRange<T> where T : struct, IComparable<T>

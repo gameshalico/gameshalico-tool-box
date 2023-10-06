@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Shalico.ToolBox
+namespace ShalicoToolBox
 {
     public static class ValueRangeExtensions
     {

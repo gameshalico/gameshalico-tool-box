@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace System.Runtime.CompilerServices
+namespace ShalicoToolBox.Editor
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
     internal class IsExternalInit

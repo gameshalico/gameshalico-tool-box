@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Shalico.ToolBox
+namespace ShalicoToolBox
 {
     public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : SingletonMonoBehaviour<T>
     {
