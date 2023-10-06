@@ -2,7 +2,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace Shalico.ToolBox.Editor
+namespace ShalicoToolBox.Editor
 {
     public class ProjectInitializer : EditorWindow
     {

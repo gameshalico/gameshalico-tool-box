@@ -1,4 +1,4 @@
-﻿using Shalico.ToolBox;
+﻿using ShalicoToolBox;
 using SoundKit;
 using UnityEngine;
 using UnityEngine.UIElements;

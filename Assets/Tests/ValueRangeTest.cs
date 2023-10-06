@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Shalico.ToolBox;
+using ShalicoToolBox;
 
 namespace Tests
 {

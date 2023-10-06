@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Shalico.ToolBox.Editor
+namespace ShalicoToolBox.Editor
 {
     public static class SelectionShortcuts
     {
