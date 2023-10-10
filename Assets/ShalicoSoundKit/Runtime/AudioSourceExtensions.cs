@@ -2,7 +2,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace SoundKit.Obsolute
+namespace ShalicoSoundKit.Runtime
 {
     public static class AudioSourceExtensions
     {

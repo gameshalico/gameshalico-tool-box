@@ -5,7 +5,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace AutoReferenceGenerator.Editor
+namespace ShalicoReferenceGenerator.Editor
 {
     public static class ScriptBatchCreator
     {

@@ -1,5 +1,5 @@
-﻿using ShalicoToolBox;
-using SoundKit;
+﻿using ShalicoSoundKit.Runtime;
+using ShalicoToolBox;
 using UnityEngine;
 using UnityEngine.UIElements;
 

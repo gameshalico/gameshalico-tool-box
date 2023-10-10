@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FavoritePackageImporter.Editor.Model
+namespace ShalicoPackageImporter.Editor.Model
 {
     [Serializable]
     public class PackageList

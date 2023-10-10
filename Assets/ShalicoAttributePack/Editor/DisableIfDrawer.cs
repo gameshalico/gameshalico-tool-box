@@ -1,7 +1,8 @@
-﻿using UnityEditor;
+﻿using ShalicoAttributePack.Runtime;
+using UnityEditor;
 using UnityEngine;
 
-namespace AttributePack.Editor
+namespace ShalicoAttributePack.Editor
 {
     [CustomPropertyDrawer(typeof(DisableIfAttribute))]
     public class DisableIfDrawer : BoolNameDrawer

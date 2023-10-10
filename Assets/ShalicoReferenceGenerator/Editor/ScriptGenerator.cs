@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using UnityEditor;
 
-namespace AutoReferenceGenerator.Editor
+namespace ShalicoReferenceGenerator.Editor
 {
     public class ScriptGenerator
     {

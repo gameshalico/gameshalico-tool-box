@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace FavoritePackageImporter.Editor.Model
+namespace ShalicoPackageImporter.Editor.Model
 {
     public class PackageRegistry
     {
