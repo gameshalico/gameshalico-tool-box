@@ -2,7 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace SoundKit
+namespace ShalicoSoundKit.Runtime
 {
     internal class SoundHandler : ISoundHandler
     {

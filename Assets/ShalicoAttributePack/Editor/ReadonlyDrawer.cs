@@ -1,7 +1,8 @@
-﻿using UnityEditor;
+﻿using ShalicoAttributePack.Runtime;
+using UnityEditor;
 using UnityEngine;
 
-namespace AttributePack.Editor
+namespace ShalicoAttributePack.Editor
 {
     [CustomPropertyDrawer(typeof(ReadonlyAttribute))]
     public class ReadonlyDrawer : PropertyDrawer

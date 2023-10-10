@@ -1,8 +1,8 @@
 ﻿using System;
-using FavoritePackageImporter.Editor.Model;
+using ShalicoPackageImporter.Editor.Model;
 using UnityEngine.UIElements;
 
-namespace FavoritePackageImporter.Editor.UI.Controllers
+namespace ShalicoPackageImporter.Editor.UI.Controllers
 {
     public class PackagesEntryController
     {

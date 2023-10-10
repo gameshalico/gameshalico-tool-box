@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SoundKit.Obsolute
+namespace ShalicoSoundKit.Runtime
 {
     public static class DecibelUtility
     {

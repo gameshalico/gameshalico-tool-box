@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using SoundKit.Obsolute;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace SoundKit
+namespace ShalicoSoundKit.Runtime
 {
     [AddComponentMenu("")]
     internal class SoundPlayer : MonoBehaviour

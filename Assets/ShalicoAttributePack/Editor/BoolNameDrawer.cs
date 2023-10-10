@@ -1,8 +1,9 @@
 ﻿using System.Reflection;
+using ShalicoAttributePack.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace AttributePack.Editor
+namespace ShalicoAttributePack.Editor
 {
     public abstract class BoolNameDrawer : PropertyDrawer
     {

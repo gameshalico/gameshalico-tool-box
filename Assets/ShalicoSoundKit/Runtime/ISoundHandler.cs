@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace SoundKit
+namespace ShalicoSoundKit.Runtime
 {
     public interface ISoundHandler
     {

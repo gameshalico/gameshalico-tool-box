@@ -1,15 +1,15 @@
 using System;
 using System.Threading.Tasks;
-using FavoritePackageImporter.Editor.Model;
-using FavoritePackageImporter.Editor.UI.Controllers;
+using ShalicoPackageImporter.Editor.Model;
+using ShalicoPackageImporter.Editor.UI.Controllers;
 using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace FavoritePackageImporter.Editor.UI
+namespace ShalicoPackageImporter.Editor.UI
 {
-    public class FavoritePackageImporterEditorWindow : EditorWindow
+    public class ShalicoPackageImporterEditorWindow : EditorWindow
     {
         [SerializeField] private VisualTreeAsset visualTreeAsset;
         [SerializeField] private VisualTreeAsset packagesEntryVisualTreeAsset;
@@ -216,7 +216,7 @@ namespace FavoritePackageImporter.Editor.UI
         [MenuItem("Tools/Shalico/PackageImporter")]
         public static void Open()
         {
-            var wnd = GetWindow<FavoritePackageImporterEditorWindow>();
+            var wnd = GetWindow<ShalicoPackageImporterEditorWindow>();
             wnd.titleContent = new GUIContent("Favorite Package Importer");
         }
     }

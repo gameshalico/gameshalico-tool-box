@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace AutoReferenceGenerator.Editor
+namespace ShalicoReferenceGenerator.Editor
 {
     public class ProjectSettingsWatcher : AssetPostprocessor
     {

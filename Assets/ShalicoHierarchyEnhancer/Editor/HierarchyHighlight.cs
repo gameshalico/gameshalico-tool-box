@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace HierarchyEnhancer.Editor
+namespace ShalicoHierarchyEnhancer.Editor
 {
     internal static class HierarchyHighlight
     {

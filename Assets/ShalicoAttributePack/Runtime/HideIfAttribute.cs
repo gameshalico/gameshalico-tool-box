@@ -1,4 +1,4 @@
-﻿namespace AttributePack
+﻿namespace ShalicoAttributePack.Runtime
 {
     public class HideIfAttribute : BoolNameAttribute
     {

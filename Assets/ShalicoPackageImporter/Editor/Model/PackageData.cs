@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
 
-namespace FavoritePackageImporter.Editor.Model
+namespace ShalicoPackageImporter.Editor.Model
 {
     [Serializable]
     public class PackageData

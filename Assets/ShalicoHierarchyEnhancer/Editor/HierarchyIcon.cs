@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace HierarchyEnhancer.Editor
+namespace ShalicoHierarchyEnhancer.Editor
 {
     internal static class HierarchyIcon
     {
