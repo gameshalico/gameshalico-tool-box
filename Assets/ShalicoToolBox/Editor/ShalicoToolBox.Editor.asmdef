@@ -1,5 +1,5 @@
 {
-    "name": "Shalico.Toolbox.Editor",
+    "name": "ShalicoToolbox.Editor",
     "rootNamespace": "",
     "references": [
         "GUID:22e55ddbab72dc44bad0ffdaf9c0eee2"
