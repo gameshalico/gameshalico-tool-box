@@ -33,5 +33,12 @@ namespace Samples.SoundKit
                 });
             };
         }
+
+        [ContextMenu("Normalize and remove silence")]
+        private void Process()
+        {
+            audioClip = SoundProcessor.NormalizeAmplitude(audioClip);
+            audioClip = SoundProcessor.TrimSilence(audioClip);
+        }
     }
 }
