@@ -9,6 +9,7 @@ namespace ShalicoPackageImporter.Editor.UI.Controllers
         private Toggle _checkAllToggle;
         private Button _importAllButton;
         private ListView _listView;
+        private ProgressBar _progressBar;
         private PackageData[] _packageDataArray;
 
         private bool[] _packageDataSelectedArray;
@@ -74,6 +75,40 @@ namespace ShalicoPackageImporter.Editor.UI.Controllers
 
             _importAllButton = root.Q<Button>("packages__import-all-button");
             _importAllButton.clicked += () => { OnImportAllButtonClicked?.Invoke(); };
+
+            _progressBar = root.Q<ProgressBar>("packages__import-progress-bar");
+            _progressBar.value = 0;
+            _progressBar.title = "";
+            _progressBar.SetEnabled(false);
+        }
+
+        public void CompleteProgressBar()
+        {
+            _progressBar.value = 1;
+            _progressBar.highValue = 1;
+            _progressBar.title = "Import Complete";
+        }
+
+        public void BeginImportAll(int count)
+        {
+            _progressBar.SetEnabled(true);
+            _importAllButton.SetEnabled(false);
+            _progressBar.title = $"Importing 0/{count}";
+        }
+
+        public void EndImportAll()
+        {
+            _progressBar.SetEnabled(false);
+            _importAllButton.SetEnabled(true);
+            _progressBar.title = "";
+        }
+
+        public void ApplyProgress(PackageData data, int progress, int max)
+        {
+            _progressBar.value = progress;
+            _progressBar.highValue = max;
+
+            _progressBar.title = $"Importing {data.name} {progress}/{max}";
         }
 
         public void ApplyPackageDataArray(PackageData[] packageDataArray, PackageData selectedItem,
