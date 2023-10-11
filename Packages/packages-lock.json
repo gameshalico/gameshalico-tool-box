@@ -256,6 +256,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unityroom.client": {
+      "version": "https://github.com/naichilab/unityroom-client-library.git?path=Assets/unityroom",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "b6dd6a5c43787db69d437f4b08c23adfefd89cdd"
+    },
     "jp.hadashikick.vcontainer": {
       "version": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer",
       "depth": 0,
@@ -263,7 +270,7 @@
       "dependencies": {
         "com.unity.nuget.mono-cecil": "1.10.1"
       },
-      "hash": "9d753be6e5d1c8f8600ef1ea9ec34473b23a5f0b"
+      "hash": "d85771d071c591ec45c9e31349653e106a3fa035"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

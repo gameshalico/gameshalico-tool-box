@@ -36,6 +36,7 @@ namespace ShalicoPackageImporter.Editor.UI
             ApplySelectedPackageData();
         }
 
+
         private void InitializePackagesController(VisualElement root)
         {
             _packagesController = new PackagesController();
@@ -82,14 +83,14 @@ namespace ShalicoPackageImporter.Editor.UI
             {
                 if (_importOrRemoveTask?.IsCompleted == false)
                 {
-                    Debug.Log("[Favorite Package Importer] Other process is running");
+                    Debug.Log("[Shalico Package Importer] Other process is running");
                     return;
                 }
 
-                Debug.Log("[Favorite Package Importer] Importing all packages...");
+                Debug.Log("[Shalico Package Importer] Importing all packages...");
                 _importOrRemoveTask = ImportAllAsync();
                 await _importOrRemoveTask;
-                Debug.Log("[Favorite Package Importer] All packages imported.");
+                Debug.Log("[Shalico Package Importer] All packages imported.");
             };
 
             _packagesController.OnMoveUpButtonClicked = packageData =>
@@ -137,7 +138,7 @@ namespace ShalicoPackageImporter.Editor.UI
             {
                 if (_importOrRemoveTask?.IsCompleted == false)
                 {
-                    Debug.Log("[Favorite Package Importer] Other process is running");
+                    Debug.Log("[Shalico Package Importer] Other process is running");
                     return;
                 }
 
@@ -148,7 +149,7 @@ namespace ShalicoPackageImporter.Editor.UI
             {
                 if (_importOrRemoveTask?.IsCompleted == false)
                 {
-                    Debug.Log("[Favorite Package Importer] Other process is running");
+                    Debug.Log("[Shalico Package Importer] Other process is running");
                     return;
                 }
 
@@ -158,46 +159,55 @@ namespace ShalicoPackageImporter.Editor.UI
 
         private async Task ImportPackageAsync(PackageData packageData)
         {
-            Debug.Log($"[Favorite Package Importer] Importing package: {packageData.name}");
+            Debug.Log($"[Shalico Package Importer] Importing package: {packageData.name}");
             try
             {
                 var request = await packageData.ImportAsync();
 
                 if (request.Status == StatusCode.Success)
-                    Debug.Log($"[Favorite Package Importer] Package imported: {packageData.name}");
+                    Debug.Log($"[Shalico Package Importer] Package imported: {packageData.name}");
                 else
-                    Debug.LogWarning($"[Favorite Package Importer] Failed to import package: {packageData.name}");
+                    Debug.LogError($"[Shalico Package Importer] Failed to import package: {packageData.name}");
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"{e.Message}");
+                Debug.LogError($"{e.Message}");
             }
         }
 
         private async Task RemovePackageAsync(PackageData packageData)
         {
-            Debug.Log($"[Favorite Package Importer] Removing package: {packageData.name}");
+            Debug.Log($"[Shalico Package Importer] Removing package: {packageData.name}");
             try
             {
                 var request = await packageData.RemoveAsync();
                 if (request.Status == StatusCode.Success)
-                    Debug.Log($"[Favorite Package Importer] Remove package data: {packageData.name}");
+                    Debug.Log($"[Shalico Package Importer] Remove package data: {packageData.name}");
                 else
-                    Debug.LogWarning($"[Favorite Package Importer] Failed to remove package data: {packageData.name}");
+                    Debug.LogWarning($"[Shalico Package Importer] Failed to remove package data: {packageData.name}");
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"[Favorite Package Importer] {e.Message}");
+                Debug.LogWarning($"[Shalico Package Importer] {e.Message}");
             }
         }
 
         private async Task ImportAllAsync()
         {
+            var count = 0;
+            var max = _packageRegistry.CountDoImport();
+            _packagesController.BeginImportAll(max);
             foreach (var packageData in _packageRegistry.PackageDataArray)
             {
                 if (!packageData.doImport) continue;
+                _packagesController.ApplyProgress(packageData, count, max);
                 await ImportPackageAsync(packageData);
+                count++;
             }
+
+            _packagesController.CompleteProgressBar();
+            await Task.Delay(200);
+            _packagesController.EndImportAll();
         }
 
         private void ApplyPackageDataArray()
@@ -217,7 +227,7 @@ namespace ShalicoPackageImporter.Editor.UI
         public static void Open()
         {
             var wnd = GetWindow<ShalicoPackageImporterEditorWindow>();
-            wnd.titleContent = new GUIContent("Favorite Package Importer");
+            wnd.titleContent = new GUIContent("Shalico Package Importer");
         }
     }
 }

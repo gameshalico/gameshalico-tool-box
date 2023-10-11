@@ -12,6 +12,15 @@ namespace ShalicoPackageImporter.Editor.Model
 
         public PackageData SelectedPackageData { get; set; }
 
+        public int CountDoImport()
+        {
+            var count = 0;
+            foreach (var packageData in PackageDataArray)
+                if (packageData.doImport)
+                    count++;
+            return count;
+        }
+
         private void Load()
         {
             var jsonData = EditorPrefs.GetString(PackagePrefsKey, "");
