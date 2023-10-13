@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ShalicoAttributePack.Runtime
+namespace ShalicoAttributePack
 {
     public class ReadonlyAttribute : PropertyAttribute
     {

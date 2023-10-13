@@ -1,4 +1,4 @@
-﻿namespace ShalicoAttributePack.Runtime
+﻿namespace ShalicoAttributePack
 {
     public class ShowIfAttribute : BoolNameAttribute
     {

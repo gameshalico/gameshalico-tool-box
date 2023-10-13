@@ -1,4 +1,4 @@
-﻿using ShalicoAttributePack.Runtime;
+﻿using ShalicoAttributePack;
 using UnityEngine;
 
 namespace Samples.AttributePack
