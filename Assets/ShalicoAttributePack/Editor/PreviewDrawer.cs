@@ -1,5 +1,4 @@
-﻿using ShalicoAttributePack.Runtime;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace ShalicoAttributePack.Editor
