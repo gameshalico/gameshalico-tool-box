@@ -19,7 +19,9 @@
         <ui:VisualElement name="selected-package" style="flex-grow: 0;">
             <ui:TextField picking-mode="Ignore" label="Name" name="selected-package__name-field" placeholder-text="Package Name" />
             <ui:TextField picking-mode="Ignore" label="Path" name="selected-package__path-field" placeholder-text="com.example" />
-            <ui:TextField picking-mode="Ignore" label="Memo" name="selected-package__memo-field" multiline="true" />
+            <ui:TextField picking-mode="Ignore" label="Memo" name="selected-package__memo-field" multiline="true">
+                <ui:Button text="Open" display-tooltip-when-elided="true" name="selected-package__open-memo-button" />
+            </ui:TextField>
             <ui:VisualElement name="selected-package__buttons" style="flex-grow: 0; flex-direction: row; align-items: flex-start; justify-content: flex-end;">
                 <ui:Button text="Import" display-tooltip-when-elided="true" name="selected-package__import-button" />
                 <ui:Button text="Remove" display-tooltip-when-elided="true" name="selected-package__remove-button" />
