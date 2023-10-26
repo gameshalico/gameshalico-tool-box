@@ -237,7 +237,7 @@ namespace ShalicoPackageImporter.Editor.UI
             _selectedPackageController.SetPackageData(packageData);
         }
 
-        [MenuItem("Tools/Shalico/PackageImporter")]
+        [MenuItem("Tools/Shalico/Package Importer")]
         public static void Open()
         {
             var wnd = GetWindow<ShalicoPackageImporterEditorWindow>();
