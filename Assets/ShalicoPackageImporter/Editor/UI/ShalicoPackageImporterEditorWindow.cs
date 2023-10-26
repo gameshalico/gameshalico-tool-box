@@ -155,6 +155,18 @@ namespace ShalicoPackageImporter.Editor.UI
 
                 _importOrRemoveTask = RemovePackageAsync(_packageRegistry.SelectedPackageData);
             };
+
+            _selectedPackageController.OnOpenMemoButtonClicked = () =>
+            {
+                var path = _packageRegistry.SelectedPackageData.memo;
+                if (string.IsNullOrEmpty(path))
+                {
+                    Debug.Log("[Shalico Package Importer] Memo path is empty");
+                    return;
+                }
+
+                Application.OpenURL(path);
+            };
         }
 
         private async Task ImportPackageAsync(PackageData packageData)
@@ -194,6 +206,7 @@ namespace ShalicoPackageImporter.Editor.UI
 
         private async Task ImportAllAsync()
         {
+            EditorApplication.LockReloadAssemblies();
             var count = 0;
             var max = _packageRegistry.CountDoImport();
             _packagesController.BeginImportAll(max);
@@ -208,6 +221,7 @@ namespace ShalicoPackageImporter.Editor.UI
             _packagesController.CompleteProgressBar();
             await Task.Delay(200);
             _packagesController.EndImportAll();
+            EditorApplication.UnlockReloadAssemblies();
         }
 
         private void ApplyPackageDataArray()

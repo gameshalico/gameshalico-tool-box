@@ -11,12 +11,13 @@ namespace ShalicoPackageImporter.Editor.UI.Controllers
         private TextField _nameTextField;
         private TextField _pathTextField;
         private Button _removeButton;
+        private Button _openMemoButton;
         public Action OnImportButtonClicked;
         public Action<string> OnMemoChanged;
         public Action<string> OnNameChanged;
         public Action<string> OnPathChanged;
         public Action OnRemoveButtonClicked;
-
+        public Action OnOpenMemoButtonClicked;
 
         public void Initialize(VisualElement root)
         {
@@ -25,13 +26,16 @@ namespace ShalicoPackageImporter.Editor.UI.Controllers
             _memoTextField = root.Q<TextField>("selected-package__memo-field");
             _importButton = root.Q<Button>("selected-package__import-button");
             _removeButton = root.Q<Button>("selected-package__remove-button");
+            _openMemoButton = root.Q<Button>("selected-package__open-memo-button");
 
             _nameTextField.RegisterValueChangedCallback(evt => { OnNameChanged?.Invoke(evt.newValue); });
             _pathTextField.RegisterValueChangedCallback(evt => { OnPathChanged?.Invoke(evt.newValue); });
             _memoTextField.RegisterValueChangedCallback(evt => { OnMemoChanged?.Invoke(evt.newValue); });
 
+            
             _importButton.clicked += () => { OnImportButtonClicked?.Invoke(); };
             _removeButton.clicked += () => { OnRemoveButtonClicked?.Invoke(); };
+            _openMemoButton.clicked += () => { OnOpenMemoButtonClicked?.Invoke(); };
         }
 
         public void SetPackageData(PackageData packageData)
@@ -43,6 +47,7 @@ namespace ShalicoPackageImporter.Editor.UI.Controllers
             _memoTextField.SetEnabled(isSelected);
             _importButton.SetEnabled(isSelected);
             _removeButton.SetEnabled(isSelected);
+            _openMemoButton.SetEnabled(isSelected);
 
             if (!isSelected)
             {
