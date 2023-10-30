@@ -5,7 +5,8 @@ namespace ShalicoHierarchyEnhancer.Editor
 {
     internal static class HierarchySeparator
     {
-        private static readonly Color BackgroundColor = new(0.5f, 0.5f, 0.5f);
+        private const int LeftMargin = 32 + 14 * 2;
+        private static readonly Color BackgroundColor = new(0.1f, 0.1f, 0.1f);
         private static readonly Color TextColor = new(1, 1, 1, 0.8f);
 
         public static bool IsSeparator(GameObject gameObject)
@@ -15,15 +16,15 @@ namespace ShalicoHierarchyEnhancer.Editor
 
         public static void Draw(GameObject gameObject, Rect selectionRect)
         {
-            Rect rect = new(32, selectionRect.yMin, selectionRect.xMax, selectionRect.height);
-            Rect textRect = new(rect.xMin + 16, rect.yMin, rect.width - 16, rect.height);
+            Rect rect = new(LeftMargin, selectionRect.yMin, selectionRect.xMax, selectionRect.height);
+            Rect textRect = new(LeftMargin, rect.yMin, rect.width - 32, rect.height);
 
             var labelText = gameObject.name.Substring(3).Trim();
             EditorGUI.DrawRect(rect, BackgroundColor);
 
             GUIStyle style = new()
             {
-                alignment = TextAnchor.MiddleLeft,
+                alignment = TextAnchor.MiddleCenter,
                 fontStyle = FontStyle.Bold,
                 normal = new GUIStyleState
                 {
