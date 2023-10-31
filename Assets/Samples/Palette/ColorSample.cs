@@ -6,10 +6,9 @@ namespace Samples.Palette
 {
     public class ColorSample : MonoBehaviour
     {
-        public bool complementary;
-
         [Readonly] public Color color;
         public HueTone hueTone;
+        public bool complementary;
 
         private void OnValidate()
         {

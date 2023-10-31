@@ -39,5 +39,15 @@ namespace ShalicoPalette
         {
             return color.ShiftHue(180);
         }
+
+        public static Color GetComplementary(this Color32 color)
+        {
+            return color.ShiftHue(180);
+        }
+
+        public static Color ShiftHue(this Color32 color, float shift)
+        {
+            return ((Color)color).ShiftHue(shift);
+        }
     }
 }

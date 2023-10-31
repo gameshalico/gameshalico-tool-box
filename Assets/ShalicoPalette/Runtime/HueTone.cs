@@ -35,5 +35,16 @@ namespace ShalicoPalette
         {
             return Tones.GetColor(tone, hue);
         }
+
+        public override string ToString()
+        {
+            var toneData = Tones.GetTone(tone);
+
+            if (toneData.IsVivid)
+                return $"{toneData.ToneSymbol} {(int)hue}";
+            if (toneData.IsNeutral)
+                return $"{toneData.ToneSymbol}";
+            return $"{toneData.ToneSymbol}{Mathf.Ceil((float)hue / 2) * 2}";
+        }
     }
 }

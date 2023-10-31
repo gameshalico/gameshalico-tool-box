@@ -5,26 +5,28 @@ namespace ShalicoPalette
     public class ToneData
     {
         private readonly Color32[] _colors;
-        private readonly bool _isNeutral;
-        private readonly bool _isVivid;
 
-        public ToneData(Color32[] colors, ColorType type, SaturationLevel level, bool isVivid = false,
+        public ToneData(string toneSymbol, Color32[] colors, ColorType type, SaturationLevel level,
+            bool isVivid = false,
             bool isNeutral = false)
         {
+            ToneSymbol = toneSymbol;
             _colors = colors;
-            _isVivid = isVivid;
+            IsVivid = isVivid;
             ColorType = type;
             SaturationLevel = level;
-            _isNeutral = isNeutral;
+            IsNeutral = isNeutral;
         }
 
         public Color32 this[int index]
         {
             get
             {
-                if (_isNeutral)
+                if (index < 0)
+                    return Colors.Black;
+                if (IsNeutral)
                     index = 0;
-                else if (!_isVivid)
+                else if (!IsVivid)
                     index /= 2;
                 return _colors[index];
             }
@@ -35,5 +37,11 @@ namespace ShalicoPalette
         public ColorType ColorType { get; }
 
         public SaturationLevel SaturationLevel { get; }
+
+        public string ToneSymbol { get; }
+
+        public bool IsNeutral { get; }
+
+        public bool IsVivid { get; }
     }
 }

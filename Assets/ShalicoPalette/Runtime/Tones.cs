@@ -6,7 +6,7 @@ namespace ShalicoPalette
     {
         private static readonly ToneData[] ToneArray =
         {
-            new(new Color32[] // Vivid
+            new("v", new Color32[] // Vivid
             {
                 new(0xD4, 0x00, 0x45, 0xFF),
                 new(0xEE, 0x00, 0x26, 0xFF),
@@ -33,7 +33,7 @@ namespace ShalicoPalette
                 new(0x77, 0x00, 0x71, 0xFF),
                 new(0xAF, 0x00, 0x65, 0xFF)
             }, ColorType.Pure, SaturationLevel.High, true),
-            new(new Color32[] // Bright
+            new("b", new Color32[] // Bright
             {
                 new(0xF9, 0x34, 0x4C, 0xFF),
                 new(0xFC, 0x4E, 0x32, 0xFF),
@@ -48,7 +48,7 @@ namespace ShalicoPalette
                 new(0xA4, 0x5A, 0xAA, 0xFF),
                 new(0xDF, 0x4C, 0x94, 0xFF)
             }, ColorType.LightClear, SaturationLevel.High),
-            new(new Color32[] // Strong
+            new("s", new Color32[] // Strong
             {
                 new(0xCA, 0x10, 0x28, 0xFF),
                 new(0xCC, 0x46, 0x13, 0xFF),
@@ -63,7 +63,7 @@ namespace ShalicoPalette
                 new(0x5E, 0x28, 0x83, 0xFF),
                 new(0x99, 0x0F, 0x4F, 0xFF)
             }, ColorType.Intermediate, SaturationLevel.High),
-            new(new Color32[] // Deep
+            new("dp", new Color32[] // Deep
             {
                 new(0x9E, 0x00, 0x2C, 0xFF),
                 new(0xA4, 0x12, 0x00, 0xFF),
@@ -78,7 +78,7 @@ namespace ShalicoPalette
                 new(0x53, 0x14, 0x60, 0xFF),
                 new(0x74, 0x00, 0x50, 0xFF)
             }, ColorType.DarkClear, SaturationLevel.High),
-            new(new Color32[] // Light
+            new("lt", new Color32[] // Light
             {
                 new(0xFA, 0x74, 0x82, 0xFF),
                 new(0xFB, 0x80, 0x72, 0xFF),
@@ -93,7 +93,7 @@ namespace ShalicoPalette
                 new(0xB1, 0x72, 0xB6, 0xFF),
                 new(0xE1, 0x70, 0xA4, 0xFF)
             }, ColorType.LightClear, SaturationLevel.Medium),
-            new(new Color32[] // Soft
+            new("sf", new Color32[] // Soft
             {
                 new(0xC9, 0x5F, 0x6A, 0xFF),
                 new(0xD7, 0x78, 0x56, 0xFF),
@@ -108,7 +108,7 @@ namespace ShalicoPalette
                 new(0x8C, 0x55, 0x88, 0xFF),
                 new(0xB1, 0x50, 0x76, 0xFF)
             }, ColorType.Intermediate, SaturationLevel.Medium),
-            new(new Color32[] // Dull
+            new("d", new Color32[] // Dull
             {
                 new(0x99, 0x41, 0x52, 0xFF),
                 new(0xB2, 0x44, 0x43, 0xFF),
@@ -123,7 +123,7 @@ namespace ShalicoPalette
                 new(0x5E, 0x31, 0x79, 0xFF),
                 new(0x80, 0x2A, 0x68, 0xFF)
             }, ColorType.Intermediate, SaturationLevel.Medium),
-            new(new Color32[] // Dark
+            new("dk", new Color32[] // Dark
             {
                 new(0x63, 0x2A, 0x31, 0xFF),
                 new(0x74, 0x35, 0x26, 0xFF),
@@ -138,7 +138,7 @@ namespace ShalicoPalette
                 new(0x4A, 0x30, 0x4B, 0xFF),
                 new(0x63, 0x31, 0x42, 0xFF)
             }, ColorType.Intermediate, SaturationLevel.Medium),
-            new(new Color32[] // Pale
+            new("p", new Color32[] // Pale
             {
                 new(0xFB, 0xB4, 0xC4, 0xFF),
                 new(0xFD, 0xCD, 0xB7, 0xFF),
@@ -153,7 +153,7 @@ namespace ShalicoPalette
                 new(0xCA, 0xB2, 0xD6, 0xFF),
                 new(0xE3, 0xAD, 0xD5, 0xFF)
             }, ColorType.LightClear, SaturationLevel.Low),
-            new(new Color32[] // LightGrayish
+            new("ltg", new Color32[] // LightGrayish
             {
                 new(0xD7, 0xA4, 0xB6, 0xFF),
                 new(0xD8, 0xAF, 0xA7, 0xFF),
@@ -168,7 +168,7 @@ namespace ShalicoPalette
                 new(0xA9, 0x97, 0xB0, 0xFF),
                 new(0xC0, 0x9E, 0xB3, 0xFF)
             }, ColorType.Intermediate, SaturationLevel.Low),
-            new(new Color32[] // Grayish
+            new("g", new Color32[] // Grayish
             {
                 new(0x7D, 0x4F, 0x5B, 0xFF),
                 new(0x7D, 0x5F, 0x61, 0xFF),
@@ -183,7 +183,7 @@ namespace ShalicoPalette
                 new(0x49, 0x37, 0x53, 0xFF),
                 new(0x5A, 0x3A, 0x54, 0xFF)
             }, ColorType.Intermediate, SaturationLevel.Low),
-            new(new Color32[] // DarkGrayish
+            new("dkg", new Color32[] // DarkGrayish
             {
                 new(0x3A, 0x2C, 0x2E, 0xFF),
                 new(0x3A, 0x2C, 0x2A, 0xFF),
@@ -198,25 +198,25 @@ namespace ShalicoPalette
                 new(0x2E, 0x2A, 0x31, 0xFF),
                 new(0x3A, 0x2D, 0x31, 0xFF)
             }, ColorType.DarkClear, SaturationLevel.Low),
-            new(new Color32[] // White
+            new("W", new Color32[] // White
             {
                 new(0xFF, 0xFF, 0xFF, 0xFF)
             }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
-            new(new Color32[] // LightGray
+            new("ltGy", new Color32[] // LightGray
             {
                 new(0xC0, 0xC0, 0xC0, 0xFF)
             }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
-            new(new Color32[] // MediumGray
+            new("mGy", new Color32[] // MediumGray
             {
                 new(0x80, 0x80, 0x80, 0xFF)
             }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
 
-            new(new Color32[] // DarkGray
+            new("dkGy", new Color32[] // DarkGray
             {
                 new(0x40, 0x40, 0x40, 0xFF)
             }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
 
-            new(new Color32[] // Black
+            new("Bk", new Color32[] // Black
             {
                 new(0x00, 0x00, 0x00, 0xFF)
             }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true)
