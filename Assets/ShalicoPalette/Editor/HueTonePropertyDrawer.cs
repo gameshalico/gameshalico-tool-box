@@ -12,49 +12,31 @@ namespace ShalicoPalette.Editor
             (HueSymbol[])Enum.GetValues(typeof(HueSymbol)), (name, value) => $"{(int)value:D2} : {name}"
         ).ToArray();
 
-        private static readonly string[] ToneNames = Enum.GetNames(typeof(Tone));
+        private static readonly string[] ToneNames = Enum.GetNames(typeof(Tone)).Zip(
+            (Tone[])Enum.GetValues(typeof(Tone)),
+            (name, value) => $"{Tones.GetTone(value).ToneSymbol} : {name}"
+        ).ToArray();
 
-        private void ScrollCheck(SerializedProperty hue, SerializedProperty tone, Rect hueRect, Rect toneRect)
+
+        private void ScrollCheck(SerializedProperty enumProperty, Rect rect, int enumIndex, int enumCount,
+            int increment)
         {
             if (Event.current.type == EventType.ScrollWheel)
-                if (hueRect.Contains(Event.current.mousePosition))
+                if (rect.Contains(Event.current.mousePosition))
                 {
-                    var hueIndex = (int)(HueSymbol)hue.enumValueIndex;
-                    if (Event.current.delta.y > 0)
-                    {
-                        hueIndex++;
-                        if (hueIndex >= HueSymbolNames.Length) hueIndex = 0;
-                    }
-                    else if (Event.current.delta.y < 0)
-                    {
-                        hueIndex--;
-                        if (hueIndex < 0) hueIndex = HueSymbolNames.Length - 1;
-                    }
+                    if (Event.current.delta.y < 0) increment = -increment;
+                    enumIndex += increment;
+                    if (enumIndex >= enumCount) enumIndex = 0;
+                    else if (enumIndex < 0) enumIndex = enumCount - 1;
 
-                    hue.enumValueIndex = hueIndex;
-                }
-                else if (toneRect.Contains(Event.current.mousePosition))
-                {
-                    var toneIndex = (int)(Tone)tone.enumValueIndex;
-                    if (Event.current.delta.y > 0)
-                    {
-                        toneIndex++;
-                        if (toneIndex >= ToneNames.Length) toneIndex = 0;
-                    }
-                    else if (Event.current.delta.y < 0)
-                    {
-                        toneIndex--;
-                        if (toneIndex < 0) toneIndex = ToneNames.Length - 1;
-                    }
-
-                    tone.enumValueIndex = toneIndex;
+                    enumProperty.enumValueIndex = enumIndex;
+                    Event.current.Use();
                 }
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
-            var hueTone = (HueTone)fieldInfo.GetValue(property.serializedObject.targetObject);
             var hue = property.FindPropertyRelative("hue");
             var tone = property.FindPropertyRelative("tone");
             var hueIndex = (int)(HueSymbol)hue.enumValueIndex;
@@ -66,16 +48,33 @@ namespace ShalicoPalette.Editor
                 hue.enumValueIndex = hueIndex;
             }
 
+            var toneData = Tones.GetTone((Tone)toneIndex);
+
             var color = Tones.GetColor((Tone)toneIndex, (HueSymbol)(hueIndex + 1));
             var rect = EditorGUI.PrefixLabel(position, label);
             var hueRect = new Rect(rect.x + rect.width * 0.5f, rect.y, rect.width * 0.5f, rect.height);
             var toneRect = new Rect(rect.x, rect.y, rect.width * 0.5f, rect.height);
 
-            ScrollCheck(hue, tone, hueRect, toneRect);
+            if (toneData.IsNeutral) toneRect.width = rect.width;
 
             EditorGUI.BeginChangeCheck();
-            hueIndex = EditorGUI.Popup(hueRect, hueIndex, HueSymbolNames);
+            if (!toneData.IsNeutral)
+            {
+                if (toneData.IsVivid)
+                {
+                    hueIndex = EditorGUI.Popup(hueRect, hueIndex, HueSymbolNames);
+                    ScrollCheck(hue, hueRect, hueIndex, HueSymbolNames.Length, 1);
+                }
+                else
+                {
+                    hueIndex = EditorGUI.Popup(hueRect, hueIndex / 2,
+                        HueSymbolNames.Where((name, index) => index % 2 == 1).ToArray()) * 2;
+                    ScrollCheck(hue, hueRect, hueIndex, HueSymbolNames.Length, 2);
+                }
+            }
+
             toneIndex = EditorGUI.Popup(toneRect, toneIndex, ToneNames);
+            ScrollCheck(tone, toneRect, toneIndex, ToneNames.Length, 1);
 
             if (EditorGUI.EndChangeCheck())
             {
@@ -87,7 +86,7 @@ namespace ShalicoPalette.Editor
             EditorGUI.DrawRect(colorRect, color);
 
             var colorLabelColor = ((Color)color).grayscale > 0.5f ? Color.black : Color.white;
-            EditorGUI.LabelField(colorRect, hueTone.ToString(), new GUIStyle(
+            EditorGUI.LabelField(colorRect, new HueTone(hueIndex + 1, (Tone)toneIndex).ToString(), new GUIStyle(
                 EditorStyles.label)
             {
                 normal = new GUIStyleState

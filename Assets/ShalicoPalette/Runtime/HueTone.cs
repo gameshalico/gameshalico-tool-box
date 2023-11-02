@@ -31,9 +31,19 @@ namespace ShalicoPalette
             return new HueTone(hue.Shift(12), tone);
         }
 
-        public Color32 GetColor()
+        public Color32 ToColor()
         {
             return Tones.GetColor(tone, hue);
+        }
+
+        public static implicit operator Color32(HueTone hueTone)
+        {
+            return hueTone.ToColor();
+        }
+
+        public static implicit operator Color(HueTone hueTone)
+        {
+            return hueTone.ToColor();
         }
 
         public override string ToString()

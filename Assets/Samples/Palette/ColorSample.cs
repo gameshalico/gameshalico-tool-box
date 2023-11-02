@@ -8,12 +8,12 @@ namespace Samples.Palette
     {
         [Readonly] public Color color;
         public HueTone hueTone;
-        public bool complementary;
+
+        [SerializeField] private IndexedColor indexedColor;
 
         private void OnValidate()
         {
-            color = hueTone.GetColor();
-            if (complementary) color = color.GetComplementary();
+            color = indexedColor;
         }
     }
 }

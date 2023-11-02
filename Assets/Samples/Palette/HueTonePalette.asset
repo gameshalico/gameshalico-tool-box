@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da3e2110aaa48e5b329acb8f6ed264c, type: 3}
+  m_Name: HueTonePalette
+  m_EditorClassIdentifier: 
+  colors:
+  - colorName: Primary
+    hueTone:
+      hue: 2
+      tone: 0
+  - colorName: Primary Variant
+    hueTone:
+      hue: 4
+      tone: 0
+  - colorName: Secondary
+    hueTone:
+      hue: 18
+      tone: 0
+  - colorName: Secondary Variant
+    hueTone:
+      hue: 20
+      tone: 0
+  - colorName: Background
+    hueTone:
+      hue: 2
+      tone: 12
+  - colorName: Surface
+    hueTone:
+      hue: 2
+      tone: 12
+  - colorName: Error
+    hueTone:
+      hue: 24
+      tone: 0
+  - colorName: On Primary
+    hueTone:
+      hue: 2
+      tone: 12
+  - colorName: On Secondary
+    hueTone:
+      hue: 2
+      tone: 12
+  - colorName: On Background
+    hueTone:
+      hue: 2
+      tone: 20
+  - colorName: On Surface
+    hueTone:
+      hue: 2
+      tone: 20
+  - colorName: On Error
+    hueTone:
+      hue: 2
+      tone: 12

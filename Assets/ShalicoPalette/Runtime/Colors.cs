@@ -24,5 +24,6 @@ namespace ShalicoPalette
         public static Color32 Purple = new(0x80, 0x00, 0x80, 0xFF);
 
         public static Color32 Magenta = new(0xFF, 0x00, 0xFF, 0xFF);
+        public static Color32 Cyan = new(0x00, 0xFF, 0xFF, 0xFF);
     }
 }

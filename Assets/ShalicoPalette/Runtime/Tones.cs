@@ -202,18 +202,42 @@ namespace ShalicoPalette
             {
                 new(0xFF, 0xFF, 0xFF, 0xFF)
             }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
-            new("ltGy", new Color32[] // LightGray
+            new("ltGy0", new Color32[] // LightGray0
             {
-                new(0xC0, 0xC0, 0xC0, 0xFF)
+                new(0xE6, 0xE6, 0xE6, 0xFF)
             }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
-            new("mGy", new Color32[] // MediumGray
+            new("ltGy1", new Color32[] // LightGray1
+            {
+                new(0xCC, 0xCC, 0xCC, 0xFF)
+            }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
+            new("ltGy2", new Color32[] // LightGray2
+            {
+                new(0xB3, 0xB3, 0xB3, 0xFF)
+            }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
+            new("mGy0", new Color32[] // MediumGray0
+            {
+                new(0x99, 0x99, 0x99, 0xFF)
+            }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
+            new("mGy1", new Color32[] // MediumGray1
             {
                 new(0x80, 0x80, 0x80, 0xFF)
             }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
-
-            new("dkGy", new Color32[] // DarkGray
+            new("mGy2", new Color32[] // MediumGray2
             {
-                new(0x40, 0x40, 0x40, 0xFF)
+                new(0x66, 0x66, 0x66, 0xFF)
+            }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
+
+            new("dkGy0", new Color32[] // DarkGray0
+            {
+                new(0x4D, 0x4D, 0x4D, 0xFF)
+            }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
+            new("dkGy1", new Color32[] // DarkGray1
+            {
+                new(0x33, 0x33, 0x33, 0xFF)
+            }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
+            new("dkGy2", new Color32[] // DarkGray2
+            {
+                new(0x1A, 0x1A, 0x1A, 0xFF)
             }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
 
             new("Bk", new Color32[] // Black

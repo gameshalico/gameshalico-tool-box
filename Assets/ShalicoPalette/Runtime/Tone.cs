@@ -21,9 +21,15 @@ namespace ShalicoPalette
         DarkGrayish,
 
         White,
-        LightGray,
-        MediumGray,
-        DarkGray,
+        LightGray0,
+        LightGray1,
+        LightGray2,
+        MediumGray0,
+        MediumGray1,
+        MediumGray2,
+        DarkGray0,
+        DarkGray1,
+        DarkGray2,
         Black
     }
 }
