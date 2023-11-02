@@ -222,6 +222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1979217804}
   - component: {fileID: 1979217805}
+  - component: {fileID: 1979217806}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -264,6 +265,24 @@ MonoBehaviour:
   showIfInt: 0
   hideIfInt: 0
   previewTexture: {fileID: -1304905567622442630, guid: b90ed8e971488034b89c37f16e99c42c, type: 3}
+--- !u!114 &1979217806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979217803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887d3d19c3264da18d796c32f72f63c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0.93333334, g: 0, b: 0.14901961, a: 1}
+  hueTone:
+    hue: 7
+    tone: 8
+  indexedColor:
+    colorIndex: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
