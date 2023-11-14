@@ -152,6 +152,12 @@ namespace ShalicoToolBox
                 return Array.Empty<ValueRange<T>>();
             }
 
+            // bがaに完全に含まれている場合
+            if (a.Contains(b))
+            {
+                return new[] { new ValueRange<T>(a.min, b.min), new ValueRange<T>(b.max, a.max) };
+            }
+
             // 重なっている場合
             List<ValueRange<T>> rangeList = new();
             if (a.min.CompareTo(b.min) < 0) // a.min < b.min
