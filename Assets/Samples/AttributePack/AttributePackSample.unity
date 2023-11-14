@@ -151,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _effects:
   - rid: 8461812971893948419
+  - rid: 8461812971893948420
   references:
     version: 2
     RefIds:
@@ -169,6 +170,26 @@ MonoBehaviour:
           hue: 2
           tone: 8
         message: 
+    - rid: 8461812971893948420
+      type: {class: PlaySoundEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
+      data:
+        isEnabled: 1
+        timing:
+          timeScaleMode: 0
+          initialDelay: 0
+          cooldownDuration: 0
+          repeatCount: 0
+          repeatForever: 0
+          repeatDelay: 0
+        audioClip: {fileID: 0}
+        audioMixerGroup: {fileID: 0}
+        soundID: 0
+        volume: 1
+        pitchMode: 4
+        pitch: 1
+        pitchRange:
+          min: -1
+          max: 1
 --- !u!4 &738633234
 Transform:
   m_ObjectHideFlags: 0
@@ -322,12 +343,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   readonlyInt: 0
-  isEnable: 1
+  isEnable: 0
   enableIfInt: 0
   disableIfInt: 0
   isShow: 0
-  showIfInt: 0
-  hideIfInt: 0
+  showIfInt: 132
+  hideIfInt: 123
   previewTexture: {fileID: -1304905567622442630, guid: b90ed8e971488034b89c37f16e99c42c, type: 3}
 --- !u!114 &1979217806
 MonoBehaviour:

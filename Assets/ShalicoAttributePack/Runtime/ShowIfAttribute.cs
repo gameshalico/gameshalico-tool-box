@@ -1,8 +1,8 @@
 ﻿namespace ShalicoAttributePack
 {
-    public class ShowIfAttribute : BoolNameAttribute
+    public class ShowIfAttribute : ConditionAttribute
     {
-        public ShowIfAttribute(string propertyName) : base(propertyName)
+        public ShowIfAttribute(string propertyConditionName, object value) : base(propertyConditionName, value)
         {
         }
     }

@@ -31,10 +31,10 @@ namespace ShalicoEffect.Effects
 
         [Header("Pitch")] [SerializeField] private PitchMode pitchMode;
 
-        [DisableIf(nameof(IsPitchRandom))] [SerializeField]
+        [EnableIf(nameof(IsPitchRandom), false)] [SerializeField]
         private float pitch = 1f;
 
-        [EnableIf(nameof(IsPitchRandom))] [SerializeField]
+        [ShowIf(nameof(IsPitchRandom), true)] [SerializeField]
         private ValueRange<float> pitchRange = new(-1f, 1f);
 
         private bool IsPitchRandom => pitchMode == PitchMode.Random ||
