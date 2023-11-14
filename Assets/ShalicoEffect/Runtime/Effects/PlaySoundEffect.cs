@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using ShalicoAttributePack;
+using ShalicoPalette;
 using ShalicoSoundKit.Runtime;
 using ShalicoToolBox;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace ShalicoEffect.Effects
 {
     [Serializable]
     [AddEffectMenu("Sound/Play Sound")]
+    [EffectCustomHeader("Play Sound", Tone.Light, HueSymbol.Red)]
     public class PlaySoundEffect : Effect
     {
         public enum PitchMode

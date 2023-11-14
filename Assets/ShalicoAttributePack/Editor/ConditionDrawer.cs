@@ -10,7 +10,7 @@ namespace ShalicoAttributePack.Editor
 
         private static bool TryGetValue(ConditionAttribute attribute, SerializedProperty property, out object value)
         {
-            var target = property.GetParentObject();
+            var target = property.FindParentObject();
 
             if (ReflectionUtility.TryFindFieldOrPropertyValue(target, attribute.ConditionName, out value))
                 return true;

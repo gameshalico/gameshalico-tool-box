@@ -65,16 +65,15 @@ namespace ShalicoAttributePack.Editor
             return currentObject;
         }
 
-        public static object GetNestedPropertyValue(this SerializedProperty property)
+        public static object FindNestedPropertyValue(this SerializedProperty property)
         {
             var pathParts = SplitPathParts(property.propertyPath);
             object currentObject = property.serializedObject.targetObject;
-            if (pathParts.Length == 1) return currentObject;
 
             return AnalyzePathParts(pathParts, currentObject);
         }
 
-        public static object GetParentObject(this SerializedProperty property)
+        public static object FindParentObject(this SerializedProperty property)
         {
             var pathParts = SplitPathParts(property.propertyPath);
             object parentObject = property.serializedObject.targetObject;

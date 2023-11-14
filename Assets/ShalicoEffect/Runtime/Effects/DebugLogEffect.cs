@@ -2,10 +2,11 @@ using System;
 using ShalicoPalette;
 using UnityEngine;
 
-namespace ShalicoEffect
+namespace ShalicoEffect.Effects
 {
     [Serializable]
     [AddEffectMenu("Debug/Debug Log")]
+    [EffectCustomHeader("Debug Log", Tone.MediumGray1, HueSymbol.Red)]
     public class DebugLogEffect : ImmediateEffect
     {
         [SerializeField] private HueTone color;
