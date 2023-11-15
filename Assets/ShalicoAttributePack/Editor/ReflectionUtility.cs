@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 
 namespace ShalicoAttributePack.Editor
@@ -75,6 +76,18 @@ namespace ShalicoAttributePack.Editor
             }
 
             return false;
+        }
+
+
+        public static Type GetFieldElementType(FieldInfo info)
+        {
+            if (info.FieldType.IsArray)
+                return info.FieldType.GetElementType();
+
+            if (info.FieldType.IsGenericType)
+                return info.FieldType.GetGenericArguments()[0];
+
+            return info.FieldType;
         }
     }
 }

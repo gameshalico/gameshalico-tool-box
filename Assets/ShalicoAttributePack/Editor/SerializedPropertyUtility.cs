@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 
 namespace ShalicoAttributePack.Editor
@@ -12,7 +13,7 @@ namespace ShalicoAttributePack.Editor
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static string[] SplitPathParts(string path)
+        private static string[] SplitPathParts(string path)
         {
             var pathParts = path.Split('.');
             var resultList = new List<string>();
@@ -40,7 +41,7 @@ namespace ShalicoAttributePack.Editor
             return resultList.ToArray();
         }
 
-        public static object ParsePathPart(string part, object currentObject)
+        private static object GetNext(string part, object currentObject)
         {
             var previousObject = currentObject;
             // 配列やリストの要素にアクセスする場合の処理
@@ -61,40 +62,23 @@ namespace ShalicoAttributePack.Editor
             return currentObject;
         }
 
-        public static Type GetFieldElementType(string part, object currentObject)
+        private static FieldInfo GetNextFieldInfo(string part, object currentObject)
         {
             if (part.Contains("["))
-            {
-                var arrayPart = part.Substring(0, part.IndexOf('['));
-
-                if (ReflectionUtility.TryFindFieldInfo(currentObject, arrayPart, out var fieldInfo))
-                {
-                    if (fieldInfo.FieldType.IsArray)
-                        return fieldInfo.FieldType.GetElementType();
-                    if (fieldInfo.FieldType.IsGenericType)
-                        return fieldInfo.FieldType.GetGenericArguments()[0];
-                }
-            }
+                part = part.Substring(0, part.IndexOf('['));
 
             if (ReflectionUtility.TryFindFieldInfo(currentObject, part, out var info))
-                return info.FieldType;
-
+                return info;
             return null;
         }
 
-        public static object AnalyzePathParts(string[] pathParts, object currentObject)
+        private static object AnalyzePathParts(string[] pathParts, object currentObject)
         {
-            foreach (var part in pathParts) currentObject = ParsePathPart(part, currentObject);
+            foreach (var part in pathParts) currentObject = GetNext(part, currentObject);
 
             return currentObject;
         }
 
-        public static object TracePathParts(this SerializedProperty property, string[] pathParts)
-        {
-            var currentObject = property.serializedObject.targetObject;
-
-            return AnalyzePathParts(pathParts, currentObject);
-        }
 
         /// <summary>
         ///     SerializedProperty.propertyPathの値を取得する。
@@ -105,7 +89,22 @@ namespace ShalicoAttributePack.Editor
         {
             var pathParts = SplitPathParts(property.propertyPath);
 
-            return TracePathParts(property, pathParts);
+            return AnalyzePathParts(pathParts, property.serializedObject.targetObject);
+        }
+
+        public static (object obj, FieldInfo info) TracePropertyValueWithFieldInfo(this SerializedProperty property)
+        {
+            var pathParts = SplitPathParts(property.propertyPath);
+            object root = property.serializedObject.targetObject;
+
+            var lastPart = pathParts[^1];
+            Array.Resize(ref pathParts, pathParts.Length - 1);
+
+            var parent = AnalyzePathParts(pathParts, root);
+            var obj = GetNext(lastPart, parent);
+            var info = GetNextFieldInfo(lastPart, parent);
+
+            return (obj, info);
         }
 
         /// <summary>
@@ -116,15 +115,13 @@ namespace ShalicoAttributePack.Editor
         public static object TraceParentValue(this SerializedProperty property)
         {
             var pathParts = SplitPathParts(property.propertyPath);
-            object parentObject = property.serializedObject.targetObject;
+            object root = property.serializedObject.targetObject;
 
-            if (pathParts.Length == 1) return parentObject;
+            if (pathParts.Length == 1) return root;
 
-            var parentPathParts = new string[pathParts.Length - 1];
-            for (var i = 0; i < parentPathParts.Length; i++)
-                parentPathParts[i] = pathParts[i];
+            Array.Resize(ref pathParts, pathParts.Length - 1);
 
-            return AnalyzePathParts(parentPathParts, parentObject);
+            return AnalyzePathParts(pathParts, root);
         }
 
         private static object GetFieldValue(object source, string name)
