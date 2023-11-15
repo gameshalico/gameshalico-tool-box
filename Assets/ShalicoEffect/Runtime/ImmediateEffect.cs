@@ -5,7 +5,7 @@ namespace ShalicoEffect
 {
     public abstract class ImmediateEffect : Effect
     {
-        protected override UniTask PlayEffectAsync(CancellationToken token)
+        protected override UniTask PlayEffectWithTimingAsync(CancellationToken token)
         {
             PlayEffectImmediate();
             return UniTask.CompletedTask;

@@ -50,12 +50,12 @@ namespace ShalicoEffect
         public void Play(CancellationToken token)
         {
             foreach (var effect in _effects)
-                effect.PlayAsync(token).Forget();
+                effect.PlayEffectAsync(token).Forget();
         }
 
         public async UniTask PlayAsync(CancellationToken token)
         {
-            await UniTask.WhenAll(_effects.Select(effect => effect.PlayAsync(token)));
+            await UniTask.WhenAll(_effects.Select(effect => effect.PlayEffectAsync(token)));
         }
     }
 }

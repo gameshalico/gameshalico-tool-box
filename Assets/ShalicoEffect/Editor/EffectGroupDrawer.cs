@@ -154,7 +154,6 @@ namespace ShalicoEffect.Editor
             if (_reorderableLists.TryGetValue(property.propertyPath, out var list))
                 return list;
 
-
             var listProperty = property.FindPropertyRelative("_effects");
             var reorderableList =
                 new ReorderableList(listProperty.serializedObject, listProperty, true, true, true, true)

@@ -74,7 +74,7 @@ namespace ShalicoEffect.Effects
             }
         }
 
-        protected override async UniTask PlayEffectAsync(CancellationToken cancellationToken)
+        protected override async UniTask PlayEffectWithTimingAsync(CancellationToken cancellationToken)
         {
             var handler = SoundManager.GetPlayer(audioClip, audioMixerGroup)
                 .SetID(soundID)
