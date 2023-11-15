@@ -6,7 +6,7 @@ namespace ShalicoEffect.Effects
 {
     [Serializable]
     [AddEffectMenu("Debug/Debug Log")]
-    [EffectCustomHeader("Debug Log", Tone.MediumGray1, HueSymbol.Red)]
+    [CustomListLabel("Debug Log", Tone.MediumGray1, HueSymbol.Red)]
     public class DebugLogEffect : ImmediateEffect
     {
         [SerializeField] private HueTone color;
@@ -14,7 +14,7 @@ namespace ShalicoEffect.Effects
 
         public DebugLogEffect()
         {
-            color = new HueTone(HueSymbol.Red, Tone.Pale);
+            color = new HueTone(HueSymbol.Red, Tone.White);
         }
 
         protected override void PlayEffectImmediate()

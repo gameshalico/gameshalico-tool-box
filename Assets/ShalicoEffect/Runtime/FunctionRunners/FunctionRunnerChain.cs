@@ -1,12 +1,14 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using ShalicoPalette;
 using UnityEngine;
 
 namespace ShalicoEffect.FunctionRunners
 {
     [Serializable]
     [AddFunctionRunnerMenu("Function Runner Chain")]
+    [CustomListLabel("Chain", Tone.MediumGray1)]
     public class FunctionRunnerChain : IFunctionRunner
     {
         [SerializeReference] private IFunctionRunner[] _runners = Array.Empty<IFunctionRunner>();

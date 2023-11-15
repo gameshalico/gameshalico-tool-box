@@ -12,7 +12,7 @@ namespace ShalicoEffect.Effects
 {
     [Serializable]
     [AddEffectMenu("Sound/Play Sound")]
-    [EffectCustomHeader("Play Sound", Tone.Light, HueSymbol.Red)]
+    [CustomListLabel("Play Sound", Tone.Light, HueSymbol.Red)]
     public class PlaySoundEffect : Effect
     {
         public enum PitchMode
@@ -57,18 +57,18 @@ namespace ShalicoEffect.Effects
                     soundHandler.SetPitchByJustIntonation(Mathf.RoundToInt(pitch));
                     break;
                 case PitchMode.Random:
-                    soundHandler.SetRandomPitch(pitchRange.min, pitchRange.max);
+                    soundHandler.SetRandomPitch(pitchRange.Min, pitchRange.Max);
                     break;
                 case PitchMode.RandomByEqualTemperament:
                     soundHandler.SetRandomPitchByEqualTemperament(
-                        Mathf.RoundToInt(pitchRange.min),
-                        Mathf.RoundToInt(pitchRange.max)
+                        Mathf.RoundToInt(pitchRange.Min),
+                        Mathf.RoundToInt(pitchRange.Max)
                     );
                     break;
                 case PitchMode.RandomByJustIntonation:
                     soundHandler.SetRandomPitchByJustIntonation(
-                        Mathf.RoundToInt(pitchRange.min),
-                        Mathf.RoundToInt(pitchRange.max)
+                        Mathf.RoundToInt(pitchRange.Min),
+                        Mathf.RoundToInt(pitchRange.Max)
                     );
                     break;
             }

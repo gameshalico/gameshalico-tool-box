@@ -120,78 +120,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &349540275
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 349540277}
-  - component: {fileID: 349540276}
-  m_Layer: 0
-  m_Name: GameObject (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &349540276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 349540275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0852e29db89b47a3a5ceb2d21ad9b5fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  runnerChain:
-    _runners:
-    - rid: 8461813244594749457
-    - rid: 8461813244594749458
-  effectGroup:
-    _effects:
-    - rid: 8461813244594749459
-  references:
-    version: 2
-    RefIds:
-    - rid: 8461813244594749457
-      type: {class: FunctionRunnerChain, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
-      data:
-        _runners: []
-    - rid: 8461813244594749458
-      type: {class: DelayFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
-      data:
-        delay: 0.33
-    - rid: 8461813244594749459
-      type: {class: DebugLogEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
-      data:
-        isEnabled: 1
-        runnerChain:
-          _runners: []
-        color:
-          hue: 2
-          tone: 8
-        message: 
---- !u!4 &349540277
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 349540275}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.650624, y: 12.8993845, z: -0.43483362}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1444990130
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +212,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1903199105
+--- !u!1 &1539372951
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -292,8 +220,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1903199107}
-  - component: {fileID: 1903199106}
+  - component: {fileID: 1539372952}
+  - component: {fileID: 1539372953}
   m_Layer: 0
   m_Name: GameObject (1)
   m_TagString: Untagged
@@ -301,79 +229,100 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1903199106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1903199105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f38d19a39c7840c9894461ab1ee726bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effectGroup:
-    _effects:
-    - rid: 8461813221135220766
-    - rid: 8461813221135220768
-  effectGroups:
-  - _effects:
-    - rid: 8461813221135220767
-  - _effects: []
-  references:
-    version: 2
-    RefIds:
-    - rid: 8461813221135220766
-      type: {class: DebugLogEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
-      data:
-        isEnabled: 1
-        runnerChain:
-          _runners: []
-        color:
-          hue: 2
-          tone: 8
-        message: 
-    - rid: 8461813221135220767
-      type: {class: DebugLogEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
-      data:
-        isEnabled: 1
-        runnerChain:
-          _runners: []
-        color:
-          hue: 2
-          tone: 8
-        message: 
-    - rid: 8461813221135220768
-      type: {class: PlaySoundEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
-      data:
-        isEnabled: 1
-        runnerChain:
-          _runners: []
-        audioClip: {fileID: 0}
-        audioMixerGroup: {fileID: 0}
-        soundID: 0
-        volume: 1
-        pitchMode: 0
-        pitch: 1
-        pitchRange:
-          min: -1
-          max: 1
---- !u!4 &1903199107
+--- !u!4 &1539372952
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1903199105}
+  m_GameObject: {fileID: 1539372951}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.280006, y: 12.926627, z: -0.420717}
+  m_LocalPosition: {x: -1.1024127, y: 0.02335459, z: -0.026839217}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1539372953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539372951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0852e29db89b47a3a5ceb2d21ad9b5fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runnerChain:
+    _runners:
+    - rid: 7585010997636104238
+  effectGroup:
+    _effects:
+    - rid: 7585010997636104255
+    - rid: 7585010997636104257
+  references:
+    version: 2
+    RefIds:
+    - rid: 7585010997636104238
+      type: {class: FunctionRunnerChain, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        _runners:
+        - rid: 7585010997636104253
+        - rid: 7585010997636104253
+    - rid: 7585010997636104253
+      type: {class: DelayFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        delay: -1.04
+    - rid: 7585010997636104255
+      type: {class: DebugLogEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
+      data:
+        isEnabled: 1
+        runnerChain:
+          _runners:
+          - rid: 7585010997636104261
+          - rid: 7585010997636104261
+        color:
+          hue: 2
+          tone: 12
+        message: 
+    - rid: 7585010997636104257
+      type: {class: SubGroupEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
+      data:
+        isEnabled: 1
+        runnerChain:
+          _runners:
+          - rid: 7585010997636104263
+          - rid: 7585010997636104263
+        effectGroup:
+          _effects:
+          - rid: 7585010997636104258
+    - rid: 7585010997636104258
+      type: {class: DebugLogEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
+      data:
+        isEnabled: 1
+        runnerChain:
+          _runners:
+          - rid: 7585010997636104259
+          - rid: 7585010997636104259
+        color:
+          hue: 2
+          tone: 12
+        message: 
+    - rid: 7585010997636104259
+      type: {class: FunctionRunnerChain, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        _runners: []
+    - rid: 7585010997636104261
+      type: {class: FunctionRunnerChain, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        _runners: []
+    - rid: 7585010997636104263
+      type: {class: FunctionRunnerChain, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        _runners: []
 --- !u!1 &1956514570
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,5 +457,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1444990133}
   - {fileID: 1956514571}
-  - {fileID: 1903199107}
-  - {fileID: 349540277}
+  - {fileID: 1539372952}
