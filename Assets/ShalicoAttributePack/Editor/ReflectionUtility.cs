@@ -4,30 +4,76 @@ namespace ShalicoAttributePack.Editor
 {
     public static class ReflectionUtility
     {
-        private const BindingFlags FindAllBindingFlags =
+        public const BindingFlags FindAllBindingFlags =
             BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public |
             BindingFlags.Static;
 
-        public static bool TryFindFieldOrPropertyValue<TValue>(object target, string name, out TValue value,
+        public static bool TryFindFieldOrPropertyValue(object source, string name, out object value,
             BindingFlags bindingFlags = FindAllBindingFlags)
         {
-            var targetPropertyInfo = target.GetType()
-                .GetProperty(name, bindingFlags);
-            if (targetPropertyInfo != null && targetPropertyInfo.GetValue(target) is TValue propertyValue)
+            value = null;
+            if (source == null) return false;
+            var type = source.GetType();
+
+            while (type != null)
             {
-                value = propertyValue;
-                return true;
+                var field = type.GetField(name, bindingFlags);
+                if (field != null)
+                {
+                    value = field.GetValue(source);
+                    return true;
+                }
+
+                var property = type.GetProperty(name, bindingFlags);
+                if (property != null)
+                {
+                    value = property.GetValue(source);
+                    return true;
+                }
+
+                type = type.BaseType;
             }
 
-            var targetFieldInfo = target.GetType()
-                .GetField(name, bindingFlags);
-            if (targetFieldInfo != null && targetFieldInfo.GetValue(target) is TValue fieldValue)
+            return false;
+        }
+
+        public static bool TryFindFieldValue(object source, string name, out object value,
+            BindingFlags bindingFlags = FindAllBindingFlags)
+        {
+            value = null;
+            if (source == null) return false;
+            var type = source.GetType();
+
+            while (type != null)
             {
-                value = fieldValue;
-                return true;
+                var field = type.GetField(name, bindingFlags);
+                if (field != null)
+                {
+                    value = field.GetValue(source);
+                    return true;
+                }
+
+                type = type.BaseType;
             }
 
-            value = default;
+            return false;
+        }
+
+        public static bool TryFindFieldInfo(object source, string name, out FieldInfo field,
+            BindingFlags bindingFlags = FindAllBindingFlags)
+        {
+            field = null;
+            if (source == null) return false;
+            var sourceType = source.GetType();
+
+            while (sourceType != null)
+            {
+                field = sourceType.GetField(name, bindingFlags);
+                if (field != null) return true;
+
+                sourceType = sourceType.BaseType;
+            }
+
             return false;
         }
     }

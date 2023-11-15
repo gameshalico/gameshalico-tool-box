@@ -1,15 +1,13 @@
 using System;
+using ShalicoAttributePack;
 
 namespace ShalicoEffect
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    public class AddEffectMenuAttribute : Attribute, IAddMenuAttribute
+    public class AddEffectMenuAttribute : AddMenuAttribute
     {
-        public AddEffectMenuAttribute(string path)
+        public AddEffectMenuAttribute(string path) : base(path)
         {
-            Path = path;
         }
-
-        public string Path { get; }
     }
 }

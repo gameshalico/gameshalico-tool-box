@@ -1,12 +1,14 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using ShalicoPalette;
 using UnityEngine;
 
 namespace ShalicoEffect.FunctionRunners
 {
     [Serializable]
     [AddFunctionRunnerMenu("Delay")]
+    [CustomListLabel("Delay", Tone.Light, HueSymbol.Violet)]
     public class DelayFunctionRunner : IFunctionRunner
     {
         [SerializeField] private float delay;
@@ -15,7 +17,7 @@ namespace ShalicoEffect.FunctionRunners
             CancellationToken cancellationToken = default)
         {
             await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: cancellationToken);
-            function(cancellationToken);
+            await function(cancellationToken);
         }
     }
 }

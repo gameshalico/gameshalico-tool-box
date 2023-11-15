@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 1979217804}
   - component: {fileID: 1979217806}
   - component: {fileID: 1979217805}
+  - component: {fileID: 1979217807}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -258,13 +259,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   readonlyInt: 0
-  isEnable: 0
+  isEnable: 1
   enableIfInt: 0
   disableIfInt: 0
   isShow: 0
-  showIfInt: 132
-  hideIfInt: 123
-  previewTexture: {fileID: -1304905567622442630, guid: b90ed8e971488034b89c37f16e99c42c, type: 3}
+  showIfInt: 0
+  hideIfInt: 0
+  previewTexture: {fileID: 0}
 --- !u!114 &1979217806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +284,28 @@ MonoBehaviour:
     tone: 22
   indexedColor:
     colorIndex: 0
+--- !u!114 &1979217807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979217803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 291bf55a78b340bc800a3b83f3bbefcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy:
+    rid: 7585010997636104194
+  references:
+    version: 2
+    RefIds:
+    - rid: 7585010997636104194
+      type: {class: Ogre, ns: Samples.AttributePack, asm: Sample}
+      data:
+        name: Ogre
+        height: 200
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

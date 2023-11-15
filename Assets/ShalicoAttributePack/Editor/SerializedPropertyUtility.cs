@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEditor;
 
 namespace ShalicoAttributePack.Editor
@@ -12,7 +12,7 @@ namespace ShalicoAttributePack.Editor
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        private static string[] SplitPathParts(string path)
+        public static string[] SplitPathParts(string path)
         {
             var pathParts = path.Split('.');
             var resultList = new List<string>();
@@ -40,40 +40,80 @@ namespace ShalicoAttributePack.Editor
             return resultList.ToArray();
         }
 
-        private static object AnalyzePathParts(string[] pathParts, object currentObject)
+        public static object ParsePathPart(string part, object currentObject)
         {
-            foreach (var part in pathParts)
+            var previousObject = currentObject;
+            // 配列やリストの要素にアクセスする場合の処理
+            if (part.Contains("["))
             {
-                var previousObject = currentObject;
-                // 配列やリストの要素にアクセスする場合の処理
-                if (part.Contains("["))
-                {
-                    var arrayPart = part.Substring(0, part.IndexOf('['));
-                    var indexPart = part.Substring(part.IndexOf('[')).Replace("[", "").Replace("]", "");
-                    var index = int.Parse(indexPart);
+                var arrayPart = part.Substring(0, part.IndexOf('['));
+                var indexPart = part.Substring(part.IndexOf('[')).Replace("[", "").Replace("]", "");
+                var index = int.Parse(indexPart);
 
-                    currentObject = GetValueWithIndex(currentObject, arrayPart, index);
-                }
-                else
-                {
-                    currentObject = GetValue(currentObject, part);
-                }
-
-                if (currentObject == null) return null;
+                currentObject = GetFieldValueWithIndex(currentObject, arrayPart, index);
             }
+            else
+            {
+                currentObject = GetFieldValue(currentObject, part);
+            }
+
 
             return currentObject;
         }
 
-        public static object FindNestedPropertyValue(this SerializedProperty property)
+        public static Type GetFieldElementType(string part, object currentObject)
         {
-            var pathParts = SplitPathParts(property.propertyPath);
-            object currentObject = property.serializedObject.targetObject;
+            if (part.Contains("["))
+            {
+                var arrayPart = part.Substring(0, part.IndexOf('['));
+
+                if (ReflectionUtility.TryFindFieldInfo(currentObject, arrayPart, out var fieldInfo))
+                {
+                    if (fieldInfo.FieldType.IsArray)
+                        return fieldInfo.FieldType.GetElementType();
+                    if (fieldInfo.FieldType.IsGenericType)
+                        return fieldInfo.FieldType.GetGenericArguments()[0];
+                }
+            }
+
+            if (ReflectionUtility.TryFindFieldInfo(currentObject, part, out var info))
+                return info.FieldType;
+
+            return null;
+        }
+
+        public static object AnalyzePathParts(string[] pathParts, object currentObject)
+        {
+            foreach (var part in pathParts) currentObject = ParsePathPart(part, currentObject);
+
+            return currentObject;
+        }
+
+        public static object TracePathParts(this SerializedProperty property, string[] pathParts)
+        {
+            var currentObject = property.serializedObject.targetObject;
 
             return AnalyzePathParts(pathParts, currentObject);
         }
 
-        public static object FindParentObject(this SerializedProperty property)
+        /// <summary>
+        ///     SerializedProperty.propertyPathの値を取得する。
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        public static object TracePropertyValue(this SerializedProperty property)
+        {
+            var pathParts = SplitPathParts(property.propertyPath);
+
+            return TracePathParts(property, pathParts);
+        }
+
+        /// <summary>
+        ///     SerializedProperty.propertyPathの親の値を取得する。
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        public static object TraceParentValue(this SerializedProperty property)
         {
             var pathParts = SplitPathParts(property.propertyPath);
             object parentObject = property.serializedObject.targetObject;
@@ -87,37 +127,31 @@ namespace ShalicoAttributePack.Editor
             return AnalyzePathParts(parentPathParts, parentObject);
         }
 
-        private static object GetValue(object source, string name)
+        private static object GetFieldValue(object source, string name)
         {
-            if (source == null) return null;
-            var type = source.GetType();
+            if (source == null) throw new ArgumentNullException(nameof(source) + " is null.");
 
-            var field = type.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-            if (field == null) return null;
+            if (ReflectionUtility.TryFindFieldValue(source, name, out var value))
+                return value;
 
-            var value = field.GetValue(source);
-
-            return value;
+            throw new ArgumentException(name + " is not a field of " + source.GetType());
         }
 
-        private static object GetValueWithIndex(object source, string name, int index)
+        private static object GetFieldValueWithIndex(object source, string name, int index)
         {
-            var value = GetValue(source, name);
+            var value = GetFieldValue(source, name);
 
             if (value == null) return null;
 
-            if (index >= 0)
-            {
-                var enumerable = value as IEnumerable;
-                if (enumerable == null) return null;
+            var enumerable = value as IEnumerable;
+            if (enumerable == null) return null;
 
-                var enumerator = enumerable.GetEnumerator();
-                for (var i = 0; i <= index; i++)
-                    if (!enumerator.MoveNext())
-                        return null;
+            var enumerator = enumerable.GetEnumerator();
+            for (var i = 0; i <= index; i++)
+                if (!enumerator.MoveNext())
+                    return null;
 
-                value = enumerator.Current;
-            }
+            value = enumerator.Current;
 
             return value;
         }

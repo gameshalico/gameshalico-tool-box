@@ -24,5 +24,12 @@ namespace Samples.AttributePack
         private int hideIfInt;
 
         [Preview] [SerializeField] private Texture2D previewTexture;
+
+        [SubclassSelector] [SerializeReference]
+        private IEntity[] entities;
+
+
+        [SubclassSelector] [SerializeReference]
+        private IEntity entity = new Slime();
     }
 }

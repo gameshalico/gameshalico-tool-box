@@ -5,13 +5,13 @@ using UnityEngine;
 namespace ShalicoEffect
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    public class EffectCustomHeaderAttribute : Attribute
+    public class CustomListLabelAttribute : Attribute
     {
         private readonly HueSymbol _hueSymbol;
 
         private readonly Tone _tone;
 
-        public EffectCustomHeaderAttribute(string text, Tone tone, HueSymbol hueSymbol)
+        public CustomListLabelAttribute(string text, Tone tone, HueSymbol hueSymbol = HueSymbol.Red)
         {
             Text = text;
             _tone = tone;
