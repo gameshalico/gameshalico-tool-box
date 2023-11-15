@@ -7,7 +7,6 @@ using UnityEngine;
 namespace ShalicoEffect.FunctionRunners
 {
     [Serializable]
-    [AddFunctionRunnerMenu("Function Runner Chain")]
     [CustomListLabel("Chain", Tone.MediumGray1)]
     public class FunctionRunnerChain : IFunctionRunner
     {

@@ -23,8 +23,18 @@ namespace ShalicoEffect.Editor
             _reorderableList.onAddDropdownCallback += (_, _) => OpenAddMenu();
             _reorderableList.drawElementCallback += DrawElement;
             _reorderableList.elementHeightCallback += GetElementHeight;
+            _reorderableList.onMouseUpCallback += OnMouseUp;
 
             _reorderableList.drawElementBackgroundCallback = DrawBackground;
+        }
+
+        private void OnMouseUp(ReorderableList list)
+        {
+            if (Event.current.button == 1)
+            {
+                OpenListMenu();
+                Event.current.Use();
+            }
         }
 
         private void DrawHeader(Rect rect, GUIContent label)
@@ -40,7 +50,7 @@ namespace ShalicoEffect.Editor
                 rect.y,
                 EditorGUIUtility.singleLineHeight, EditorGUIUtility.singleLineHeight);
             var result = GUI.Button(optionsButtonRect, "⋮");
-            if (result) Event.current.Use();
+
 
             return result;
         }
@@ -89,7 +99,8 @@ namespace ShalicoEffect.Editor
                 text = attribute.Text;
             }
 
-            var labelRect = new Rect(rect.x + 14, rect.y, rect.width - 14, EditorGUIUtility.singleLineHeight);
+            var labelRect = new Rect(rect.x + 14, rect.y, rect.width - 14,
+                EditorGUIUtility.singleLineHeight);
             DrawCustomLabel(labelRect, $"{text} ({element.displayName})", color);
 
             EditorGUI.PropertyField(rect, element, GUIContent.none, true);
@@ -121,7 +132,6 @@ namespace ShalicoEffect.Editor
                 {
                     var instance = (TInterface)Activator.CreateInstance(menuItem.Type);
                     GetNewElement().managedReferenceValue = instance;
-                    Debug.Log(instance);
                     _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
                 });
             menu.ShowAsContext();

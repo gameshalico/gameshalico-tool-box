@@ -5,6 +5,6 @@ namespace ShalicoEffect
 {
     public interface IEffect
     {
-        public UniTask PlayEffectAsync(CancellationToken token = default);
+        public UniTask PlayEffectAsync(CancellationToken cancellationToken = default);
     }
 }
