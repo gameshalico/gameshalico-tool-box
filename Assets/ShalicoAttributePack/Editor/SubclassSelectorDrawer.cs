@@ -10,16 +10,9 @@ namespace ShalicoAttributePack.Editor
     {
         private (object value, Type fieldType) GetPropertyInfo(SerializedProperty property)
         {
-            var parts = SerializedPropertyUtility.SplitPathParts(property.propertyPath);
-            var lastPart = parts.Last();
-            Array.Resize(ref parts, parts.Length - 1);
+            var value = property.TracePropertyValue();
 
-            var parentObject = property.TracePathParts(parts);
-            var value = SerializedPropertyUtility.ParsePathPart(lastPart, parentObject);
-
-            var fieldType = SerializedPropertyUtility.GetFieldElementType(lastPart, parentObject);
-
-            return (value, fieldType);
+            return (value, ReflectionUtility.GetFieldElementType(fieldInfo));
         }
 
         private void UpdateProperty(SerializedProperty property, int index, TypeCache.TypeCollection types)
