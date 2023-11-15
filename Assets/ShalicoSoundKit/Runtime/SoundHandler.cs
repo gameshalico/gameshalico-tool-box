@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UniRx;
 
 namespace ShalicoSoundKit.Runtime
 {
     internal class SoundHandler : ISoundHandler
     {
+        private readonly Subject<Unit> _onRelease = new();
         private readonly SoundPlayer _soundPlayer;
 
         internal SoundHandler(SoundPlayer soundPlayer)
@@ -13,6 +15,8 @@ namespace ShalicoSoundKit.Runtime
             _soundPlayer = soundPlayer;
             SoundID = 0;
         }
+
+        public IObservable<Unit> OnReleaseAsObservable => _onRelease;
 
         public bool IsValid => _soundPlayer.CurrentHandler == this;
         public int SoundID { get; private set; }
@@ -40,6 +44,7 @@ namespace ShalicoSoundKit.Runtime
             if (!IsValid)
                 return;
 
+            _onRelease.OnNext(Unit.Default);
             _soundPlayer.Release();
         }
 

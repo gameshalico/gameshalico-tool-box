@@ -17,7 +17,6 @@ namespace ShalicoPalette.Editor
             (name, value) => $"{Tones.GetTone(value).ToneSymbol} : {name}"
         ).ToArray();
 
-
         private void ScrollCheck(SerializedProperty enumProperty, Rect rect, int enumIndex, int enumCount,
             int increment)
         {
@@ -32,6 +31,11 @@ namespace ShalicoPalette.Editor
                     enumProperty.enumValueIndex = enumIndex;
                     Event.current.Use();
                 }
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return EditorGUIUtility.singleLineHeight * 2;
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -82,7 +86,8 @@ namespace ShalicoPalette.Editor
                 tone.enumValueIndex = toneIndex;
             }
 
-            var colorRect = new Rect(rect.x, rect.y + rect.height, rect.width, rect.height);
+            var colorRect = new Rect(rect.x, rect.y + EditorGUIUtility.singleLineHeight, rect.width,
+                EditorGUIUtility.singleLineHeight);
             EditorGUI.DrawRect(colorRect, color);
 
             var colorLabelColor = ((Color)color).grayscale > 0.5f ? Color.black : Color.white;
@@ -95,8 +100,6 @@ namespace ShalicoPalette.Editor
                 },
                 alignment = TextAnchor.MiddleCenter
             });
-
-            EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 
             EditorGUI.EndProperty();
         }

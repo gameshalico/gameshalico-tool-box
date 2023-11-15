@@ -9,20 +9,27 @@ namespace Samples.AttributePack
 
         [SerializeField] private bool isEnable;
 
-        [EnableIf(nameof(isEnable))] [SerializeField]
+        [EnableIf(nameof(isEnable), true)] [SerializeField]
         private int enableIfInt;
 
-        [DisableIf(nameof(isEnable))] [SerializeField]
+        [EnableIf(nameof(isEnable), false)] [SerializeField]
         private int disableIfInt;
 
         [SerializeField] private bool isShow;
 
-        [ShowIf(nameof(isShow))] [SerializeField]
+        [ShowIf(nameof(isShow), true)] [SerializeField]
         private int showIfInt;
 
-        [HideIf(nameof(isShow))] [SerializeField]
+        [ShowIf(nameof(isShow), false)] [SerializeField]
         private int hideIfInt;
 
         [Preview] [SerializeField] private Texture2D previewTexture;
+
+        [SubclassSelector] [SerializeReference]
+        private IEntity[] entities;
+
+
+        [SubclassSelector] [SerializeReference]
+        private IEntity entity = new Slime();
     }
 }

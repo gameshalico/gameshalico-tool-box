@@ -1,18 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
+using UnityEngine;
 
 namespace ShalicoToolBox
 {
     [Serializable]
     public struct ValueRange<T> where T : struct, IComparable<T>
     {
-        public T min;
-        public T max;
+        [SerializeField] private T min;
+        [SerializeField] private T max;
 
         public ValueRange(T min, T max)
         {
             this.min = min;
             this.max = max;
+
+            if (min.CompareTo(max) > 0)
+            {
+                throw new ArgumentException("min must be less than or equal to max");
+            }
         }
 
         public ValueRange(ValueRange<T> other)
@@ -21,12 +26,15 @@ namespace ShalicoToolBox
             max = other.max;
         }
 
-        private static T Min(T a, T b)
+        public T Min => min;
+        public T Max => max;
+
+        private static T EvaluateMin(T a, T b)
         {
             return a.CompareTo(b) < 0 ? a : b;
         }
 
-        private static T Max(T a, T b)
+        private static T EvaluateMax(T a, T b)
         {
             return a.CompareTo(b) > 0 ? a : b;
         }
@@ -112,8 +120,8 @@ namespace ShalicoToolBox
         public static ValueRange<T> Union(ValueRange<T> a, ValueRange<T> b)
         {
             return new ValueRange<T>(
-                Min(a.min, b.min),
-                Max(a.max, b.max)
+                EvaluateMin(a.min, b.min),
+                EvaluateMax(a.max, b.max)
             );
         }
 
@@ -122,17 +130,15 @@ namespace ShalicoToolBox
         /// </summary>
         public static ValueRange<T> Intersect(ValueRange<T> a, ValueRange<T> b)
         {
-            ValueRange<T> result = new(
-                Max(a.min, b.min),
-                Min(a.max, b.max)
-            );
+            T max = EvaluateMin(a.max, b.max);
+            T min = EvaluateMax(a.min, b.min);
 
-            if (!result.IsValid())
+            if (max.CompareTo(min) < 0)
             {
-                result = new ValueRange<T>();
+                return new ValueRange<T>(default, default);
             }
 
-            return result;
+            return new ValueRange<T>(min, max);
         }
 
         /// <summary>
@@ -152,19 +158,23 @@ namespace ShalicoToolBox
                 return Array.Empty<ValueRange<T>>();
             }
 
-            // 重なっている場合
-            List<ValueRange<T>> rangeList = new();
+            // 重なっているか、bがaに完全に含まれている場合
+            ValueRange<T>[] rangeArray = new ValueRange<T>[2];
+            int count = 0;
             if (a.min.CompareTo(b.min) < 0) // a.min < b.min
             {
-                rangeList.Add(new ValueRange<T>(a.min, b.min));
+                rangeArray[count++] = new ValueRange<T>(a.min, b.min);
             }
 
             if (b.max.CompareTo(a.max) < 0) // b.max < a.max
             {
-                rangeList.Add(new ValueRange<T>(b.max, a.max));
+                rangeArray[count++] = new ValueRange<T>(b.max, a.max);
             }
 
-            return rangeList.ToArray();
+            ValueRange<T>[] result = new ValueRange<T>[count];
+            Array.Copy(rangeArray, result, count);
+
+            return result;
         }
 
         /// <summary>
@@ -173,8 +183,8 @@ namespace ShalicoToolBox
         public static ValueRange<T> Expand(ValueRange<T> range, T value)
         {
             return new ValueRange<T>(
-                Min(range.min, value),
-                Max(range.max, value)
+                EvaluateMin(range.min, value),
+                EvaluateMax(range.max, value)
             );
         }
 
@@ -204,14 +214,6 @@ namespace ShalicoToolBox
         public bool IsEmpty()
         {
             return min.CompareTo(max) == 0;
-        }
-
-        /// <summary>
-        ///     minがmax未満であるか判定する
-        /// </summary>
-        public bool IsValid()
-        {
-            return min.CompareTo(max) <= 0;
         }
 
         public void Deconstruct(out T minValue, out T maxValue)

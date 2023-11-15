@@ -1,8 +1,8 @@
 ﻿namespace ShalicoAttributePack
 {
-    public class EnableIfAttribute : BoolNameAttribute
+    public class EnableIfAttribute : ConditionAttribute
     {
-        public EnableIfAttribute(string propertyName) : base(propertyName)
+        public EnableIfAttribute(string name, object value) : base(name, value)
         {
         }
     }
