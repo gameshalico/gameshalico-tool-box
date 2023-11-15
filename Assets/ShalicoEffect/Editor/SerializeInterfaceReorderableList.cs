@@ -255,8 +255,6 @@ namespace ShalicoEffect.Editor
 
         public void Draw(Rect position)
         {
-            position.x += 14;
-            position.width -= 14;
             _reorderableList.DoList(position);
         }
 

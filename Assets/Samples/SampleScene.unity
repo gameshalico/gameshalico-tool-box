@@ -264,13 +264,17 @@ MonoBehaviour:
     - rid: 7585011005456121863
     - rid: 7585011005456121864
     - rid: 7585011005456121865
+    - rid: 7585011005456121866
   references:
     version: 2
     RefIds:
     - rid: 7585011005456121860
       type: {class: ParallelFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
-        chains: []
+        chains:
+        - _runners:
+          - rid: 7585011005456121869
+        - _runners: []
     - rid: 7585011005456121861
       type: {class: ChanceFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
@@ -294,6 +298,54 @@ MonoBehaviour:
       data:
         timeScaleMode: 0
         cooldown: 0
+    - rid: 7585011005456121866
+      type: {class: EffectFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        effectGroup:
+          _effects:
+          - rid: 7585011005456121867
+          - rid: 7585011005456121868
+    - rid: 7585011005456121867
+      type: {class: PlaySoundEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
+      data:
+        audioClip: {fileID: 0}
+        audioMixerGroup: {fileID: 0}
+        soundID: 0
+        volume: 1
+        pitchMode: 0
+        pitch: 1
+        pitchRange:
+          min: -1
+          max: 1
+    - rid: 7585011005456121868
+      type: {class: SetActiveEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
+      data:
+        target: {fileID: 0}
+        active: 0
+    - rid: 7585011005456121869
+      type: {class: EffectFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        effectGroup:
+          _effects:
+          - rid: 7585011005456121870
+          - rid: 7585011005456121871
+    - rid: 7585011005456121870
+      type: {class: PlaySoundEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
+      data:
+        audioClip: {fileID: 0}
+        audioMixerGroup: {fileID: 0}
+        soundID: 0
+        volume: 1
+        pitchMode: 0
+        pitch: 1
+        pitchRange:
+          min: -1
+          max: 1
+    - rid: 7585011005456121871
+      type: {class: SetActiveEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
+      data:
+        target: {fileID: 0}
+        active: 0
 --- !u!1 &1956514570
 GameObject:
   m_ObjectHideFlags: 0
