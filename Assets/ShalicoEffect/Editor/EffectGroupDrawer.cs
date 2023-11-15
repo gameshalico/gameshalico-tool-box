@@ -1,3 +1,4 @@
+using ShalicoEffect.Effects;
 using UnityEditor;
 using UnityEngine;
 

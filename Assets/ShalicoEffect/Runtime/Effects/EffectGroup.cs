@@ -1,14 +1,21 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using ShalicoPalette;
 using UnityEngine;
 
-namespace ShalicoEffect
+namespace ShalicoEffect.Effects
 {
     [Serializable]
-    public class EffectGroup
+    [CustomListLabel("Group", Tone.Light, HueSymbol.RedPurple)]
+    public class EffectGroup : IEffect
     {
         [SerializeReference] private IEffect[] _effects = Array.Empty<IEffect>();
+
+        public UniTask PlayEffectAsync(CancellationToken cancellationToken = default)
+        {
+            return PlayAsync(cancellationToken);
+        }
 
         public void AddEffect(IEffect effect)
         {

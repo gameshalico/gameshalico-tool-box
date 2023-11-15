@@ -222,7 +222,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1979217804}
   - component: {fileID: 1979217806}
-  - component: {fileID: 1979217805}
   - component: {fileID: 1979217807}
   m_Layer: 0
   m_Name: GameObject
@@ -246,26 +245,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1979217805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1979217803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18b96ee33d384f1787d7670448a94d63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  readonlyInt: 0
-  isEnable: 1
-  enableIfInt: 0
-  disableIfInt: 0
-  isShow: 0
-  showIfInt: 0
-  hideIfInt: 0
-  previewTexture: {fileID: 0}
 --- !u!114 &1979217806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,19 +272,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1979217803}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 291bf55a78b340bc800a3b83f3bbefcf, type: 3}
+  m_Script: {fileID: 11500000, guid: 18b96ee33d384f1787d7670448a94d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy:
-    rid: 7585010997636104194
+  readonlyInt: 0
+  isEnable: 0
+  enableIfInt: 0
+  disableIfInt: 0
+  isShow: 0
+  showIfInt: 0
+  hideIfInt: 0
+  previewTexture: {fileID: 0}
+  entities:
+  - rid: -2
+  entity:
+    rid: 7585010997636104277
   references:
     version: 2
     RefIds:
-    - rid: 7585010997636104194
-      type: {class: Ogre, ns: Samples.AttributePack, asm: Sample}
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 7585010997636104277
+      type: {class: Slime, ns: Samples.AttributePack, asm: Sample}
       data:
-        name: Ogre
-        height: 200
+        health: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
