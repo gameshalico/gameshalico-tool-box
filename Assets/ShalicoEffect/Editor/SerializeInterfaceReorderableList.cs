@@ -71,7 +71,7 @@ namespace ShalicoEffect.Editor
             if (isFocused)
                 EditorGUI.DrawRect(rect, new Color(0.1f, 0.6f, 0.6f, 0.1f));
             else if (isActive)
-                EditorGUI.DrawRect(rect, new Color(1.0f, 1.0f, 1.0f, 0.05f));
+                EditorGUI.DrawRect(rect, new Color(0.6f, 0.6f, 0.1f, 0.1f));
         }
 
         private void DrawCustomLabel(Rect rect, string text, Color32 color)
@@ -217,9 +217,9 @@ namespace ShalicoEffect.Editor
             menu.AddItem(new GUIContent("Duplicate"), false, () =>
             {
                 var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
-                var obj = (TInterface)element.managedReferenceValue;
+                var obj = CopiedItem.ToJson((TInterface)element.managedReferenceValue);
                 var newElementProperty = GetNewElement();
-                newElementProperty.managedReferenceValue = obj;
+                newElementProperty.managedReferenceValue = CopiedItem.FromJson(obj);
                 newElementProperty.serializedObject.ApplyModifiedProperties();
             });
 
