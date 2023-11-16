@@ -17,7 +17,7 @@ namespace ShalicoEffect.Effects
 
         public async UniTask PlayEffectAsync(CancellationToken cancellationToken = default)
         {
-            await functionRunnerHolder.PlayAsync(cancellationToken);
+            await functionRunnerHolder.RunAsync(cancellationToken);
         }
     }
 }

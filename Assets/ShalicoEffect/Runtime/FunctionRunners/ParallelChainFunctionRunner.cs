@@ -17,6 +17,8 @@ namespace ShalicoEffect.FunctionRunners
             CancellationToken cancellationToken = default)
         {
             await UniTask.WhenAll(chains.Select(chain => chain.Run(function, cancellationToken)));
+
+            await function(cancellationToken);
         }
     }
 }
