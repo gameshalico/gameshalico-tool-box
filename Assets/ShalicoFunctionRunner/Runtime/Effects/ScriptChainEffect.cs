@@ -9,7 +9,7 @@ namespace ShalicoFunctionRunner.Effects
 {
     [Serializable]
     [AddEffectMenu("Effects/Script Chain")]
-    [CustomListLabel("Script Chain", Tone.Light, HueSymbol.RedPurple)]
+    [CustomListLabel("Script Chain", Tone.Strong, HueSymbol.RedPurple)]
     public class ScriptChainEffect : IEffect
     {
         [FormerlySerializedAs("effectHolder")] [SerializeField]

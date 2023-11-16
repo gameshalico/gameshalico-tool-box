@@ -6,7 +6,7 @@ namespace ShalicoFunctionRunner.Effects
 {
     [Serializable]
     [AddEffectMenu("Game Object/Set Active")]
-    [CustomListLabel("Set Active", Tone.Light, HueSymbol.Blue2)]
+    [CustomListLabel("Set Active", Tone.Strong, HueSymbol.Blue2)]
     public class SetActiveEffect : ImmediateEffect
     {
         [SerializeField] private GameObject target;

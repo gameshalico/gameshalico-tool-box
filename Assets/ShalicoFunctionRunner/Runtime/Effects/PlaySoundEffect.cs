@@ -12,7 +12,7 @@ namespace ShalicoFunctionRunner.Effects
 {
     [Serializable]
     [AddEffectMenu("Sound/Play Sound")]
-    [CustomListLabel("Play Sound", Tone.Light)]
+    [CustomListLabel("Play Sound", Tone.Strong)]
     public class PlaySoundEffect : IEffect
     {
         public enum PitchMode
