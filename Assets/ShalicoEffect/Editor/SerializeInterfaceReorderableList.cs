@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using ShalicoAttributePack.Editor;
 using UnityEditor;
@@ -13,8 +14,8 @@ namespace ShalicoEffect.Editor
         where TInterface : class
         where TAddMenuAttribute : Attribute, IAddMenuAttribute
     {
+        private static AddMenuItem[] _cachedMenuItems;
         private readonly ReorderableList _reorderableList;
-        private AddMenuItem[] _cachedMenuItems;
 
         public SerializeInterfaceReorderableList(SerializedProperty property, GUIContent label)
         {
@@ -248,7 +249,10 @@ namespace ShalicoEffect.Editor
                         .Add(new AddMenuItem((IAddMenuAttribute)addMenuAttribute, type));
             }
 
-            _cachedMenuItems = classesWithCustomAttribute.ToArray();
+            _cachedMenuItems = classesWithCustomAttribute
+                .OrderByDescending(x => x.Attribute.Order)
+                .ThenBy(x => x.Attribute.Path)
+                .ToArray();
 
             return _cachedMenuItems;
         }
@@ -265,8 +269,8 @@ namespace ShalicoEffect.Editor
 
         private class AddMenuItem
         {
-            public readonly Type Type;
             public readonly IAddMenuAttribute Attribute;
+            public readonly Type Type;
 
             public AddMenuItem(IAddMenuAttribute attribute, Type type)
             {

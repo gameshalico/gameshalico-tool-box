@@ -1,12 +1,11 @@
 using System;
-using ShalicoAttributePack;
 
 namespace ShalicoEffect
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public class AddFunctionRunnerMenuAttribute : AddMenuAttribute
     {
-        public AddFunctionRunnerMenuAttribute(string path) : base(path)
+        public AddFunctionRunnerMenuAttribute(string path, int order = 0) : base(path, order)
         {
         }
     }

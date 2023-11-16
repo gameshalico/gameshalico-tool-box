@@ -8,7 +8,7 @@ namespace ShalicoEffect.FunctionRunners
 {
     [Serializable]
     [AddFunctionRunnerMenu("Delay")]
-    [CustomListLabel("Delay", Tone.Light, HueSymbol.Violet)]
+    [CustomListLabel("Delay", Tone.Light, HueSymbol.Blue2)]
     public class DelayFunctionRunner : IFunctionRunner
     {
         [SerializeField] private TimeScaleMode timeScaleMode;

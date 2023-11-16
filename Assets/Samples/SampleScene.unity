@@ -256,96 +256,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2536e726068b4ef48d4f345a0e357628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  functionRunner:
+  chainFunctionRunner:
     _runners:
-    - rid: 7585011005456121860
-    - rid: 7585011005456121861
-    - rid: 7585011005456121862
-    - rid: 7585011005456121863
-    - rid: 7585011005456121864
-    - rid: 7585011005456121865
-    - rid: 7585011005456121866
+    - rid: 8461813264559374376
+    - rid: 8461813264559374377
+    - rid: 8461813264559374378
+    - rid: 8461813264559374379
+    - rid: 8461813264559374380
+    - rid: 8461813264559374381
+    - rid: 8461813264559374382
+    - rid: 8461813264559374383
+    - rid: 8461813264559374384
+    - rid: 8461813264559374385
   references:
     version: 2
     RefIds:
-    - rid: 7585011005456121860
-      type: {class: ParallelFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+    - rid: 8461813264559374376
+      type: {class: EffectFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
-        chains:
-        - _runners:
-          - rid: 7585011005456121869
-        - _runners: []
-    - rid: 7585011005456121861
-      type: {class: ChanceFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+        synchronize: 1
+        effectGroup:
+          _effects: []
+    - rid: 8461813264559374377
+      type: {class: DebugLogFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
-        chance: 1
-    - rid: 7585011005456121862
-      type: {class: ActiveFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+        message: 
+    - rid: 8461813264559374378
+      type: {class: ChainFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
-        active: 1
-    - rid: 7585011005456121863
-      type: {class: DelayFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+        _runners: []
+    - rid: 8461813264559374379
+      type: {class: AsyncChainFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
-        timeScaleMode: 0
-        delay: 0
-    - rid: 7585011005456121864
+        asyncChain:
+          _runners: []
+    - rid: 8461813264559374380
+      type: {class: ParallelChainFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        chains: []
+    - rid: 8461813264559374381
       type: {class: RepeatFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
         repeatCount: 0
         repeatForever: 0
-    - rid: 7585011005456121865
+    - rid: 8461813264559374382
+      type: {class: ActiveFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        active: 1
+    - rid: 8461813264559374383
+      type: {class: ChanceFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        chance: 1
+    - rid: 8461813264559374384
       type: {class: CooldownFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
         timeScaleMode: 0
         cooldown: 0
-    - rid: 7585011005456121866
-      type: {class: EffectFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+    - rid: 8461813264559374385
+      type: {class: DelayFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
-        effectGroup:
-          _effects:
-          - rid: 7585011005456121867
-          - rid: 7585011005456121868
-    - rid: 7585011005456121867
-      type: {class: PlaySoundEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
-      data:
-        audioClip: {fileID: 0}
-        audioMixerGroup: {fileID: 0}
-        soundID: 0
-        volume: 1
-        pitchMode: 0
-        pitch: 1
-        pitchRange:
-          min: -1
-          max: 1
-    - rid: 7585011005456121868
-      type: {class: SetActiveEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
-      data:
-        target: {fileID: 0}
-        active: 0
-    - rid: 7585011005456121869
-      type: {class: EffectFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
-      data:
-        effectGroup:
-          _effects:
-          - rid: 7585011005456121870
-          - rid: 7585011005456121871
-    - rid: 7585011005456121870
-      type: {class: PlaySoundEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
-      data:
-        audioClip: {fileID: 0}
-        audioMixerGroup: {fileID: 0}
-        soundID: 0
-        volume: 1
-        pitchMode: 0
-        pitch: 1
-        pitchRange:
-          min: -1
-          max: 1
-    - rid: 7585011005456121871
-      type: {class: SetActiveEffect, ns: ShalicoEffect.Effects, asm: Assembly-CSharp}
-      data:
-        target: {fileID: 0}
-        active: 0
+        timeScaleMode: 0
+        delay: 0
 --- !u!1 &1956514570
 GameObject:
   m_ObjectHideFlags: 0

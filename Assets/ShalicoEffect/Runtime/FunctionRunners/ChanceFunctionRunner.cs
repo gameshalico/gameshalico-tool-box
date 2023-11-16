@@ -8,8 +8,8 @@ using Random = UnityEngine.Random;
 namespace ShalicoEffect.FunctionRunners
 {
     [Serializable]
-    [AddFunctionRunnerMenu("Chance")]
-    [CustomListLabel("Chance", Tone.Light, HueSymbol.Yellow)]
+    [AddFunctionRunnerMenu("Condition/Chance")]
+    [CustomListLabel("Chance", Tone.Light, HueSymbol.Green)]
     public class ChanceFunctionRunner : IFunctionRunner
     {
         [Range(0, 1)] [SerializeField] private float chance = 1f;
