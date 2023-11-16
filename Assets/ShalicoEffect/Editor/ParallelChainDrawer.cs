@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using ShalicoAttributePack.Editor;
 using ShalicoEffect.FunctionRunners;
@@ -6,26 +7,24 @@ using UnityEngine;
 
 namespace ShalicoEffect.Editor
 {
-    [CustomPropertyDrawer(typeof(ChainFunctionRunner))]
-    public class FunctionRunnerChainDrawer : PropertyDrawer
+    [Serializable]
+    [CustomPropertyDrawer(typeof(ParallelChainFunctionRunner))]
+    public class ParallelChainDrawer : PropertyDrawer
     {
-        private readonly InterfaceListContainerView<ChainFunctionRunner, IFunctionRunner,
-            AddFunctionRunnerMenuAttribute> _view = new("_runners");
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             if (FunctionRunnerEditorUtility.PlayButton(position))
             {
                 var value = property.TracePropertyValue();
-                if (value is ChainFunctionRunner chainFunctionRunner) chainFunctionRunner.RunAsync().Forget();
+                if (value is ParallelChainFunctionRunner chainFunctionRunner) chainFunctionRunner.RunAsync().Forget();
             }
 
-            _view.OnGUI(position, property, label);
+            EditorGUI.PropertyField(position, property, label, true);
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return _view.GetPropertyHeight(property, label);
+            return EditorGUI.GetPropertyHeight(property, label);
         }
     }
 }

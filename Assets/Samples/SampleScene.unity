@@ -258,82 +258,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chainFunctionRunner:
     _runners:
-    - rid: 8461813264559374376
-    - rid: 8461813264559374377
-    - rid: 8461813264559374378
-    - rid: 8461813264559374379
-    - rid: 8461813264559374380
-    - rid: 8461813264559374381
-    - rid: 8461813264559374382
-    - rid: 8461813264559374383
-    - rid: 8461813264559374384
-    - rid: 8461813264559374385
+    - rid: 7585011017981886464
+    - rid: 7585011017981886465
+    - rid: 7585011017981886466
   references:
     version: 2
     RefIds:
-    - rid: 8461813264559374376
+    - rid: 7585011017981886464
       type: {class: EffectFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
         synchronize: 1
         effectGroup:
           _effects: []
-    - rid: 8461813264559374377
-      type: {class: DebugLogFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
-      data:
-        message: Start
-    - rid: 8461813264559374378
-      type: {class: ChainFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
-      data:
-        _runners:
-        - rid: 8461813264559374394
-        - rid: 8461813264559374396
-        - rid: 8461813264559374393
-    - rid: 8461813264559374379
+    - rid: 7585011017981886465
       type: {class: AsyncChainFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
         asyncChain:
           _runners: []
-    - rid: 8461813264559374380
+    - rid: 7585011017981886466
       type: {class: ParallelChainFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
-        chains: []
-    - rid: 8461813264559374381
-      type: {class: RepeatFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
-      data:
-        repeatCount: 0
-        repeatForever: 0
-    - rid: 8461813264559374382
-      type: {class: ActiveFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
-      data:
-        active: 1
-    - rid: 8461813264559374383
-      type: {class: ChanceFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
-      data:
-        chance: 1
-    - rid: 8461813264559374384
-      type: {class: CooldownFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
-      data:
-        timeScaleMode: 0
-        cooldown: 0
-    - rid: 8461813264559374385
-      type: {class: DelayFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
-      data:
-        timeScaleMode: 0
-        delay: 1
-    - rid: 8461813264559374393
-      type: {class: DebugLogFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
-      data:
-        message: 3 times printed
-    - rid: 8461813264559374394
+        chains:
+        - _runners:
+          - rid: 7585011017981886467
+          - rid: 7585011017981886468
+        - _runners:
+          - rid: 7585011017981886471
+          - rid: 7585011017981886469
+          - rid: 7585011017981886471
+        - _runners:
+          - rid: 7585011017981886470
+          - rid: 7585011017981886473
+    - rid: 7585011017981886467
       type: {class: RepeatFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
         repeatCount: 2
         repeatForever: 0
-    - rid: 8461813264559374396
+    - rid: 7585011017981886468
+      type: {class: DebugLogFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        message: a
+    - rid: 7585011017981886469
       type: {class: DelayFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
         timeScaleMode: 0
-        delay: 1
+        delay: 0.5
+    - rid: 7585011017981886470
+      type: {class: DelayFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        timeScaleMode: 0
+        delay: 0.2
+    - rid: 7585011017981886471
+      type: {class: DebugLogFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        message: b
+    - rid: 7585011017981886473
+      type: {class: DebugLogFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        message: c
 --- !u!1 &1956514570
 GameObject:
   m_ObjectHideFlags: 0
