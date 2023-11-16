@@ -3,7 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using ShalicoAttributePack;
 using ShalicoPalette;
-using ShalicoSoundKit.Runtime;
+using ShalicoSoundKit;
 using ShalicoToolBox;
 using UnityEngine;
 using UnityEngine.Audio;
