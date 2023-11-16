@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace ShalicoSoundKit.Runtime
+namespace ShalicoSoundKit
 {
     public class SoundManager : MonoBehaviour
     {

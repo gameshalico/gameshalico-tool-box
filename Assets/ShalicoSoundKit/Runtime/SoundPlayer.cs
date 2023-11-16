@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace ShalicoSoundKit.Runtime
+namespace ShalicoSoundKit
 {
     [AddComponentMenu("")]
     internal class SoundPlayer : MonoBehaviour
