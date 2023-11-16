@@ -1,0 +1,21 @@
+{
+    "name": "ShalicoFunctionRunner",
+    "rootNamespace": "",
+    "references": [
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:f2aea0715dbcee04c8861d1fd4fdbe72",
+        "GUID:6c65fcd86be3d2148b5a6005d4cba3d7",
+        "GUID:fe787c941bae4a34e8c8255ae90bd77d",
+        "GUID:22e55ddbab72dc44bad0ffdaf9c0eee2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

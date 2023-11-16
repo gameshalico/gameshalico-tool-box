@@ -1,0 +1,11 @@
+﻿{
+  "name": "com.gameshalico.shalico-function-runner",
+  "displayName": "Shalico Attribute Pack",
+  "description": "Add some custom attributes for my Inspector",
+  "version": "1.0.0",
+  "author": {
+    "name": "Gameshalico",
+    "email": "contact@gameshalico.com",
+    "url": "https://gameshalico.com"
+  }
+}
