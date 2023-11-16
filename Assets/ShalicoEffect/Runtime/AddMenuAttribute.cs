@@ -5,11 +5,13 @@ namespace ShalicoEffect
     [AttributeUsage(AttributeTargets.Class)]
     public class AddMenuAttribute : Attribute, IAddMenuAttribute
     {
-        public AddMenuAttribute(string path)
+        protected AddMenuAttribute(string path, int order = 0)
         {
             Path = path;
+            Order = order;
         }
 
         public string Path { get; }
+        public int Order { get; }
     }
 }

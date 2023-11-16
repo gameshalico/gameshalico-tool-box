@@ -8,8 +8,8 @@ using UnityEngine;
 namespace ShalicoEffect.FunctionRunners
 {
     [Serializable]
-    [AddFunctionRunnerMenu("Repeat")]
-    [CustomListLabel("Repeat", Tone.Light)]
+    [AddFunctionRunnerMenu("Multiple/Repeat")]
+    [CustomListLabel("Repeat", Tone.Light, HueSymbol.RedPurple)]
     public class RepeatFunctionRunner : IFunctionRunner
     {
         [EnableIf(nameof(repeatForever), false)] [SerializeField]

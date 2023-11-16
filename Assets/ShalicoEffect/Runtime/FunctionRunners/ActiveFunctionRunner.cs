@@ -7,7 +7,7 @@ using UnityEngine;
 namespace ShalicoEffect.FunctionRunners
 {
     [Serializable]
-    [AddFunctionRunnerMenu("Active")]
+    [AddFunctionRunnerMenu("Condition/Active")]
     [CustomListLabel("Active", Tone.Light, HueSymbol.Green)]
     public class ActiveFunctionRunner : IFunctionRunner
     {

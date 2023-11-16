@@ -10,11 +10,11 @@ namespace ShalicoEffect.Editor
         where TInterface : class
         where TAddMenuAttribute : Attribute, IAddMenuAttribute
     {
+        private readonly string _propertyName;
+
         private readonly Dictionary<string, SerializeInterfaceReorderableList<TContainer, TInterface,
                 TAddMenuAttribute>>
             _reorderableLists = new();
-
-        private readonly string _propertyName;
 
         public InterfaceListContainerView(string propertyName)
         {
@@ -39,8 +39,9 @@ namespace ShalicoEffect.Editor
                     _reorderableLists.Add(property.propertyPath, list);
                 }
 
-                var listRect = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight,
-                    position.width, EditorGUIUtility.singleLineHeight);
+                var listRect = new Rect(position.x,
+                    position.y + EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing,
+                    position.width, EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing);
                 list.Draw(listRect);
             }
         }
@@ -48,7 +49,8 @@ namespace ShalicoEffect.Editor
         public float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             if (property.isExpanded && _reorderableLists.TryGetValue(property.propertyPath, out var list))
-                return list.GetHeight() + EditorGUIUtility.singleLineHeight;
+                return list.GetHeight() + EditorGUIUtility.singleLineHeight +
+                       EditorGUIUtility.standardVerticalSpacing * 2;
 
             return EditorGUIUtility.singleLineHeight;
         }

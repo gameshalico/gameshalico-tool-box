@@ -7,8 +7,8 @@ using UnityEngine;
 namespace ShalicoEffect.FunctionRunners
 {
     [Serializable]
-    [AddFunctionRunnerMenu("Cooldown")]
-    [CustomListLabel("Cooldown", Tone.Light, HueSymbol.Blue2)]
+    [AddFunctionRunnerMenu("Condition/Cooldown")]
+    [CustomListLabel("Cooldown", Tone.Light, HueSymbol.Green)]
     public class CooldownFunctionRunner : IFunctionRunner
     {
         [SerializeField] private TimeScaleMode timeScaleMode;

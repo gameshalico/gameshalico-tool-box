@@ -7,11 +7,11 @@ using UnityEngine;
 namespace ShalicoEffect.FunctionRunners
 {
     [Serializable]
-    [CustomListLabel("Parallel", Tone.Light, HueSymbol.RedPurple)]
-    [AddFunctionRunnerMenu("Parallel")]
-    public class ParallelFunctionRunner : IFunctionRunner
+    [AddFunctionRunnerMenu("Multiple/Parallel Chain")]
+    [CustomListLabel("Parallel Chain", Tone.Light, HueSymbol.RedPurple)]
+    public class ParallelChainFunctionRunner : IFunctionRunner
     {
-        [SerializeField] private FunctionRunnerChain[] chains = Array.Empty<FunctionRunnerChain>();
+        [SerializeField] private ChainFunctionRunner[] chains = Array.Empty<ChainFunctionRunner>();
 
         public async UniTask Run(Func<CancellationToken, UniTask> function,
             CancellationToken cancellationToken = default)

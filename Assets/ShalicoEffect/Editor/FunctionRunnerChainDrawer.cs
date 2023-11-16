@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace ShalicoEffect.Editor
 {
-    [CustomPropertyDrawer(typeof(FunctionRunnerChain))]
+    [CustomPropertyDrawer(typeof(ChainFunctionRunner))]
     public class FunctionRunnerChainDrawer : PropertyDrawer
     {
-        private readonly InterfaceListContainerView<FunctionRunnerChain, IFunctionRunner,
+        private readonly InterfaceListContainerView<ChainFunctionRunner, IFunctionRunner,
             AddFunctionRunnerMenuAttribute> _view = new("_runners");
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

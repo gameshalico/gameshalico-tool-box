@@ -2,16 +2,18 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using ShalicoEffect.FunctionRunners;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ShalicoEffect.Effects
 {
     public class FunctionRunnerHolder : MonoBehaviour
     {
-        [SerializeField] private FunctionRunnerChain functionRunner;
+        [FormerlySerializedAs("functionRunner")] [SerializeField]
+        private ChainFunctionRunner chainFunctionRunner;
 
         public virtual async UniTask PlayAsync(CancellationToken cancellationToken)
         {
-            await functionRunner.RunAsync(cancellationToken);
+            await chainFunctionRunner.RunAsync(cancellationToken);
         }
     }
 }
