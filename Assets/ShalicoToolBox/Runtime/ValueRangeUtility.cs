@@ -7,12 +7,12 @@ namespace ShalicoToolBox
     public static class ValueRangeUtility
     {
         public static readonly ValueRange<float> ZeroToOne = new(0f, 1f);
-        public static readonly ValueRange<float> OneToZero = new(1f, 0f);
         public static readonly ValueRange<float> MinusOneToOne = new(-1f, 1f);
-        public static readonly ValueRange<float> OneToMinusOne = new(1f, -1f);
 
         public static readonly ValueRange<float> ZeroTo360 = new(0f, 360f);
         public static readonly ValueRange<float> ZeroTo2Pi = new(0f, Mathf.PI * 2f);
+
+        public static readonly ValueRange<float> Minus80To0 = new(-80f, 0f);
 
         public static ValueRange<T> ToValueRange<T>(this RangeInt range) where T : struct, IComparable<T>, IConvertible
         {
