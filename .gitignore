@@ -26,6 +26,8 @@
 .vs/
 
 /.idea/
+*.DotSettings.user
+*.DotSettings
 
 # Gradle cache directory
 .gradle/
