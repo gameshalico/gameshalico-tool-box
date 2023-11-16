@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using ShalicoAttributePack.Editor;
+using ShalicoPalette;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -71,20 +72,31 @@ namespace ShalicoFunctionRunner.Editor
             if (isFocused)
                 EditorGUI.DrawRect(rect, new Color(0.1f, 0.6f, 0.6f, 0.1f));
             else if (isActive)
-                EditorGUI.DrawRect(rect, new Color(0.6f, 0.6f, 0.1f, 0.1f));
+                EditorGUI.DrawRect(rect, new Color(0.6f, 0.6f, 0.1f, 0.05f));
         }
 
-        private void DrawCustomLabel(Rect rect, string text, Color32 color)
+        private void DrawCustomLabel(Rect rect, string labelText, int index, string displayName, Color32 color)
         {
             var colorRect = new Rect(rect.x, rect.y, 5, rect.height);
             EditorGUI.DrawRect(colorRect, color);
 
-            var textRect = new Rect(rect.x + 14, rect.y, rect.width - 14, rect.height);
-            var style = new GUIStyle(EditorStyles.label)
+            var labelTextStyle = new GUIStyle(EditorStyles.label)
             {
                 fontStyle = FontStyle.Bold
             };
-            EditorGUI.LabelField(textRect, text, style);
+            var label = new GUIContent(labelText);
+            var labelRect = new Rect(rect.x + 14, rect.y, labelTextStyle.CalcSize(label).x, rect.height);
+            EditorGUI.LabelField(labelRect, label, labelTextStyle);
+
+            var subTextStyle = new GUIStyle(EditorStyles.label)
+            {
+                fontStyle = FontStyle.Normal,
+                normal = { textColor = EditorStyles.label.normal.textColor.Alpha(0x80) }
+            };
+
+            var subText = new GUIContent($" ({index} : {displayName})");
+            var subTextRect = new Rect(labelRect.xMax + 5, rect.y, subTextStyle.CalcSize(subText).x, rect.height);
+            EditorGUI.LabelField(subTextRect, subText, subTextStyle);
         }
 
         private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
@@ -92,17 +104,17 @@ namespace ShalicoFunctionRunner.Editor
             var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
             var type = element.managedReferenceValue.GetType();
             var color = Color.white;
-            var text = type.Name;
+            var nameText = type.Name;
 
             if (type.GetCustomAttribute(typeof(CustomListLabelAttribute)) is CustomListLabelAttribute attribute)
             {
                 color = attribute.Color;
-                text = attribute.Text;
+                nameText = attribute.Text;
             }
 
             var labelRect = new Rect(rect.x + 14, rect.y, rect.width - 14,
                 EditorGUIUtility.singleLineHeight);
-            DrawCustomLabel(labelRect, $"{text} ({element.displayName})", color);
+            DrawCustomLabel(labelRect, nameText, index, element.displayName, color);
 
             EditorGUI.PropertyField(rect, element, GUIContent.none, true);
 

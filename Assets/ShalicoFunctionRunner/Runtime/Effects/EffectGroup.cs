@@ -7,7 +7,7 @@ using UnityEngine;
 namespace ShalicoFunctionRunner.Effects
 {
     [Serializable]
-    [CustomListLabel("Group", Tone.Light, HueSymbol.RedPurple)]
+    [CustomListLabel("Group", Tone.Strong, HueSymbol.RedPurple)]
     public class EffectGroup : IEffect
     {
         [SerializeReference] private IEffect[] _effects = Array.Empty<IEffect>();
