@@ -3,7 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UniRx;
 
-namespace ShalicoSoundKit.Runtime
+namespace ShalicoSoundKit
 {
     public interface ISoundHandler
     {

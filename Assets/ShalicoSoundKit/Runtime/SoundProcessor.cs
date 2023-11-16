@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
 
-namespace ShalicoSoundKit.Runtime
+namespace ShalicoSoundKit
 {
     public static class SoundProcessor
     {
