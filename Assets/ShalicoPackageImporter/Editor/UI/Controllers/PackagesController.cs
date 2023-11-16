@@ -58,11 +58,20 @@ namespace ShalicoPackageImporter.Editor.UI.Controllers
                     OnMoveDownButtonClicked?.Invoke(_packageDataArray[index]);
                 };
             };
+
+# if UNITY_2022_3_OR_NEWER
             _listView.selectionChanged += selection =>
             {
                 var selected = (PackageData)_listView.selectedItem;
                 OnSelectedPackageChanged?.Invoke(selected);
             };
+# else
+            _listView.onSelectionChange += selection =>
+            {
+                var selected = (PackageData)_listView.selectedItem;
+                OnSelectedPackageChanged?.Invoke(selected);
+            };
+# endif
 
             var addButton = root.Q<Button>("packages__add-button");
             addButton.clicked += () => { OnAddButtonClicked?.Invoke(); };
