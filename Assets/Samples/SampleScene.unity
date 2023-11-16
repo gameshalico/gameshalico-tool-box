@@ -280,11 +280,14 @@ MonoBehaviour:
     - rid: 8461813264559374377
       type: {class: DebugLogFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
-        message: 
+        message: Start
     - rid: 8461813264559374378
       type: {class: ChainFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
-        _runners: []
+        _runners:
+        - rid: 8461813264559374394
+        - rid: 8461813264559374396
+        - rid: 8461813264559374393
     - rid: 8461813264559374379
       type: {class: AsyncChainFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
@@ -316,7 +319,21 @@ MonoBehaviour:
       type: {class: DelayFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
       data:
         timeScaleMode: 0
-        delay: 0
+        delay: 1
+    - rid: 8461813264559374393
+      type: {class: DebugLogFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        message: 3 times printed
+    - rid: 8461813264559374394
+      type: {class: RepeatFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        repeatCount: 2
+        repeatForever: 0
+    - rid: 8461813264559374396
+      type: {class: DelayFunctionRunner, ns: ShalicoEffect.FunctionRunners, asm: Assembly-CSharp}
+      data:
+        timeScaleMode: 0
+        delay: 1
 --- !u!1 &1956514570
 GameObject:
   m_ObjectHideFlags: 0

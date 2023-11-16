@@ -16,6 +16,13 @@ namespace ShalicoEffect.FunctionRunners
         public async UniTask Run(Func<CancellationToken, UniTask> function,
             CancellationToken cancellationToken = default)
         {
+            await RunFunctionRunners(0, _ => UniTask.CompletedTask, cancellationToken);
+            await function(cancellationToken);
+        }
+
+        public async UniTask RunFunction(Func<CancellationToken, UniTask> function,
+            CancellationToken cancellationToken = default)
+        {
             await RunFunctionRunners(0, function, cancellationToken);
         }
 
