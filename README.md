@@ -15,7 +15,6 @@ ShowIf, Previewなどの便利なPropertyAttributeを追加します。
 https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoAttributePack
 ```
 
-
 ## [Shalico Reference Generator](/Assets/ShalicoReferenceGenerator/Documentation~/ShalicoReferenceGenerator.md)
 Scene名、Tag名、Layer名、Sorting Layer名等、Unityの標準機能で参照できるものを自動でクラスにまとめます。
 ```
@@ -29,7 +28,7 @@ https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoHiera
 ```
 
 ## [Shalico Function Runner](/Assets/ShalicoAttributePack/Documentation~/ShalicoFunctionRunner.md)
-ShowIf, Previewなどの便利なPropertyAttributeを追加します。
+タイミング・ループ・条件など、主にエフェクトをインスペクターから制御するための機能を提供します。
 ```
 https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoFunctionRunner
 ```
