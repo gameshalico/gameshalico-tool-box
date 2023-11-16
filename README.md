@@ -28,6 +28,12 @@ https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoRefer
 https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoHierarchyEnhancer
 ```
 
+## [Shalico Function Runner](/Assets/ShalicoAttributePack/Documentation~/ShalicoFunctionRunner.md)
+ShowIf, Previewなどの便利なPropertyAttributeを追加します。
+```
+https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoFunctionRunner
+```
+
 ## [Shalico Sound Kit](/Assets/ShalicoSoundKit/Documentation~/ShalicoSoundKit.md)
 サウンドの再生やクロスフェード、ピッチ変更など、サウンドに関する機能を提供します。
 ```
