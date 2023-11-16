@@ -7,13 +7,20 @@ using UnityEngine;
 namespace ShalicoEffect.FunctionRunners
 {
     [Serializable]
-    [AddFunctionRunnerMenu("Function Runner Chain")]
-    [CustomListLabel("Chain", Tone.MediumGray1)]
-    public class FunctionRunnerChain : IFunctionRunner
+    [AddFunctionRunnerMenu("Multiple/Chain", 1)]
+    [CustomListLabel("Chain", Tone.Light, HueSymbol.RedPurple)]
+    public class ChainFunctionRunner : IFunctionRunner
     {
         [SerializeReference] private IFunctionRunner[] _runners = Array.Empty<IFunctionRunner>();
 
         public async UniTask Run(Func<CancellationToken, UniTask> function,
+            CancellationToken cancellationToken = default)
+        {
+            await RunFunctionRunners(0, _ => UniTask.CompletedTask, cancellationToken);
+            await function(cancellationToken);
+        }
+
+        public async UniTask RunFunction(Func<CancellationToken, UniTask> function,
             CancellationToken cancellationToken = default)
         {
             await RunFunctionRunners(0, function, cancellationToken);

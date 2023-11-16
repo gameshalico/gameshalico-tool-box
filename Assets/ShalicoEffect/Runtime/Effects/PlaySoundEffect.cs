@@ -12,8 +12,8 @@ namespace ShalicoEffect.Effects
 {
     [Serializable]
     [AddEffectMenu("Sound/Play Sound")]
-    [CustomListLabel("Play Sound", Tone.Light, HueSymbol.Red)]
-    public class PlaySoundEffect : Effect
+    [CustomListLabel("Play Sound", Tone.Light)]
+    public class PlaySoundEffect : IEffect
     {
         public enum PitchMode
         {
@@ -42,6 +42,18 @@ namespace ShalicoEffect.Effects
         private bool IsPitchRandom => pitchMode == PitchMode.Random ||
                                       pitchMode == PitchMode.RandomByEqualTemperament ||
                                       pitchMode == PitchMode.RandomByJustIntonation;
+
+
+        public async UniTask PlayEffectAsync(CancellationToken cancellationToken = default)
+        {
+            var handler = SoundManager.GetPlayer(audioClip, audioMixerGroup)
+                .SetID(soundID)
+                .SetVolume(volume);
+
+            SetPitch(handler);
+
+            await handler.Play().OnReleaseAsObservable.ToUniTask(cancellationToken: cancellationToken);
+        }
 
         private void SetPitch(ISoundHandler soundHandler)
         {
@@ -72,17 +84,6 @@ namespace ShalicoEffect.Effects
                     );
                     break;
             }
-        }
-
-        protected override async UniTask PlayEffectWithTimingAsync(CancellationToken cancellationToken)
-        {
-            var handler = SoundManager.GetPlayer(audioClip, audioMixerGroup)
-                .SetID(soundID)
-                .SetVolume(volume);
-
-            SetPitch(handler);
-
-            await handler.Play().OnReleaseAsObservable.ToUniTask(cancellationToken: cancellationToken);
         }
     }
 }

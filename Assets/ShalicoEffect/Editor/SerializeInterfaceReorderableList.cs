@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using ShalicoAttributePack.Editor;
 using UnityEditor;
@@ -13,8 +14,8 @@ namespace ShalicoEffect.Editor
         where TInterface : class
         where TAddMenuAttribute : Attribute, IAddMenuAttribute
     {
+        private static AddMenuItem[] _cachedMenuItems;
         private readonly ReorderableList _reorderableList;
-        private AddMenuItem[] _cachedMenuItems;
 
         public SerializeInterfaceReorderableList(SerializedProperty property, GUIContent label)
         {
@@ -23,8 +24,18 @@ namespace ShalicoEffect.Editor
             _reorderableList.onAddDropdownCallback += (_, _) => OpenAddMenu();
             _reorderableList.drawElementCallback += DrawElement;
             _reorderableList.elementHeightCallback += GetElementHeight;
+            _reorderableList.onMouseUpCallback += OnMouseUp;
 
             _reorderableList.drawElementBackgroundCallback = DrawBackground;
+        }
+
+        private void OnMouseUp(ReorderableList list)
+        {
+            if (Event.current.button == 1)
+            {
+                OpenListMenu();
+                Event.current.Use();
+            }
         }
 
         private void DrawHeader(Rect rect, GUIContent label)
@@ -40,7 +51,7 @@ namespace ShalicoEffect.Editor
                 rect.y,
                 EditorGUIUtility.singleLineHeight, EditorGUIUtility.singleLineHeight);
             var result = GUI.Button(optionsButtonRect, "⋮");
-            if (result) Event.current.Use();
+
 
             return result;
         }
@@ -60,7 +71,7 @@ namespace ShalicoEffect.Editor
             if (isFocused)
                 EditorGUI.DrawRect(rect, new Color(0.1f, 0.6f, 0.6f, 0.1f));
             else if (isActive)
-                EditorGUI.DrawRect(rect, new Color(1.0f, 1.0f, 1.0f, 0.05f));
+                EditorGUI.DrawRect(rect, new Color(0.6f, 0.6f, 0.1f, 0.1f));
         }
 
         private void DrawCustomLabel(Rect rect, string text, Color32 color)
@@ -89,7 +100,8 @@ namespace ShalicoEffect.Editor
                 text = attribute.Text;
             }
 
-            var labelRect = new Rect(rect.x + 14, rect.y, rect.width - 14, EditorGUIUtility.singleLineHeight);
+            var labelRect = new Rect(rect.x + 14, rect.y, rect.width - 14,
+                EditorGUIUtility.singleLineHeight);
             DrawCustomLabel(labelRect, $"{text} ({element.displayName})", color);
 
             EditorGUI.PropertyField(rect, element, GUIContent.none, true);
@@ -121,7 +133,6 @@ namespace ShalicoEffect.Editor
                 {
                     var instance = (TInterface)Activator.CreateInstance(menuItem.Type);
                     GetNewElement().managedReferenceValue = instance;
-                    Debug.Log(instance);
                     _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
                 });
             menu.ShowAsContext();
@@ -206,9 +217,9 @@ namespace ShalicoEffect.Editor
             menu.AddItem(new GUIContent("Duplicate"), false, () =>
             {
                 var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
-                var obj = (TInterface)element.managedReferenceValue;
+                var obj = CopiedItem.ToJson((TInterface)element.managedReferenceValue);
                 var newElementProperty = GetNewElement();
-                newElementProperty.managedReferenceValue = obj;
+                newElementProperty.managedReferenceValue = CopiedItem.FromJson(obj);
                 newElementProperty.serializedObject.ApplyModifiedProperties();
             });
 
@@ -238,15 +249,16 @@ namespace ShalicoEffect.Editor
                         .Add(new AddMenuItem((IAddMenuAttribute)addMenuAttribute, type));
             }
 
-            _cachedMenuItems = classesWithCustomAttribute.ToArray();
+            _cachedMenuItems = classesWithCustomAttribute
+                .OrderByDescending(x => x.Attribute.Order)
+                .ThenBy(x => x.Attribute.Path)
+                .ToArray();
 
             return _cachedMenuItems;
         }
 
         public void Draw(Rect position)
         {
-            position.x += 14;
-            position.width -= 14;
             _reorderableList.DoList(position);
         }
 
@@ -257,8 +269,8 @@ namespace ShalicoEffect.Editor
 
         private class AddMenuItem
         {
-            public readonly Type Type;
             public readonly IAddMenuAttribute Attribute;
+            public readonly Type Type;
 
             public AddMenuItem(IAddMenuAttribute attribute, Type type)
             {

@@ -3,9 +3,9 @@ using Cysharp.Threading.Tasks;
 
 namespace ShalicoEffect
 {
-    public abstract class ImmediateEffect : Effect
+    public abstract class ImmediateEffect : IEffect
     {
-        protected override UniTask PlayEffectWithTimingAsync(CancellationToken token)
+        public UniTask PlayEffectAsync(CancellationToken cancellationToken)
         {
             PlayEffectImmediate();
             return UniTask.CompletedTask;

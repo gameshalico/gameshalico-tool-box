@@ -5,8 +5,8 @@ using UnityEngine;
 namespace ShalicoEffect.Effects
 {
     [Serializable]
-    [AddEffectMenu("Debug/Debug Log")]
-    [CustomListLabel("Debug Log", Tone.MediumGray1, HueSymbol.Red)]
+    [AddEffectMenu("Debug/Debug Log", -1)]
+    [CustomListLabel("Debug Log", Tone.Light, HueSymbol.RedPurple)]
     public class DebugLogEffect : ImmediateEffect
     {
         [SerializeField] private HueTone color;
