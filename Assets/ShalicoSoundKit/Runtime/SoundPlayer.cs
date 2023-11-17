@@ -83,7 +83,7 @@ namespace ShalicoSoundKit
             _tweenCancellationTokenSource = new CancellationTokenSource();
             return CancellationTokenSource.CreateLinkedTokenSource(cancellationToken,
                 _tweenCancellationTokenSource.Token,
-                destroyCancellationToken).Token;
+                this.GetCancellationTokenOnDestroy()).Token;
         }
 
 
