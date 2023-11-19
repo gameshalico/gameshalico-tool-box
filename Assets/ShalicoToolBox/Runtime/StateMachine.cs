@@ -62,14 +62,14 @@ namespace ShalicoToolBox
             CurrentState.Enter(null);
         }
 
-        public void Update()
+        public void Update(float deltaTime)
         {
             if (CurrentState == null)
             {
                 throw new InvalidOperationException("State is not started.");
             }
 
-            CurrentState.Update();
+            CurrentState.Update(deltaTime);
         }
 
         public void Start<TFirst>() where TFirst : State, new()
@@ -101,6 +101,7 @@ namespace ShalicoToolBox
         {
             private readonly Dictionary<int, State> _transitions = new();
             protected StateMachine<TOwner> StateMachine { get; private set; }
+            protected TOwner Owner => StateMachine.Owner;
 
             internal void Initialize(StateMachine<TOwner> stateMachine)
             {
@@ -122,9 +123,9 @@ namespace ShalicoToolBox
                 OnEnter(prevState);
             }
 
-            internal void Update()
+            internal void Update(float deltaTime)
             {
-                OnUpdate();
+                OnUpdate(deltaTime);
             }
 
             internal void Exit(State nextState)
@@ -133,7 +134,7 @@ namespace ShalicoToolBox
             }
 
             protected virtual void OnEnter(State prevState) { }
-            protected virtual void OnUpdate() { }
+            protected virtual void OnUpdate(float deltaTime) { }
             protected virtual void OnExit(State nextState) { }
         }
 
