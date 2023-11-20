@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace ShalicoFunctionRunner.Editor
 {
-    public class SerializeInterfaceReorderableList<TContainer, TInterface, TAddMenuAttribute>
+    public class InterfaceReorderableList<TContainer, TInterface, TAddMenuAttribute>
         where TContainer : class
         where TInterface : class
         where TAddMenuAttribute : Attribute, IAddMenuAttribute
@@ -18,8 +18,9 @@ namespace ShalicoFunctionRunner.Editor
         private static AddMenuItem[] _cachedMenuItems;
         private readonly ReorderableList _reorderableList;
 
-        public SerializeInterfaceReorderableList(SerializedProperty property, GUIContent label)
+        public InterfaceReorderableList(SerializedProperty property, GUIContent label)
         {
+            RemoveIncorrectElements(property);
             _reorderableList = new ReorderableList(property.serializedObject, property);
             _reorderableList.drawHeaderCallback += rect => { DrawHeader(rect, label); };
             _reorderableList.onAddDropdownCallback += (_, _) => OpenAddMenu();
@@ -28,6 +29,19 @@ namespace ShalicoFunctionRunner.Editor
             _reorderableList.onMouseUpCallback += OnMouseUp;
 
             _reorderableList.drawElementBackgroundCallback = DrawBackground;
+        }
+
+        private void RemoveIncorrectElements(SerializedProperty serializedProperty)
+        {
+            if (!SerializationUtility.HasManagedReferencesWithMissingTypes(serializedProperty.serializedObject
+                    .targetObject))
+                return;
+
+            Debug.LogWarning(
+                $"Removing incorrect elements from {serializedProperty.displayName}({serializedProperty.serializedObject.targetObject})");
+
+            SerializationUtility.ClearAllManagedReferencesWithMissingTypes(serializedProperty.serializedObject
+                .targetObject);
         }
 
         private void OnMouseUp(ReorderableList list)
@@ -91,7 +105,10 @@ namespace ShalicoFunctionRunner.Editor
             var subTextStyle = new GUIStyle(EditorStyles.label)
             {
                 fontStyle = FontStyle.Normal,
-                normal = { textColor = EditorStyles.label.normal.textColor.Alpha(0x80) }
+                normal =
+                {
+                    textColor = EditorStyles.label.normal.textColor.Alpha(0x80)
+                }
             };
 
             var subText = new GUIContent($" ({index} : {displayName})");
@@ -102,6 +119,20 @@ namespace ShalicoFunctionRunner.Editor
         private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
         {
             var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
+
+            if (element.managedReferenceValue == null)
+            {
+                var style = new GUIStyle(EditorStyles.label)
+                {
+                    normal =
+                    {
+                        textColor = Color.magenta
+                    }
+                };
+                EditorGUI.LabelField(rect, "<null>", style);
+                return;
+            }
+
             var type = element.managedReferenceValue.GetType();
             var color = Color.white;
             var nameText = type.Name;

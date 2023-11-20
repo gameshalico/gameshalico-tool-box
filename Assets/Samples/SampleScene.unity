@@ -228,7 +228,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1539372952
 Transform:
   m_ObjectHideFlags: 0
@@ -286,7 +286,8 @@ MonoBehaviour:
     - rid: 7585011017981886488
       type: {class: ChainFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
       data:
-        _runners: []
+        _runners:
+        - rid: 8461813358226046976
     - rid: 7585011017981886489
       type: {class: AsyncChainFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
       data:
@@ -328,6 +329,18 @@ MonoBehaviour:
       type: {class: DebugLogEffect, ns: ShalicoFunctionRunner.Effects, asm: ShalicoFunctionRunner}
       data:
         message: "\u30C6\u30B9\u30C81"
+    - rid: 8461813358226046976
+      type: {class: EffectFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
+      data:
+        synchronize: 1
+        effectGroup:
+          _effects:
+          - rid: 8461813358226046978
+    - rid: 8461813358226046978
+      type: {class: SetActiveEffect, ns: ShalicoFunctionRunner.Effects, asm: ShalicoFunctionRunner}
+      data:
+        target: {fileID: 0}
+        active: 0
 --- !u!1 &1956514570
 GameObject:
   m_ObjectHideFlags: 0

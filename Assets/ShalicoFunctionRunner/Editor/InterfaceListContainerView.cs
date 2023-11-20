@@ -12,7 +12,7 @@ namespace ShalicoFunctionRunner.Editor
     {
         private readonly string _propertyName;
 
-        private readonly Dictionary<string, SerializeInterfaceReorderableList<TContainer, TInterface,
+        private readonly Dictionary<string, InterfaceReorderableList<TContainer, TInterface,
                 TAddMenuAttribute>>
             _reorderableLists = new();
 
@@ -34,7 +34,7 @@ namespace ShalicoFunctionRunner.Editor
             {
                 if (!_reorderableLists.TryGetValue(property.propertyPath, out var list))
                 {
-                    list = new SerializeInterfaceReorderableList<TContainer, TInterface,
+                    list = new InterfaceReorderableList<TContainer, TInterface,
                         TAddMenuAttribute>(property.FindPropertyRelative(_propertyName), label);
                     _reorderableLists.Add(property.propertyPath, list);
                 }
