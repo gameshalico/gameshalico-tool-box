@@ -6,143 +6,128 @@ namespace ShalicoToolBox
     /// <summary>
     ///     汎用ステートマシン
     /// </summary>
-    /// <typeparam name="TOwner">ステートを区別するクラス</typeparam>
-    public class StateMachine<TOwner>
+    /// <typeparam name="TOwner">ステートを保持しているクラス</typeparam>
+    public partial class StateMachine<TOwner>
     {
         private readonly Dictionary<Type, State> _stateMap = new();
 
+        /// <summary>
+        ///     ステートマシンを作成する。
+        /// </summary>
+        /// <param name="owner">ステートを保持しているクラスのインスタンス</param>
         public StateMachine(TOwner owner)
         {
             Owner = owner;
         }
 
+        /// <summary>
+        ///     ステートを保持しているクラスのインスタンス
+        /// </summary>
         public TOwner Owner { get; }
+
+        /// <summary>
+        ///     現在のステートのインスタンス
+        /// </summary>
         public State CurrentState { get; private set; }
 
+        /// <summary>
+        ///     ステートを追加する
+        /// </summary>
+        /// <typeparam name="TState">追加するステートの型</typeparam>
+        /// <returns>追加したステート</returns>
         public TState AddState<TState>() where TState : State, new()
         {
             TState state = new();
-            state.Initialize(this);
+            state.SetStateMachine(this);
             _stateMap.Add(typeof(TState), state);
             return state;
         }
 
-        public State AddState(State state)
-        {
-            state.Initialize(this);
-            _stateMap.Add(state.GetType(), state);
-            return state;
-        }
-
+        /// <summary>
+        ///     ステートを取得する。存在しない場合は新しく作成する。
+        /// </summary>
+        /// <typeparam name="TState">取得/登録するステート型</typeparam>
+        /// <returns>取得/登録したステート</returns>
         public TState GetOrAddState<TState>() where TState : State, new()
         {
-            if (_stateMap.TryGetValue(typeof(TState), out State state))
-            {
+            if (_stateMap.TryGetValue(typeof(TState), out var state))
                 return (TState)state;
-            }
 
             return AddState<TState>();
         }
 
-        public void AddTransition<TFrom, TTo>(int triggerId) where TFrom : State, new() where TTo : State, new()
-        {
-            TFrom from = GetOrAddState<TFrom>();
-            TTo to = GetOrAddState<TTo>();
-            from.AddTransition(triggerId, to);
-        }
-
-        public void AddTransitionFromAnyState<TTo>(int triggerId) where TTo : State, new()
-        {
-            GetOrAddState<AnyState>().AddTransition(triggerId, GetOrAddState<TTo>());
-        }
-
-        public void Start(State first)
-        {
-            CurrentState = first;
-            CurrentState.Enter(null);
-        }
-
-        public void Update(float deltaTime)
-        {
-            if (CurrentState == null)
-            {
-                throw new InvalidOperationException("State is not started.");
-            }
-
-            CurrentState.Update(deltaTime);
-        }
-
+        /// <summary>
+        ///     ステートマシンを開始する。
+        /// </summary>
+        /// <typeparam name="TFirst">初期ステートの型</typeparam>
         public void Start<TFirst>() where TFirst : State, new()
         {
-            Start(GetOrAddState<TFirst>());
+            CurrentState = GetOrAddState<TFirst>();
+            if (CurrentState is IEnterableState enterableState)
+                enterableState.Enter(null);
         }
 
         /// <summary>
-        ///     トリガーを発行してステートを遷移する
+        ///     ステートマシンを更新する
         /// </summary>
-        /// <param name="triggerId"></param>
-        public void DispatchTrigger(int triggerId)
+        /// <param name="deltaTime">更新間の経過時間</param>
+        /// <exception cref="InvalidOperationException">ステートマシンが開始していない場合</exception>
+        public void Tick(float deltaTime)
         {
-            if (CurrentState.TryGetTransition(triggerId, out State to) ||
-                GetOrAddState<AnyState>().TryGetTransition(triggerId, out to))
-            {
-                ChangeState(to);
-            }
+            ThrowIfStateNotStarted();
+            if (CurrentState is ITickableState state)
+                state.Tick(deltaTime);
+
+            CurrentState.TryTickTransition();
+        }
+
+        /// <summary>
+        ///     遷移を発行してステートを遷移する
+        /// </summary>
+        /// <param name="triggerId">発行する遷移イベントのID</param>
+        /// <returns>イベントによりステートが遷移したか</returns>
+        /// <exception cref="InvalidOperationException">ステートマシンが開始していない場合</exception>
+        public bool DispatchTrigger(int triggerId)
+        {
+            ThrowIfStateNotStarted();
+
+            if (CurrentState.TryTriggerTransition(triggerId))
+                return true;
+
+            if (GetOrAddState<AnyState>().TryTriggerTransition(triggerId))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        ///     キャストして現在のステートを取得する
+        /// </summary>
+        /// <typeparam name="T">キャストする型</typeparam>
+        /// <returns>キャストした現在のステート</returns>
+        /// <exception cref="InvalidOperationException">ステートマシンが開始していない場合</exception>
+        /// <exception cref="InvalidOperationException">ステートがキャスト出来なかった場合</exception>
+        public T GetCurrentStateAs<T>()
+        {
+            ThrowIfStateNotStarted();
+            if (CurrentState is T state)
+                return state;
+            throw new InvalidOperationException($"Current state is not {typeof(T).Name}.");
+        }
+
+        private void ThrowIfStateNotStarted()
+        {
+            if (CurrentState == null)
+                throw new InvalidOperationException("State is not started.");
         }
 
         private void ChangeState(State nextState)
         {
-            CurrentState.Exit(nextState);
-            nextState.Enter(CurrentState);
+            if (CurrentState is IExitableState exitableState)
+                exitableState.Exit(nextState);
+            if (nextState is IEnterableState enterableState)
+                enterableState.Enter(CurrentState);
             CurrentState = nextState;
-        }
-
-        public abstract class State
-        {
-            private readonly Dictionary<int, State> _transitions = new();
-            protected StateMachine<TOwner> StateMachine { get; private set; }
-            protected TOwner Owner => StateMachine.Owner;
-
-            internal void Initialize(StateMachine<TOwner> stateMachine)
-            {
-                StateMachine = stateMachine;
-            }
-
-            internal void AddTransition(int triggerId, State to)
-            {
-                _transitions[triggerId] = to;
-            }
-
-            internal bool TryGetTransition(int triggerId, out State to)
-            {
-                return _transitions.TryGetValue(triggerId, out to);
-            }
-
-            internal void Enter(State prevState)
-            {
-                OnEnter(prevState);
-            }
-
-            internal void Update(float deltaTime)
-            {
-                OnUpdate(deltaTime);
-            }
-
-            internal void Exit(State nextState)
-            {
-                OnExit(nextState);
-            }
-
-            protected virtual void OnEnter(State prevState) { }
-            protected virtual void OnUpdate(float deltaTime) { }
-            protected virtual void OnExit(State nextState) { }
-        }
-
-        /// <summary>
-        ///     どの状態からでも遷移可能な状態
-        /// </summary>
-        private sealed class AnyState : State
-        {
         }
     }
 }
