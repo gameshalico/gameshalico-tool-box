@@ -20,7 +20,6 @@ namespace ShalicoFunctionRunner.Editor
 
         public InterfaceReorderableList(SerializedProperty property, GUIContent label)
         {
-            RemoveIncorrectElements(property);
             _reorderableList = new ReorderableList(property.serializedObject, property);
             _reorderableList.drawHeaderCallback += rect => { DrawHeader(rect, label); };
             _reorderableList.onAddDropdownCallback += (_, _) => OpenAddMenu();
@@ -29,19 +28,6 @@ namespace ShalicoFunctionRunner.Editor
             _reorderableList.onMouseUpCallback += OnMouseUp;
 
             _reorderableList.drawElementBackgroundCallback = DrawBackground;
-        }
-
-        private void RemoveIncorrectElements(SerializedProperty serializedProperty)
-        {
-            if (!SerializationUtility.HasManagedReferencesWithMissingTypes(serializedProperty.serializedObject
-                    .targetObject))
-                return;
-
-            Debug.LogWarning(
-                $"Removing incorrect elements from {serializedProperty.displayName}({serializedProperty.serializedObject.targetObject})");
-
-            SerializationUtility.ClearAllManagedReferencesWithMissingTypes(serializedProperty.serializedObject
-                .targetObject);
         }
 
         private void OnMouseUp(ReorderableList list)
@@ -129,7 +115,8 @@ namespace ShalicoFunctionRunner.Editor
                         textColor = Color.magenta
                     }
                 };
-                EditorGUI.LabelField(rect, "<null>", style);
+
+                EditorGUI.LabelField(rect, $"<Null / Missing type referenced : {element.managedReferenceId}>", style);
                 return;
             }
 
@@ -242,6 +229,32 @@ namespace ShalicoFunctionRunner.Editor
                     throw;
                 }
             });
+
+            menu.AddSeparator("");
+
+            if (SerializationUtility.HasManagedReferencesWithMissingTypes(_reorderableList.serializedProperty
+                    .serializedObject.targetObject))
+                menu.AddItem(new GUIContent("Remove Missing References"), false, () =>
+                {
+                    // Remove missing references
+
+                    for (var i = 0; i < _reorderableList.serializedProperty.arraySize; i++)
+                    {
+                        var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(i);
+                        if (element.managedReferenceValue == null)
+                        {
+                            _reorderableList.serializedProperty.DeleteArrayElementAtIndex(i);
+                            i--;
+                        }
+                    }
+
+                    SerializationUtility.ClearAllManagedReferencesWithMissingTypes(_reorderableList.serializedProperty
+                        .serializedObject.targetObject);
+
+                    _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
+                });
+            else
+                menu.AddDisabledItem(new GUIContent("Remove Missing References"));
 
             menu.ShowAsContext();
         }
