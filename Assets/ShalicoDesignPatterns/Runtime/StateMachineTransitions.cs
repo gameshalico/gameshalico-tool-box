@@ -1,6 +1,6 @@
 using System;
 
-namespace ShalicoToolBox
+namespace ShalicoDesignPatterns
 {
     public partial class StateMachine<TOwner>
     {

@@ -1,6 +1,6 @@
-﻿namespace ShalicoToolBox
+﻿namespace ShalicoDesignPatterns
 {
-    public class Locator<T> where T : class
+    public class ServiceLocator<T> where T : class
     {
         public static T Instance { get; private set; }
 

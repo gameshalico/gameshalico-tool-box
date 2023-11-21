@@ -21,6 +21,12 @@ Scene名、Tag名、Layer名、Sorting Layer名等、Unityの標準機能で参�
 https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoReferenceGenerator
 ```
 
+## [Shalico Design Patterns](/Assets/ShalicoPackageImporter/Documentation~/ShalicoPackageImporter.md)
+汎用的なデザインパターン実装です。
+```
+https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoDesignPatterns
+```
+
 ## [Shalico Hierarchy Enhancer](/Assets/ShalicoHierarchyEnhancer/Documentation~/ShalicoHierarchyEnhancer.md)
 ヒエラルキーを見やすくし、いくつかの便利機能を追加します。
 ```
