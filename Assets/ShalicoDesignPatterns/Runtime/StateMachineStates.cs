@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ShalicoToolBox
+namespace ShalicoDesignPatterns
 {
     public partial class StateMachine<TOwner>
     {
@@ -20,6 +20,15 @@ namespace ShalicoToolBox
             /// </summary>
             /// <param name="nextState">遷移先ステート</param>
             void Exit(State nextState);
+        }
+
+        public interface ITickableState
+        {
+            /// <summary>
+            ///     StateMachineのTickで呼ばれる
+            /// </summary>
+            /// <param name="deltaTime">経過時間</param>
+            public void Tick(float deltaTime);
         }
 
         /// <summary>

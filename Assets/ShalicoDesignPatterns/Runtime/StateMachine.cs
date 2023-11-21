@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ShalicoToolBox
+namespace ShalicoDesignPatterns
 {
     /// <summary>
     ///     汎用ステートマシン

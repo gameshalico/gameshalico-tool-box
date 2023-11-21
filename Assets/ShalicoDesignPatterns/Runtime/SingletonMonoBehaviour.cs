@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ShalicoToolBox
+namespace ShalicoDesignPatterns
 {
     public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : SingletonMonoBehaviour<T>
     {
@@ -17,13 +17,9 @@ namespace ShalicoToolBox
                     s_instance = FindFirstObjectByType<T>();
 
                     if (s_instance == null)
-                    {
                         Debug.LogError($"{typeof(T)} is not found.");
-                    }
                     else
-                    {
                         s_instance.Initialize();
-                    }
                 }
 
                 return s_instance;
@@ -39,17 +35,13 @@ namespace ShalicoToolBox
             }
 
             if (s_instance != this)
-            {
                 Destroy(gameObject);
-            }
         }
 
         private void OnDestroy()
         {
             if (s_instance == this)
-            {
                 s_instance = null;
-            }
         }
 
         protected virtual void Initialize() { }
