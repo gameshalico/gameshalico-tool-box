@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ShalicoPalette
+namespace ShalicoColorPalette
 {
     public abstract class PaletteBase : ScriptableObject, IPalette
     {

@@ -1,5 +1,5 @@
 using System;
-using ShalicoPalette;
+using ShalicoColorPalette;
 using UnityEngine;
 
 namespace ShalicoFunctionRunner

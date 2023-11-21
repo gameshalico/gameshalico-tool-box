@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using ShalicoColorPalette;
 using ShalicoFunctionRunner.Effects;
-using ShalicoPalette;
 using UnityEngine;
 
 namespace ShalicoFunctionRunner.FunctionRunners

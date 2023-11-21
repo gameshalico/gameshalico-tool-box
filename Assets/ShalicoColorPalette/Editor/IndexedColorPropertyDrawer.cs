@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace ShalicoPalette.Editor
+namespace ShalicoColorPalette.Editor
 {
     [CustomPropertyDrawer(typeof(IndexedColor))]
     public class IndexedColorPropertyDrawer : PropertyDrawer

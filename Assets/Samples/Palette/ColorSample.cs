@@ -1,5 +1,5 @@
 using ShalicoAttributePack;
-using ShalicoPalette;
+using ShalicoColorPalette;
 using UnityEngine;
 
 namespace Samples.Palette
