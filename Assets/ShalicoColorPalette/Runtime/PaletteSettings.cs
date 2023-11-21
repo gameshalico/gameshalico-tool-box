@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace ShalicoPalette
+namespace ShalicoColorPalette
 {
     [CreateAssetMenu(fileName = "PaletteSettings", menuName = "ShalicoPalette/PaletteSettings", order = 0)]
     public class PaletteSettings : ScriptableObject

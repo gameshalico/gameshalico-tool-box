@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ShalicoPalette
+namespace ShalicoColorPalette
 {
     public static class Tones
     {
@@ -226,7 +226,6 @@ namespace ShalicoPalette
             {
                 new(0x66, 0x66, 0x66, 0xFF)
             }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
-
             new("dkGy0", new Color32[] // DarkGray0
             {
                 new(0x4D, 0x4D, 0x4D, 0xFF)
@@ -239,7 +238,6 @@ namespace ShalicoPalette
             {
                 new(0x1A, 0x1A, 0x1A, 0xFF)
             }, ColorType.Neutral, SaturationLevel.Neutral, isNeutral: true),
-
             new("Bk", new Color32[] // Black
             {
                 new(0x00, 0x00, 0x00, 0xFF)

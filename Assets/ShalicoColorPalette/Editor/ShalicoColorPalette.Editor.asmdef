@@ -1,5 +1,5 @@
 {
-    "name": "ShalicoPalette.Editor",
+    "name": "ShalicoColorPalette.Editor",
     "rootNamespace": "",
     "references": [
         "GUID:f2aea0715dbcee04c8861d1fd4fdbe72"

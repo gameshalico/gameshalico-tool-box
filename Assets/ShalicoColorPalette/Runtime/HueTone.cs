@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ShalicoPalette
+namespace ShalicoColorPalette
 {
     [Serializable]
     public struct HueTone

@@ -1,4 +1,4 @@
-namespace ShalicoPalette
+namespace ShalicoColorPalette
 {
     /// <summary>
     ///     PCCS Tone

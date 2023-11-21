@@ -1,4 +1,4 @@
-namespace ShalicoPalette
+namespace ShalicoColorPalette
 {
     public enum ColorType
     {
@@ -6,6 +6,6 @@ namespace ShalicoPalette
         LightClear,
         Intermediate,
         DarkClear,
-        Neutral,
+        Neutral
     }
 }

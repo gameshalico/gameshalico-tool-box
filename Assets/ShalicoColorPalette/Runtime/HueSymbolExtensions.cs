@@ -1,4 +1,4 @@
-namespace ShalicoPalette
+namespace ShalicoColorPalette
 {
     public static class HueSymbolExtensions
     {
