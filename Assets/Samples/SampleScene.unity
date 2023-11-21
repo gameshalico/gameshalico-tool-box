@@ -258,89 +258,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chainFunctionRunner:
     _runners:
-    - rid: 7585011017981886486
-    - rid: 7585011017981886487
-    - rid: 7585011017981886488
-    - rid: 7585011017981886489
-    - rid: 7585011017981886490
-    - rid: 7585011017981886491
-    - rid: 7585011017981886492
-    - rid: 7585011017981886493
-    - rid: 7585011017981886494
-    - rid: 7585011017981886495
+    - rid: 8461813375835045894
   references:
     version: 2
     RefIds:
-    - rid: 7585011017981886486
+    - rid: 8461813375835045894
       type: {class: EffectFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
       data:
         synchronize: 1
         effectGroup:
-          _effects:
-          - rid: 7585011017981886496
-          - rid: 7585011017981886498
-    - rid: 7585011017981886487
-      type: {class: DebugLogFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
-      data:
-        message: "\u30C6\u30B9\u30C82"
-    - rid: 7585011017981886488
-      type: {class: ChainFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
-      data:
-        _runners:
-        - rid: 8461813358226046976
-    - rid: 7585011017981886489
-      type: {class: AsyncChainFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
-      data:
-        asyncChain:
-          _runners: []
-    - rid: 7585011017981886490
-      type: {class: ParallelChainFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
-      data:
-        chains: []
-    - rid: 7585011017981886491
-      type: {class: RepeatFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
-      data:
-        repeatCount: 0
-        repeatForever: 0
-    - rid: 7585011017981886492
-      type: {class: ActiveFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
-      data:
-        active: 1
-    - rid: 7585011017981886493
-      type: {class: ChanceFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
-      data:
-        chance: 0.8
-    - rid: 7585011017981886494
-      type: {class: CooldownFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
-      data:
-        timeScaleMode: 0
-        cooldown: 0
-    - rid: 7585011017981886495
-      type: {class: DelayFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
-      data:
-        timeScaleMode: 0
-        delay: 0
-    - rid: 7585011017981886496
-      type: {class: SetActiveEffect, ns: ShalicoFunctionRunner.Effects, asm: ShalicoFunctionRunner}
-      data:
-        target: {fileID: 1539372951}
-        active: 0
-    - rid: 7585011017981886498
-      type: {class: DebugLogEffect, ns: ShalicoFunctionRunner.Effects, asm: ShalicoFunctionRunner}
-      data:
-        message: "\u30C6\u30B9\u30C81"
-    - rid: 8461813358226046976
-      type: {class: EffectFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
-      data:
-        synchronize: 1
-        effectGroup:
-          _effects:
-          - rid: 8461813358226046978
-    - rid: 8461813358226046978
-      type: {class: SetActiveEffect, ns: ShalicoFunctionRunner.Effects, asm: ShalicoFunctionRunner}
-      data:
-        target: {fileID: 0}
-        active: 0
+          _effects: []
 --- !u!1 &1956514570
 GameObject:
   m_ObjectHideFlags: 0
