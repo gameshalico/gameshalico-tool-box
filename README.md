@@ -33,10 +33,10 @@ https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoDesig
 https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoHierarchyEnhancer
 ```
 
-## [Shalico Function Runner](/Assets/ShalicoAttributePack/Documentation~/ShalicoFunctionRunner.md)
+## [Shalico Function Runner](/Assets/ShalicoAttributePack/Documentation~/ShalicoEffectProcessor.md)
 タイミング・ループ・条件など、主にエフェクトをインスペクターから制御するための機能を提供します。
 ```
-https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoFunctionRunner
+https://github.com/gameshalico/gameshalico-tool-box.git?path=Assets/ShalicoEffectProcessor
 ```
 
 ## [Shalico Sound Kit](/Assets/ShalicoSoundKit/Documentation~/ShalicoSoundKit.md)

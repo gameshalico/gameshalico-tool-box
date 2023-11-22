@@ -256,14 +256,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2536e726068b4ef48d4f345a0e357628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chainFunctionRunner:
+  chainEffectProcessor:
     _runners:
     - rid: 8461813375835045894
   references:
     version: 2
     RefIds:
     - rid: 8461813375835045894
-      type: {class: EffectFunctionRunner, ns: ShalicoFunctionRunner.FunctionRunners, asm: ShalicoFunctionRunner}
+      type: {class: EffectEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
       data:
         synchronize: 1
         effectGroup:
