@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ShalicoEffectProcessor
+namespace ShalicoEffectProcessor.Context
 {
     public class EffectContext
     {

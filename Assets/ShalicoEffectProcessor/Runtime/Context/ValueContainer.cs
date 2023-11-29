@@ -1,6 +1,6 @@
 using System;
 
-namespace ShalicoEffectProcessor.ContextObjects
+namespace ShalicoEffectProcessor.Context
 {
     public class ValueContainer<T> : ICloneable where T : struct
     {

@@ -1,7 +1,8 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using ShalicoEffectProcessor.Context;
 
-namespace ShalicoEffectProcessor
+namespace ShalicoEffectProcessor.EffectProcessors
 {
     public static class EffectProcessorExtensions
     {

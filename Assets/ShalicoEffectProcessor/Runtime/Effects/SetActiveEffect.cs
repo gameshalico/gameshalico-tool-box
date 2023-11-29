@@ -1,5 +1,6 @@
 using System;
 using ShalicoColorPalette;
+using ShalicoEffectProcessor.Context;
 using UnityEngine;
 
 namespace ShalicoEffectProcessor.Effects

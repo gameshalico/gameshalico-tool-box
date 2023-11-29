@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ShalicoEffectProcessor.ContextObjects
+namespace ShalicoEffectProcessor.Context
 {
     public static class ValueContainerExtensions
     {
@@ -10,6 +10,16 @@ namespace ShalicoEffectProcessor.ContextObjects
                 return container.Value;
 
             throw new KeyNotFoundException($"EffectContext does not contain {typeof(T)}");
+        }
+
+        public static ValueContainer<T> GetContainer<T>(this EffectContext context) where T : struct
+        {
+            if (context.TryGet(out ValueContainer<T> container))
+                return container;
+
+            var newContainer = new ValueContainer<T>(default(T));
+            context.Set(newContainer);
+            return newContainer;
         }
 
         public static bool TryGetValue<T>(this EffectContext context, out T value) where T : struct

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ShalicoEffectProcessor.ContextObjects
+namespace ShalicoEffectProcessor.Context
 {
     public readonly struct SpatialInfo
     {
