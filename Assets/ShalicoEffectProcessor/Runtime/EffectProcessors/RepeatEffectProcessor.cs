@@ -16,15 +16,16 @@ namespace ShalicoEffectProcessor.EffectProcessors
         private int repeatCount;
 
         [SerializeField] private bool repeatForever;
+        [SerializeField] private bool cloneContext;
 
-        public async UniTask Run(Func<CancellationToken, UniTask> function,
+        public async UniTask Run(EffectContext context, EffectFunc function,
             CancellationToken cancellationToken = default)
         {
             var repeat = repeatCount + 1;
 
             do
             {
-                await function(cancellationToken);
+                await function(context.CloneIf(cloneContext), cancellationToken);
                 repeat--;
             } while (repeatForever || repeat > 0);
         }

@@ -13,6 +13,12 @@ namespace ShalicoEffectProcessor.EffectProcessors
     {
         [SerializeField] private string message;
 
+        public UniTask Run(EffectContext context, EffectFunc function,
+            CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
         public UniTask Run(Func<CancellationToken, UniTask> function, CancellationToken cancellationToken = default)
         {
             Debug.Log(message);

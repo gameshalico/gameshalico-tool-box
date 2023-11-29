@@ -13,11 +13,11 @@ namespace ShalicoEffectProcessor.EffectProcessors
     {
         [SerializeField] private bool active = true;
 
-        public async UniTask Run(Func<CancellationToken, UniTask> function,
+        public async UniTask Run(EffectContext context, EffectFunc function,
             CancellationToken cancellationToken = default)
         {
             if (active)
-                await function(cancellationToken);
+                await function(context, cancellationToken);
         }
     }
 }

@@ -44,7 +44,7 @@ namespace ShalicoEffectProcessor.Effects
                                       pitchMode == PitchMode.RandomByJustIntonation;
 
 
-        public async UniTask PlayEffectAsync(CancellationToken cancellationToken = default)
+        public async UniTask PlayEffectAsync(EffectContext context, CancellationToken cancellationToken = default)
         {
             var handler = SoundManager.GetPlayer(audioClip, audioMixerGroup)
                 .SetID(soundID)

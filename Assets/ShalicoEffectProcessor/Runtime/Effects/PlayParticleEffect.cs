@@ -11,7 +11,7 @@ namespace ShalicoEffectProcessor.Effects
     {
         [SerializeField] private ParticleSystem particleSystem;
 
-        protected override void PlayEffectImmediate()
+        protected override void PlayEffectImmediate(EffectContext context)
         {
             particleSystem.Play();
         }

@@ -14,12 +14,12 @@ namespace ShalicoEffectProcessor.EffectProcessors
         [SerializeField] private TimeScaleMode timeScaleMode;
         [SerializeField] private float delay;
 
-        public async UniTask Run(Func<CancellationToken, UniTask> function,
+        public async UniTask Run(EffectContext context, EffectFunc function,
             CancellationToken cancellationToken = default)
         {
             await UniTask.Delay(TimeSpan.FromSeconds(delay), timeScaleMode.ToDelayType(),
                 cancellationToken: cancellationToken);
-            await function(cancellationToken);
+            await function(context, cancellationToken);
         }
     }
 }

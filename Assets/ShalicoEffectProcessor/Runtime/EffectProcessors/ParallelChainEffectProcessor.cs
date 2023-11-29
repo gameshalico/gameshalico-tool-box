@@ -13,12 +13,13 @@ namespace ShalicoEffectProcessor.EffectProcessors
     {
         [SerializeField] private ChainEffectProcessor[] chains = Array.Empty<ChainEffectProcessor>();
 
-        public async UniTask Run(Func<CancellationToken, UniTask> function,
+        public async UniTask Run(EffectContext context, EffectFunc function,
             CancellationToken cancellationToken = default)
         {
-            await UniTask.WhenAll(chains.Select(chain => chain.Run(function, cancellationToken)));
+            await UniTask.WhenAll(chains.Select(chain =>
+                chain.Run(context, function, cancellationToken)));
 
-            await function(cancellationToken);
+            await function(context, cancellationToken);
         }
     }
 }

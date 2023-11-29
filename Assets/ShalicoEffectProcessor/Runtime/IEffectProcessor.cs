@@ -1,11 +1,14 @@
-using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
 namespace ShalicoEffectProcessor
 {
+    public delegate UniTask EffectFunc(EffectContext context, CancellationToken cancellationToken);
+
+
     public interface IEffectProcessor
     {
-        public UniTask Run(Func<CancellationToken, UniTask> function, CancellationToken cancellationToken = default);
+        public UniTask Run(EffectContext context, EffectFunc function,
+            CancellationToken cancellationToken = default);
     }
 }

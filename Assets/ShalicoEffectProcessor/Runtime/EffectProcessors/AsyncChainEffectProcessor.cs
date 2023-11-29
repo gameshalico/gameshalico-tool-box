@@ -13,11 +13,11 @@ namespace ShalicoEffectProcessor.EffectProcessors
     {
         [SerializeField] private ChainEffectProcessor asyncChain;
 
-        public async UniTask Run(Func<CancellationToken, UniTask> function,
+        public async UniTask Run(EffectContext context, EffectFunc function,
             CancellationToken cancellationToken = default)
         {
-            asyncChain.Run(function, cancellationToken).Forget();
-            await function(cancellationToken);
+            asyncChain.Run(context, function, cancellationToken).Forget();
+            await function(context, cancellationToken);
         }
     }
 }

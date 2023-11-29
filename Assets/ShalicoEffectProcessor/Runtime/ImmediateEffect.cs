@@ -5,12 +5,12 @@ namespace ShalicoEffectProcessor
 {
     public abstract class ImmediateEffect : IEffect
     {
-        public UniTask PlayEffectAsync(CancellationToken cancellationToken)
+        public UniTask PlayEffectAsync(EffectContext context, CancellationToken cancellationToken)
         {
-            PlayEffectImmediate();
+            PlayEffectImmediate(context);
             return UniTask.CompletedTask;
         }
 
-        protected abstract void PlayEffectImmediate();
+        protected abstract void PlayEffectImmediate(EffectContext context);
     }
 }

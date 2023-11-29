@@ -12,5 +12,16 @@ namespace ShalicoEffectProcessor.Editor
                 EditorGUIUtility.singleLineHeight);
             return GUI.Button(runButtonRect, "Run");
         }
+
+        public static void CloneToggle(SerializedProperty property, Rect rect)
+        {
+            var cloneContextProperty = property.FindPropertyRelative("cloneContext");
+
+            var cloneContextRect = new Rect(rect.x + rect.width - 100,
+                rect.y, 15,
+                EditorGUIUtility.singleLineHeight);
+
+            EditorGUI.PropertyField(cloneContextRect, cloneContextProperty, GUIContent.none);
+        }
     }
 }

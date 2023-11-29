@@ -7,13 +7,14 @@ using UnityEngine;
 namespace ShalicoEffectProcessor.Editor
 {
     [CustomPropertyDrawer(typeof(ChainEffectProcessor))]
-    public class EffectProcessorChainDrawer : PropertyDrawer
+    public class ChainEffectProcessorDrawer : PropertyDrawer
     {
         private readonly InterfaceListContainerView<ChainEffectProcessor, IEffectProcessor,
             AddEffectProcessorMenuAttribute> _view = new("_runners");
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            EffectProcessorEditorUtility.CloneToggle(property, position);
             if (EffectProcessorEditorUtility.PlayButton(position))
             {
                 var value = property.TracePropertyValue();

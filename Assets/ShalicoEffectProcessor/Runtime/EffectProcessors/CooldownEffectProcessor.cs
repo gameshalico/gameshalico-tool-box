@@ -15,7 +15,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
         [SerializeField] private float cooldown;
         private bool _isCooldown;
 
-        public async UniTask Run(Func<CancellationToken, UniTask> function,
+        public async UniTask Run(EffectContext context, EffectFunc function,
             CancellationToken cancellationToken = default)
         {
             if (_isCooldown) return;
@@ -23,7 +23,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
             _isCooldown = true;
             Cooldown(cancellationToken).Forget();
 
-            await function(cancellationToken);
+            await function(context, cancellationToken);
         }
 
         private async UniTask Cooldown(CancellationToken cancellationToken)

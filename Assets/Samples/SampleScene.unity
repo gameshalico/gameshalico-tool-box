@@ -257,17 +257,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chainEffectProcessor:
+    cloneContext: 1
     _runners:
-    - rid: 8461813375835045894
+    - rid: 8461813404150005761
+    - rid: 8461813400705171458
+    - rid: 8461813400705171460
+    - rid: 8461813400705171462
+    - rid: 8461813404150005760
+    - rid: 8461813404150005764
   references:
     version: 2
     RefIds:
-    - rid: 8461813375835045894
-      type: {class: EffectEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+    - rid: 8461813400705171458
+      type: {class: ChainEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        cloneContext: 0
+        _runners: []
+    - rid: 8461813400705171460
+      type: {class: AsyncChainEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        asyncChain:
+          cloneContext: 0
+          _runners: []
+    - rid: 8461813400705171462
+      type: {class: ParallelChainEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        chains:
+        - cloneContext: 0
+          _runners: []
+    - rid: 8461813404150005760
+      type: {class: EffectExecutorProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
       data:
         synchronize: 1
         effectGroup:
           _effects: []
+    - rid: 8461813404150005761
+      type: {class: TransformToSpatialContextProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        transform: {fileID: 1539372952}
+    - rid: 8461813404150005764
+      type: {class: SpatialContextProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        overrideMode: 0
+        position: {x: 0, y: 0, z: 0}
+        rotation: {x: 0, y: 0, z: 0, w: 0}
+        scale: {x: 0, y: 0, z: 0}
 --- !u!1 &1956514570
 GameObject:
   m_ObjectHideFlags: 0

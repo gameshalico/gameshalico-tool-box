@@ -10,21 +10,21 @@ namespace ShalicoEffectProcessor.EffectProcessors
     [Serializable]
     [AddEffectProcessorMenu("Action/Effect", 1)]
     [CustomListLabel("Effect", Tone.Light, HueSymbol.Yellow)]
-    public class EffectEffectProcessor : IEffectProcessor
+    public class EffectExecutorProcessor : IEffectProcessor
     {
         [SerializeField] private bool synchronize = true;
         [SerializeField] private EffectGroup effectGroup;
 
-        public async UniTask Run(Func<CancellationToken, UniTask> function,
+        public async UniTask Run(EffectContext context, EffectFunc function,
             CancellationToken cancellationToken = default)
         {
-            var task = effectGroup.PlayEffectAsync(cancellationToken);
+            var task = effectGroup.PlayEffectAsync(context, cancellationToken);
             if (synchronize)
                 await task;
             else
                 task.Forget();
 
-            await function(cancellationToken);
+            await function(context, cancellationToken);
         }
     }
 }

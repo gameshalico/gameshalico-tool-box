@@ -11,7 +11,7 @@ namespace ShalicoEffectProcessor.Effects
     {
         [SerializeField] private string message;
 
-        protected override void PlayEffectImmediate()
+        protected override void PlayEffectImmediate(EffectContext context)
         {
             Debug.Log(message);
         }

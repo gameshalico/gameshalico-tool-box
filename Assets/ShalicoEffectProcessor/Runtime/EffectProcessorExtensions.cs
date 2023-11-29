@@ -5,15 +5,15 @@ namespace ShalicoEffectProcessor
 {
     public static class EffectProcessorExtensions
     {
-        public static void Run(this IEffectProcessor EffectProcessor, CancellationToken cancellationToken = default)
+        public static void Run(this IEffectProcessor effectProcessor, CancellationToken cancellationToken = default)
         {
-            EffectProcessor.Run(_ => UniTask.CompletedTask, cancellationToken);
+            effectProcessor.Run(new EffectContext(), (_, _) => UniTask.CompletedTask, cancellationToken);
         }
 
-        public static async UniTask RunAsync(this IEffectProcessor EffectProcessor,
+        public static async UniTask RunAsync(this IEffectProcessor effectProcessor,
             CancellationToken cancellationToken = default)
         {
-            await EffectProcessor.Run(_ => UniTask.CompletedTask, cancellationToken);
+            await effectProcessor.Run(new EffectContext(), (_, _) => UniTask.CompletedTask, cancellationToken);
         }
     }
 }

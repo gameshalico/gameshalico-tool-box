@@ -12,9 +12,9 @@ namespace ShalicoEffectProcessor.Effects
     {
         [SerializeReference] private IEffect[] _effects = Array.Empty<IEffect>();
 
-        public UniTask PlayEffectAsync(CancellationToken cancellationToken = default)
+        public async UniTask PlayEffectAsync(EffectContext context, CancellationToken cancellationToken = default)
         {
-            return PlayAsync(cancellationToken);
+            await UniTask.WhenAll(_effects.Select(effect => effect.PlayEffectAsync(context, cancellationToken)));
         }
 
         public void AddEffect(IEffect effect)
@@ -23,13 +23,6 @@ namespace ShalicoEffectProcessor.Effects
             Array.Resize(ref effects, effects.Length + 1);
             effects[^1] = effect;
             _effects = effects;
-        }
-
-        public void SetEffectData<T>(T data)
-        {
-            foreach (var effect in _effects)
-                if (effect is IEffectDataReceiver<T> receiver)
-                    receiver.SetData(data);
         }
 
         public void RemoveEffectAt(int index)
@@ -54,15 +47,10 @@ namespace ShalicoEffectProcessor.Effects
             _effects = Array.Empty<IEffect>();
         }
 
-        public void Play(CancellationToken token)
+        public void Play(EffectContext context, CancellationToken cancellationToken)
         {
             foreach (var effect in _effects)
-                effect.PlayEffectAsync(token).Forget();
-        }
-
-        public async UniTask PlayAsync(CancellationToken token)
-        {
-            await UniTask.WhenAll(_effects.Select(effect => effect.PlayEffectAsync(token)));
+                effect.PlayEffectAsync(context, cancellationToken).Forget();
         }
     }
 }

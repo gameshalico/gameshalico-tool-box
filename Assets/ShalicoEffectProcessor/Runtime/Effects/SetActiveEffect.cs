@@ -12,7 +12,7 @@ namespace ShalicoEffectProcessor.Effects
         [SerializeField] private GameObject target;
         [SerializeField] private bool active;
 
-        protected override void PlayEffectImmediate()
+        protected override void PlayEffectImmediate(EffectContext context)
         {
             target.SetActive(active);
         }
