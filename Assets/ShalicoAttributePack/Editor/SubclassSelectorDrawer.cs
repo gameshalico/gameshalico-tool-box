@@ -30,6 +30,7 @@ namespace ShalicoAttributePack.Editor
             var popupPosition = position;
             popupPosition.width -= 14;
             popupPosition.x += 14;
+            popupPosition.height = EditorGUIUtility.singleLineHeight;
             var nextIndex = EditorGUI.Popup(popupPosition, label.text, prevIndex + 1,
                 names) - 1;
 
