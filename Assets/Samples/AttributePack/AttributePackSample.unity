@@ -282,7 +282,7 @@ MonoBehaviour:
   isShow: 0
   showIfInt: 0
   hideIfInt: 0
-  previewTexture: {fileID: 0}
+  previewTexture: {fileID: -4528830608231651361, guid: 3971f31d934f42d419bfc9a289c97dd8, type: 3}
   entities:
   - rid: -2
   entity:
