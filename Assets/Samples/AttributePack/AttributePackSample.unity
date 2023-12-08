@@ -284,7 +284,7 @@ MonoBehaviour:
   hideIfInt: 0
   previewTexture: {fileID: -4528830608231651361, guid: 3971f31d934f42d419bfc9a289c97dd8, type: 3}
   entities:
-  - rid: 7091846894137376772
+  - rid: 7091846894137376775
   entity:
     rid: 7091846889342500971
   references:
@@ -294,7 +294,7 @@ MonoBehaviour:
       type: {class: Slime, ns: Samples.AttributePack, asm: Sample}
       data:
         health: 0
-    - rid: 7091846894137376772
+    - rid: 7091846894137376775
       type: {class: Slime, ns: Samples.AttributePack, asm: Sample}
       data:
         health: 0

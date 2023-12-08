@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace ShalicoAttributePack.Editor
                 height = EditorGUIUtility.singleLineHeight,
                 width = buttonWidth
             };
-            if (GUI.Button(buttonRect, value == null ? NullText : value.GetType().Name))
+            if (GUI.Button(buttonRect, GetButtonText(value)))
                 ShowDropdown(buttonRect, property, fieldType);
 
             if (value == null)
@@ -31,6 +32,18 @@ namespace ShalicoAttributePack.Editor
             }
 
             EditorGUI.PropertyField(position, property, label, true);
+        }
+
+        private string GetButtonText(object value)
+        {
+            if (value == null)
+                return NullText;
+
+            var type = value.GetType();
+            if (type.GetCustomAttribute<CustomDropdownPathAttribute>() is { } pathAttribute &&
+                !string.IsNullOrEmpty(pathAttribute.Name)) return pathAttribute.Name;
+
+            return type.Name;
         }
 
         private void ShowDropdown(Rect position, SerializedProperty property, Type fieldType)

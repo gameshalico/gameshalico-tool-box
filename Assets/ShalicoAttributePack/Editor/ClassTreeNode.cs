@@ -21,7 +21,7 @@ namespace ShalicoAttributePack.Editor
         public bool IsLeaf => _child == null;
 
         public string Name { get; private set; }
-        public Type Type { get; set; }
+        public Type Type { get; private set; }
 
 
         private static bool IsTypeInvalid(Type type)
@@ -81,9 +81,9 @@ namespace ShalicoAttributePack.Editor
                 }
         }
 
-        private static string[] GetHierarchyPath(Type type)
+        private static string[] GetHierarchyPath(CustomDropdownPathAttribute attribute, Type type)
         {
-            if (type.GetCustomAttribute<CustomDropdownPathAttribute>() is { } attribute)
+            if (!string.IsNullOrEmpty(attribute?.Path))
                 return attribute.Path.Split("/");
 
             var hierarchy = type.Namespace?.Split('.').Prepend(DefaultPath).ToArray();
@@ -94,12 +94,17 @@ namespace ShalicoAttributePack.Editor
 
         private void AddTypeToClassTree(Type type)
         {
-            var hierarchyPath = GetHierarchyPath(type);
+            var attribute = type.GetCustomAttribute<CustomDropdownPathAttribute>();
+
+            var hierarchyPath = GetHierarchyPath(attribute, type);
+
+            var nodeName = string.IsNullOrEmpty(attribute?.Name) ? type.Name : attribute.Name;
 
             var parent = this;
-            foreach (var name in hierarchyPath) parent = parent.GetOrCreateChild(name);
+            foreach (var parentName in hierarchyPath) parent = parent.GetOrCreateChild(parentName);
 
-            var node = new ClassTreeNode(type.Name)
+
+            var node = new ClassTreeNode(nodeName)
             {
                 Type = type
             };
