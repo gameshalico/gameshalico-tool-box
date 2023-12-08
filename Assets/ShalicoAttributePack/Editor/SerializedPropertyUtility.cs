@@ -107,6 +107,32 @@ namespace ShalicoAttributePack.Editor
             return (obj, info);
         }
 
+        public static void SetPropertyValue(this SerializedProperty property, object value)
+        {
+            var pathParts = SplitPathParts(property.propertyPath);
+            object root = property.serializedObject.targetObject;
+
+            var lastPart = pathParts[^1];
+            Array.Resize(ref pathParts, pathParts.Length - 1);
+
+            var parent = AnalyzePathParts(pathParts, root);
+
+            if (lastPart.Contains("["))
+            {
+                var arrayPart = lastPart.Substring(0, lastPart.IndexOf('['));
+                var indexPart = lastPart.Substring(lastPart.IndexOf('[')).Replace("[", "").Replace("]", "");
+                var index = int.Parse(indexPart);
+
+                var array = GetFieldValue(parent, arrayPart) as IList;
+                array[index] = value;
+            }
+            else
+            {
+                var info = GetNextFieldInfo(lastPart, parent);
+                info.SetValue(parent, value);
+            }
+        }
+
         /// <summary>
         ///     SerializedProperty.propertyPathの親の値を取得する。
         /// </summary>

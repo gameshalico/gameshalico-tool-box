@@ -1,82 +1,73 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
+using UnityEngine;
 
 namespace ShalicoAttributePack.Editor
 {
     public class ClassAdvancedDropdown : AdvancedDropdown
     {
+        private static readonly Dictionary<Type, ClassTreeNode> s_typeTreeCache = new();
+        private static readonly float MinimumWidth = EditorGUIUtility.singleLineHeight * 10;
         private readonly Type _baseType;
         private readonly Dictionary<int, Type> _types;
+        public Action<Type> onSelectItem;
 
         public ClassAdvancedDropdown(Type baseType, AdvancedDropdownState state) : base(state)
         {
             _baseType = baseType;
             _types = new Dictionary<int, Type>();
+            minimumSize = new Vector2(MinimumWidth, minimumSize.y);
         }
 
-        private static bool IsTypeInvalid(Type type)
+        private static ClassTreeNode GetCachedTypeTree(Type baseType)
         {
-            return type.IsAbstract || type.IsGenericType || type.IsInterface;
+            if (s_typeTreeCache.TryGetValue(baseType, out var typeTree))
+                return typeTree;
+
+            typeTree = ClassTreeNode.ConstructTypeTree(baseType);
+            s_typeTreeCache.Add(baseType, typeTree);
+            return typeTree;
         }
 
-        private static string[] GetHierarchyArray(Type type)
+        private AdvancedDropdownItem CreateHierarchyByTreeNode(ClassTreeNode node)
         {
-            if (type.GetCustomAttribute<CustomDropdownPathAttribute>() is { } customPathAttribute)
-                return customPathAttribute.Path.Split('.');
+            var item = new AdvancedDropdownItem(node.Name);
 
-            var hierarchy = type.Namespace?.Split('.');
-            return hierarchy;
+            foreach (var child in node.Children()) item.AddChild(CreateHierarchyByTreeNode(child));
+
+            if (node.IsLeaf)
+            {
+                item.icon = EditorGUIUtility.Load("cs Script Icon") as Texture2D;
+                if (node.Type != null || !_types.ContainsKey(item.id))
+                    _types.TryAdd(item.id, node.Type);
+            }
+
+            return item;
         }
 
-        private static AdvancedDropdownItem GetOrCreateHierarchyItem(AdvancedDropdownItem root, string[] hierarchy)
-        {
-            var parent = root;
-            if (hierarchy != null)
-                foreach (var name in hierarchy)
-                {
-                    var child = parent.children.FirstOrDefault(x => x.name == name);
-                    if (child == null)
-                    {
-                        child = new AdvancedDropdownItem(name);
-                        parent.AddChild(child);
-                    }
-
-                    parent = child;
-                }
-
-            return parent;
-        }
-
-        private void RegisterItem(AdvancedDropdownItem parent, Type type)
-        {
-            var node = new AdvancedDropdownItem(type.Name);
-            parent.AddChild(node);
-            _types.Add(node.id, type);
-        }
-
-        public bool TryGetType(int id, out Type type)
+        private bool TryGetType(int id, out Type type)
         {
             return _types.TryGetValue(id, out type);
         }
 
         protected override AdvancedDropdownItem BuildRoot()
         {
+            var typeTree = GetCachedTypeTree(_baseType);
             var root = new AdvancedDropdownItem(_baseType.Name);
-            foreach (var type in TypeCache.GetTypesDerivedFrom(_baseType))
-            {
-                if (IsTypeInvalid(type))
-                    continue;
-
-                var hierarchy = GetHierarchyArray(type);
-                var parent = GetOrCreateHierarchyItem(root, hierarchy);
-                RegisterItem(parent, type);
-            }
-
+            var nullItem = new AdvancedDropdownItem("<null>");
+            root.AddChild(nullItem);
+            foreach (var child in typeTree.Children()) root.AddChild(CreateHierarchyByTreeNode(child));
             return root;
+        }
+
+        protected override void ItemSelected(AdvancedDropdownItem item)
+        {
+            if (TryGetType(item.id, out var type))
+                onSelectItem?.Invoke(type);
+            else
+                onSelectItem?.Invoke(null);
         }
     }
 }

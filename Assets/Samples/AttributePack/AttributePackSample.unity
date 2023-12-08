@@ -257,12 +257,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887d3d19c3264da18d796c32f72f63c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.93333334, g: 0, b: 0.14901961, a: 1}
+  color: {r: 1, g: 1, b: 1, a: 1}
   hueTone:
     hue: 7
     tone: 22
   indexedColor:
-    colorIndex: 0
+    colorIndex: 8
 --- !u!114 &1979217807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,15 +284,17 @@ MonoBehaviour:
   hideIfInt: 0
   previewTexture: {fileID: -4528830608231651361, guid: 3971f31d934f42d419bfc9a289c97dd8, type: 3}
   entities:
-  - rid: -2
+  - rid: 7091846894137376772
   entity:
-    rid: 7585010997636104277
+    rid: 7091846889342500971
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 7585010997636104277
+    - rid: 7091846889342500971
+      type: {class: Slime, ns: Samples.AttributePack, asm: Sample}
+      data:
+        health: 0
+    - rid: 7091846894137376772
       type: {class: Slime, ns: Samples.AttributePack, asm: Sample}
       data:
         health: 0
