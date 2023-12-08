@@ -1,26 +1,16 @@
 ﻿using UnityEditor;
-using UnityEngine;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 
 namespace ShalicoAttributePack.Editor
 {
     [CustomPropertyDrawer(typeof(ShowIfAttribute))]
     public class ShowIfDrawer : ConditionDrawer
     {
-        private bool _isShow;
-        private bool _needLayout;
-
-        protected override void OnGUIWithCondition(bool value, Rect position, SerializedProperty property,
-            GUIContent label)
+        protected override void OnConditionChanged(bool value, VisualElement container, SerializedProperty property)
         {
-            _isShow = value;
-            if (value) EditorGUI.PropertyField(position, property, label, true);
-        }
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return _isShow
-                ? EditorGUI.GetPropertyHeight(property, label, true)
-                : -EditorGUIUtility.standardVerticalSpacing;
+            var propertyField = container.Q<PropertyField>();
+            propertyField.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
         }
     }
 }

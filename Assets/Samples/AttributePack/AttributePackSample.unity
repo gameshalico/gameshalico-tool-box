@@ -276,28 +276,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   readonlyInt: 0
-  isEnable: 0
+  isEnable: 1
   enableIfInt: 0
   disableIfInt: 0
-  isShow: 0
+  isShow: 1
   showIfInt: 0
   hideIfInt: 0
-  previewTexture: {fileID: -4528830608231651361, guid: 3971f31d934f42d419bfc9a289c97dd8, type: 3}
+  previewTexture: {fileID: -1304905567622442630, guid: b90ed8e971488034b89c37f16e99c42c, type: 3}
   entities:
-  - rid: 7091846894137376775
+  - rid: 7091846894137376777
   entity:
-    rid: 7091846889342500971
+    rid: 7091846894137376776
   references:
     version: 2
     RefIds:
-    - rid: 7091846889342500971
-      type: {class: Slime, ns: Samples.AttributePack, asm: Sample}
+    - rid: 7091846894137376776
+      type: {class: Goblin, ns: Samples.AttributePack, asm: Sample}
       data:
         health: 0
-    - rid: 7091846894137376775
-      type: {class: Slime, ns: Samples.AttributePack, asm: Sample}
+        attack: 0
+    - rid: 7091846894137376777
+      type: {class: Goblin, ns: Samples.AttributePack, asm: Sample}
       data:
         health: 0
+        attack: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

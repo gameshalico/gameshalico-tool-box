@@ -1,22 +1,16 @@
 ﻿using UnityEditor;
-using UnityEngine;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 
 namespace ShalicoAttributePack.Editor
 {
     [CustomPropertyDrawer(typeof(EnableIfAttribute))]
     public class EnableIfDrawer : ConditionDrawer
     {
-        protected override void OnGUIWithCondition(bool value, Rect position, SerializedProperty property,
-            GUIContent label)
+        protected override void OnConditionChanged(bool value, VisualElement container, SerializedProperty property)
         {
-            GUI.enabled = value;
-            EditorGUI.PropertyField(position, property, label, true);
-            GUI.enabled = true;
-        }
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return EditorGUI.GetPropertyHeight(property, label, true);
+            var propertyField = container.Q<PropertyField>();
+            propertyField.SetEnabled(value);
         }
     }
 }
