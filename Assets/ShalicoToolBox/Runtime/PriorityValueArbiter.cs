@@ -8,11 +8,11 @@ namespace ShalicoToolBox
     public class PriorityValueArbiter<T>
     {
 
-        private readonly T _defaultValue;
-
         // 優先度順にソート済みのリスト
         private readonly List<PriorityValueHandler> _priorityValues = new();
         private readonly ReactiveProperty<T> _valueReactiveProperty = new();
+
+        private T _defaultValue;
 
         public PriorityValueArbiter(T defaultValue = default)
         {
@@ -20,7 +20,15 @@ namespace ShalicoToolBox
             _valueReactiveProperty.Value = defaultValue;
         }
 
+        public T Value => _valueReactiveProperty.Value;
+
         public IReadOnlyReactiveProperty<T> ValueReactiveProperty => _valueReactiveProperty;
+
+        public void SetDefaultValue(T defaultValue)
+        {
+            _defaultValue = defaultValue;
+            UpdateValue();
+        }
 
         /// <summary>
         ///     優先度付きの値を登録する
