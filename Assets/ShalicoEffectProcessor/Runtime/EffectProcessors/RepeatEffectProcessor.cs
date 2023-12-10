@@ -9,7 +9,7 @@ using UnityEngine;
 namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
-    [AddEffectProcessorMenu("Multiple/Repeat")]
+    [CustomDropdownPath("Multiple/Repeat")]
     [CustomListLabel("Repeat", Tone.Light, HueSymbol.RedPurple)]
     public class RepeatEffectProcessor : IEffectProcessor
     {

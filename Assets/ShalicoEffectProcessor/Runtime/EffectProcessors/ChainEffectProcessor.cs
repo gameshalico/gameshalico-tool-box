@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using ShalicoAttributePack;
 using ShalicoColorPalette;
 using ShalicoEffectProcessor.Context;
 using UnityEngine;
@@ -8,7 +9,7 @@ using UnityEngine;
 namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
-    [AddEffectProcessorMenu("Multiple/Chain", 1)]
+    [CustomDropdownPath("Multiple/Chain")]
     [CustomListLabel("Chain", Tone.Light, HueSymbol.RedPurple)]
     public class ChainEffectProcessor : IEffectProcessor
     {

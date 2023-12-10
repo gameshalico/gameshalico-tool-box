@@ -1,21 +1,18 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using ShalicoAttributePack.Editor;
 using ShalicoColorPalette;
 using UnityEditor;
+using UnityEditor.IMGUI.Controls;
 using UnityEditorInternal;
 using UnityEngine;
 
 namespace ShalicoEffectProcessor.Editor
 {
-    public class InterfaceReorderableList<TContainer, TInterface, TAddMenuAttribute>
+    public class InterfaceReorderableList<TContainer, TInterface>
         where TContainer : class
         where TInterface : class
-        where TAddMenuAttribute : Attribute, IAddMenuAttribute
     {
-        private static AddMenuItem[] _cachedMenuItems;
         private readonly ReorderableList _reorderableList;
 
         public InterfaceReorderableList(SerializedProperty property, GUIContent label)
@@ -157,15 +154,20 @@ namespace ShalicoEffectProcessor.Editor
 
         private void OpenAddMenu()
         {
-            var menu = new GenericMenu();
-            foreach (var menuItem in GetCachedMenuItems())
-                menu.AddItem(new GUIContent(menuItem.Attribute.Path), false, () =>
-                {
-                    var instance = (TInterface)Activator.CreateInstance(menuItem.Type);
-                    GetNewElement().managedReferenceValue = instance;
-                    _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
-                });
-            menu.ShowAsContext();
+            var dropdown = new ClassAdvancedDropdown(typeof(TInterface), new AdvancedDropdownState());
+            dropdown.onSelectItem += type =>
+            {
+                GetNewElement().managedReferenceValue = type == null ? null : Activator.CreateInstance(type);
+                ApplyChanges();
+            };
+            var mousePosition = Event.current.mousePosition;
+            mousePosition.x -= 200;
+            dropdown.Show(new Rect(mousePosition, Vector2.zero));
+        }
+
+        private void ApplyChanges()
+        {
+            _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
         }
 
         private void OpenListMenu()
@@ -184,7 +186,7 @@ namespace ShalicoEffectProcessor.Editor
                 try
                 {
                     JsonUtility.FromJsonOverwrite(EditorGUIUtility.systemCopyBuffer, list);
-                    _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
+                    ApplyChanges();
                 }
                 catch (ArgumentException)
                 {
@@ -197,7 +199,7 @@ namespace ShalicoEffectProcessor.Editor
             menu.AddItem(new GUIContent("Clear All"), false, () =>
             {
                 _reorderableList.serializedProperty.ClearArray();
-                _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
+                ApplyChanges();
             });
 
             menu.AddSeparator("");
@@ -221,7 +223,7 @@ namespace ShalicoEffectProcessor.Editor
                         Debug.LogWarning("Cannot paste item, the serialized data is incompatible.");
                     }
 
-                    _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
+                    ApplyChanges();
                 }
                 catch (Exception e)
                 {
@@ -251,7 +253,7 @@ namespace ShalicoEffectProcessor.Editor
                     SerializationUtility.ClearAllManagedReferencesWithMissingTypes(_reorderableList.serializedProperty
                         .serializedObject.targetObject);
 
-                    _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
+                    ApplyChanges();
                 });
             else
                 menu.AddDisabledItem(new GUIContent("Remove Missing References"));
@@ -282,36 +284,12 @@ namespace ShalicoEffectProcessor.Editor
             menu.AddItem(new GUIContent("Remove"), false, () =>
             {
                 _reorderableList.serializedProperty.DeleteArrayElementAtIndex(index);
-                _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
+                ApplyChanges();
             });
 
             menu.ShowAsContext();
         }
 
-        private AddMenuItem[] GetCachedMenuItems()
-        {
-            if (_cachedMenuItems != null)
-                return _cachedMenuItems;
-
-            var classesWithCustomAttribute = new List<AddMenuItem>();
-
-            foreach (var type in TypeCache.GetTypesWithAttribute(typeof(TAddMenuAttribute)))
-            {
-                if (!type.IsClass || type.IsAbstract || !typeof(TInterface).IsAssignableFrom(type))
-                    continue;
-
-                foreach (var addMenuAttribute in type.GetCustomAttributes(typeof(TAddMenuAttribute), false))
-                    classesWithCustomAttribute
-                        .Add(new AddMenuItem((IAddMenuAttribute)addMenuAttribute, type));
-            }
-
-            _cachedMenuItems = classesWithCustomAttribute
-                .OrderByDescending(x => x.Attribute.Order)
-                .ThenBy(x => x.Attribute.Path)
-                .ToArray();
-
-            return _cachedMenuItems;
-        }
 
         public void Draw(Rect position)
         {
@@ -321,18 +299,6 @@ namespace ShalicoEffectProcessor.Editor
         public float GetHeight()
         {
             return _reorderableList.GetHeight();
-        }
-
-        private class AddMenuItem
-        {
-            public readonly IAddMenuAttribute Attribute;
-            public readonly Type Type;
-
-            public AddMenuItem(IAddMenuAttribute attribute, Type type)
-            {
-                Attribute = attribute;
-                Type = type;
-            }
         }
 
         [Serializable]

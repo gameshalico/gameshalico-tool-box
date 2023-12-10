@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using ShalicoAttributePack;
 using ShalicoColorPalette;
 using ShalicoEffectProcessor.Context;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
     [CustomListLabel("Debug Log", Tone.Light, HueSymbol.Yellow)]
-    [AddEffectProcessorMenu("Action/Debug Log", -1)]
+    [CustomDropdownPath("Action/Debug Log")]
     public class DebugLogEffectProcessor : IEffectProcessor
     {
         [SerializeField] private string message;

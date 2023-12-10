@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Samples.AttributePack
 {
     [Serializable]
-    [CustomDropdownPath("Enemies/Green", "ゴブリン")]
+    [CustomDropdownPath("Enemies/Green/Goblin")]
     public class Goblin : IEntity
     {
         [SerializeField] private int health;

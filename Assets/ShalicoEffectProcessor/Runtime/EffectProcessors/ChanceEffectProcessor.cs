@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using ShalicoAttributePack;
 using ShalicoColorPalette;
 using ShalicoEffectProcessor.Context;
 using UnityEngine;
@@ -9,7 +10,7 @@ using Random = UnityEngine.Random;
 namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
-    [AddEffectProcessorMenu("Condition/Chance")]
+    [CustomDropdownPath("Condition/Chance")]
     [CustomListLabel("Chance", Tone.Light, HueSymbol.Green)]
     public class ChanceEffectProcessor : IEffectProcessor
     {

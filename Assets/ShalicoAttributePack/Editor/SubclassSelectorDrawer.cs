@@ -48,7 +48,7 @@ namespace ShalicoAttributePack.Editor
 
         private void ShowDropdown(Rect position, SerializedProperty property, Type fieldType)
         {
-            var dropdown = new ClassAdvancedDropdown(fieldType, new AdvancedDropdownState());
+            var dropdown = new ClassAdvancedDropdown(fieldType, new AdvancedDropdownState(), true);
             dropdown.onSelectItem += type =>
             {
                 property.managedReferenceValue = type == null ? null : Activator.CreateInstance(type);

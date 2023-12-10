@@ -7,13 +7,13 @@ using UnityEditor;
 
 namespace ShalicoAttributePack.Editor
 {
-    public class ClassTreeNode
+    public class ClassDropdownTreeNode
     {
         private static readonly string DefaultPath = "Scripts";
-        private ClassTreeNode _child;
-        private ClassTreeNode _next;
+        private ClassDropdownTreeNode _child;
+        private ClassDropdownTreeNode _next;
 
-        private ClassTreeNode(string name)
+        private ClassDropdownTreeNode(string name)
         {
             Name = name;
         }
@@ -29,9 +29,9 @@ namespace ShalicoAttributePack.Editor
             return type.IsAbstract || type.IsGenericType || type.IsInterface;
         }
 
-        public static ClassTreeNode ConstructTypeTree(Type baseType)
+        public static ClassDropdownTreeNode ConstructTypeTree(Type baseType)
         {
-            var typeTreeRoot = new ClassTreeNode(baseType.Name);
+            var typeTreeRoot = new ClassDropdownTreeNode(baseType.Name);
             foreach (var type in TypeCache.GetTypesDerivedFrom(baseType))
             {
                 if (IsTypeInvalid(type))
@@ -65,7 +65,7 @@ namespace ShalicoAttributePack.Editor
             return sb.ToString();
         }
 
-        private void AddChild(ClassTreeNode child)
+        private void AddChild(ClassDropdownTreeNode child)
         {
             if (_child == null)
             {
@@ -83,12 +83,17 @@ namespace ShalicoAttributePack.Editor
 
         private static string[] GetHierarchyPath(CustomDropdownPathAttribute attribute, Type type)
         {
-            if (!string.IsNullOrEmpty(attribute?.Path))
+            if (attribute != null)
+            {
+                if (string.IsNullOrEmpty(attribute.Path))
+                    return null;
                 return attribute.Path.Split("/");
+            }
 
-            var hierarchy = type.Namespace?.Split('.').Prepend(DefaultPath).ToArray();
+            var hierarchy = type.Namespace?.Split('.')
+                .Prepend(DefaultPath).Append(type.Name).ToArray();
             if (hierarchy == null)
-                return new[] { DefaultPath };
+                return new[] { DefaultPath, type.Name };
             return hierarchy;
         }
 
@@ -97,27 +102,30 @@ namespace ShalicoAttributePack.Editor
             var attribute = type.GetCustomAttribute<CustomDropdownPathAttribute>();
 
             var hierarchyPath = GetHierarchyPath(attribute, type);
+            if (hierarchyPath == null)
+                return;
 
-            var nodeName = string.IsNullOrEmpty(attribute?.Name) ? type.Name : attribute.Name;
+            var nodeName = hierarchyPath.Last();
 
             var parent = this;
-            foreach (var parentName in hierarchyPath) parent = parent.GetOrCreateChild(parentName);
+            foreach (var parentName in hierarchyPath.Take(hierarchyPath.Length - 1))
+                parent = parent.GetOrCreateChild(parentName);
 
 
-            var node = new ClassTreeNode(nodeName)
+            var node = new ClassDropdownTreeNode(nodeName)
             {
                 Type = type
             };
             parent.AddChild(node);
         }
 
-        private ClassTreeNode GetOrCreateChild(string name)
+        private ClassDropdownTreeNode GetOrCreateChild(string name)
         {
             foreach (var node in Children())
                 if (node.Name == name)
                     return node;
 
-            var newNode = new ClassTreeNode(name);
+            var newNode = new ClassDropdownTreeNode(name);
             AddChild(newNode);
             return newNode;
         }
@@ -147,7 +155,7 @@ namespace ShalicoAttributePack.Editor
             foreach (var child in Children()) child.MergeSingleBranches(separator);
         }
 
-        public IEnumerable<ClassTreeNode> Children()
+        public IEnumerable<ClassDropdownTreeNode> Children()
         {
             for (var node = _child; node != null; node = node._next)
                 yield return node;

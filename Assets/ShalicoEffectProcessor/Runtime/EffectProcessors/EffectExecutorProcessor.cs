@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using ShalicoAttributePack;
 using ShalicoColorPalette;
 using ShalicoEffectProcessor.Context;
 using ShalicoEffectProcessor.Effects;
@@ -9,7 +10,7 @@ using UnityEngine;
 namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
-    [AddEffectProcessorMenu("Action/Effect", 1)]
+    [CustomDropdownPath("Action/Effect")]
     [CustomListLabel("Effect", Tone.Light, HueSymbol.Yellow)]
     public class EffectExecutorProcessor : IEffectProcessor
     {

@@ -9,30 +9,32 @@ namespace ShalicoAttributePack.Editor
 {
     public class ClassAdvancedDropdown : AdvancedDropdown
     {
-        private static readonly Dictionary<Type, ClassTreeNode> s_typeTreeCache = new();
-        private static readonly float MinimumWidth = EditorGUIUtility.singleLineHeight * 10;
+        private static readonly Dictionary<Type, ClassDropdownTreeNode> s_typeTreeCache = new();
+        private static readonly Vector2 MinimumSize = new(200, 300);
         private readonly Type _baseType;
         private readonly Dictionary<int, Type> _types;
         public Action<Type> onSelectItem;
+        private readonly bool _nullable;
 
-        public ClassAdvancedDropdown(Type baseType, AdvancedDropdownState state) : base(state)
+        public ClassAdvancedDropdown(Type baseType, AdvancedDropdownState state, bool nullable = false) : base(state)
         {
             _baseType = baseType;
             _types = new Dictionary<int, Type>();
-            minimumSize = new Vector2(MinimumWidth, minimumSize.y);
+            minimumSize = MinimumSize;
+            _nullable = nullable;
         }
 
-        private static ClassTreeNode GetCachedTypeTree(Type baseType)
+        private static ClassDropdownTreeNode GetCachedTypeTree(Type baseType)
         {
             if (s_typeTreeCache.TryGetValue(baseType, out var typeTree))
                 return typeTree;
 
-            typeTree = ClassTreeNode.ConstructTypeTree(baseType);
+            typeTree = ClassDropdownTreeNode.ConstructTypeTree(baseType);
             s_typeTreeCache.Add(baseType, typeTree);
             return typeTree;
         }
 
-        private AdvancedDropdownItem CreateHierarchyByTreeNode(ClassTreeNode node)
+        private AdvancedDropdownItem CreateHierarchyByTreeNode(ClassDropdownTreeNode node)
         {
             var item = new AdvancedDropdownItem(node.Name);
 
@@ -64,8 +66,12 @@ namespace ShalicoAttributePack.Editor
         {
             var typeTree = GetCachedTypeTree(_baseType);
             var root = new AdvancedDropdownItem(_baseType.Name);
-            var nullItem = new AdvancedDropdownItem("<null>");
-            root.AddChild(nullItem);
+            if (_nullable)
+            {
+                var nullItem = new AdvancedDropdownItem("<null>");
+                root.AddChild(nullItem);
+            }
+
             foreach (var child in typeTree.Children()) root.AddChild(CreateHierarchyByTreeNode(child));
             return root;
         }

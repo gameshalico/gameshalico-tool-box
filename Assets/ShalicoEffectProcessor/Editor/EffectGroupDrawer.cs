@@ -7,7 +7,7 @@ namespace ShalicoEffectProcessor.Editor
     [CustomPropertyDrawer(typeof(EffectGroup))]
     public class EffectGroupDrawer : PropertyDrawer
     {
-        private readonly InterfaceListContainerView<EffectGroup, IEffect, AddEffectMenuAttribute> _view =
+        private readonly InterfaceListContainerView<EffectGroup, IEffect> _view =
             new("_effects");
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
