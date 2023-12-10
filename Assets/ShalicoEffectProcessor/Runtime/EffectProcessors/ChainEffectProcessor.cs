@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using ShalicoAttributePack;
 using ShalicoColorPalette;
 using ShalicoEffectProcessor.Context;
 using UnityEngine;
@@ -8,7 +9,7 @@ using UnityEngine;
 namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
-    [AddEffectProcessorMenu("Multiple/Chain", 1)]
+    [CustomDropdownPath("Multiple/Chain")]
     [CustomListLabel("Chain", Tone.Light, HueSymbol.RedPurple)]
     public class ChainEffectProcessor : IEffectProcessor
     {
@@ -18,16 +19,17 @@ namespace ShalicoEffectProcessor.EffectProcessors
         public async UniTask Run(EffectContext context, EffectFunc function,
             CancellationToken cancellationToken = default)
         {
-            await RunEffectProcessors(context.CloneIf(cloneContext), (_, _) => UniTask.CompletedTask,
-                cancellationToken);
-            await function(context, cancellationToken);
-        }
+            var subContext = cloneContext ? context.Clone() : context.AddRef();
+            try
+            {
+                await RunEffectProcessors(subContext, (_, _) => UniTask.CompletedTask, cancellationToken);
+            }
+            finally
+            {
+                subContext.Release();
+            }
 
-        public async UniTask RunFunction(EffectContext context,
-            EffectFunc function,
-            CancellationToken cancellationToken = default)
-        {
-            await RunEffectProcessors(context, function, cancellationToken);
+            await function(context, cancellationToken);
         }
 
         private async UniTask RunEffectProcessors(EffectContext context,

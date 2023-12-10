@@ -12,7 +12,7 @@ using UnityEngine.Audio;
 namespace ShalicoEffectProcessor.Effects
 {
     [Serializable]
-    [AddEffectMenu("Sound/Play Sound")]
+    [CustomDropdownPath("Sound/Play Sound")]
     [CustomListLabel("Play Sound", Tone.Strong)]
     public class PlaySoundEffect : IEffect
     {

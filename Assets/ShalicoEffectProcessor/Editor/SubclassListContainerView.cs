@@ -1,22 +1,19 @@
-using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 namespace ShalicoEffectProcessor.Editor
 {
-    public class InterfaceListContainerView<TContainer, TInterface, TAddMenuAttribute>
+    public class SubclassListContainerView<TContainer, TBase>
         where TContainer : class
-        where TInterface : class
-        where TAddMenuAttribute : Attribute, IAddMenuAttribute
+        where TBase : class
     {
         private readonly string _propertyName;
 
-        private readonly Dictionary<string, InterfaceReorderableList<TContainer, TInterface,
-                TAddMenuAttribute>>
+        private readonly Dictionary<string, SubclassReorderableList<TContainer, TBase>>
             _reorderableLists = new();
 
-        public InterfaceListContainerView(string propertyName)
+        public SubclassListContainerView(string propertyName)
         {
             _propertyName = propertyName;
         }
@@ -34,8 +31,8 @@ namespace ShalicoEffectProcessor.Editor
             {
                 if (!_reorderableLists.TryGetValue(property.propertyPath, out var list))
                 {
-                    list = new InterfaceReorderableList<TContainer, TInterface,
-                        TAddMenuAttribute>(property.FindPropertyRelative(_propertyName), label);
+                    list = new SubclassReorderableList<TContainer, TBase>(
+                        property.FindPropertyRelative(_propertyName), label);
                     _reorderableLists.Add(property.propertyPath, list);
                 }
 

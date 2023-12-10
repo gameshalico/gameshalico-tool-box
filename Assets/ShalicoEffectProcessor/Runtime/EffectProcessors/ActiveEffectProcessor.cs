@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using ShalicoAttributePack;
 using ShalicoColorPalette;
 using ShalicoEffectProcessor.Context;
 using UnityEngine;
@@ -8,7 +9,7 @@ using UnityEngine;
 namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
-    [AddEffectProcessorMenu("Condition/Active")]
+    [CustomDropdownPath("Condition/Active")]
     [CustomListLabel("Active", Tone.Light, HueSymbol.Green)]
     public class ActiveEffectProcessor : IEffectProcessor
     {

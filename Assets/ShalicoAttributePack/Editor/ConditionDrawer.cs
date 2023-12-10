@@ -1,38 +1,64 @@
 ﻿using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ShalicoAttributePack.Editor
 {
     public abstract class ConditionDrawer : PropertyDrawer
     {
-        protected abstract void OnGUIWithCondition(bool value, Rect position, SerializedProperty property,
-            GUIContent label);
+        protected abstract void OnConditionChanged(bool value, VisualElement container, SerializedProperty property);
 
-        private static bool TryGetValue(ConditionAttribute attribute, SerializedProperty property, out object value)
+        protected abstract void OnGUIWithCondition(Rect position, SerializedProperty property, GUIContent label,
+            bool value);
+
+        protected abstract float GetPropertyHeightWithCondition(SerializedProperty property, GUIContent label,
+            bool value);
+
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            var target = property.TraceParentValue();
+            var container = new VisualElement();
+            var propertyField = new PropertyField(property);
+            container.Add(propertyField);
 
-            if (ReflectionUtility.TryFindFieldOrPropertyValue(target, attribute.ConditionName, out value))
-                return true;
+            void UpdateView()
+            {
+                TryGetConditionValue(property, out var value);
+                OnConditionChanged(value, container, property);
+            }
 
-
-            value = false;
-            return false;
+            container.TrackSerializedObjectValue(property.serializedObject, _ => UpdateView());
+            UpdateView();
+            return container;
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            var conditionAttribute = (ConditionAttribute)attribute;
+            TryGetConditionValue(property, out var value);
+            OnGUIWithCondition(position, property, label, value);
+        }
 
-            if (TryGetValue(conditionAttribute, property, out var value))
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            TryGetConditionValue(property, out var value);
+            return GetPropertyHeightWithCondition(property, label, value);
+        }
+
+        private bool TryGetConditionValue(SerializedProperty property, out bool value)
+        {
+            var conditionAttribute = (ConditionAttribute)attribute;
+            var target = property.TraceParentValue();
+            if (ReflectionUtility.TryFindFieldOrPropertyValue(target, conditionAttribute.ConditionName,
+                    out var conditionValue))
             {
-                OnGUIWithCondition(Equals(value, conditionAttribute.Value), position, property, label);
+                value = Equals(conditionValue, conditionAttribute.Value);
+                return true;
             }
-            else
-            {
-                Debug.LogWarning($"ConditionAttribute: {((ConditionAttribute)attribute).ConditionName} is not found.");
-                EditorGUI.PropertyField(position, property, label);
-            }
+
+            Debug.LogWarning(
+                $"ConditionAttribute: {((ConditionAttribute)attribute).ConditionName} is not found.");
+            value = false;
+            return false;
         }
     }
 }

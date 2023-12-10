@@ -1,24 +1,22 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using ShalicoAttributePack.Editor;
 using ShalicoColorPalette;
 using UnityEditor;
+using UnityEditor.IMGUI.Controls;
 using UnityEditorInternal;
 using UnityEngine;
 
 namespace ShalicoEffectProcessor.Editor
 {
-    public class InterfaceReorderableList<TContainer, TInterface, TAddMenuAttribute>
+    public class SubclassReorderableList<TContainer, TBase>
         where TContainer : class
-        where TInterface : class
-        where TAddMenuAttribute : Attribute, IAddMenuAttribute
+        where TBase : class
     {
-        private static AddMenuItem[] _cachedMenuItems;
+        private const float OptionButtonSize = 14;
         private readonly ReorderableList _reorderableList;
 
-        public InterfaceReorderableList(SerializedProperty property, GUIContent label)
+        public SubclassReorderableList(SerializedProperty property, GUIContent label)
         {
             _reorderableList = new ReorderableList(property.serializedObject, property);
             _reorderableList.drawHeaderCallback += rect => { DrawHeader(rect, label); };
@@ -41,7 +39,7 @@ namespace ShalicoEffectProcessor.Editor
 
         private void DrawHeader(Rect rect, GUIContent label)
         {
-            var text = $"{typeof(TInterface).Name} ({label.text})";
+            var text = $"{typeof(TBase).Name} ({label.text})";
             EditorGUI.LabelField(rect, text);
             if (OptionButton(rect)) OpenListMenu();
         }
@@ -49,10 +47,11 @@ namespace ShalicoEffectProcessor.Editor
         private bool OptionButton(Rect rect)
         {
             var optionsButtonRect = new Rect(rect.x + rect.width - EditorGUIUtility.singleLineHeight,
-                rect.y,
-                EditorGUIUtility.singleLineHeight, EditorGUIUtility.singleLineHeight);
-            var result = GUI.Button(optionsButtonRect, "⋮");
+                rect.y + EditorGUIUtility.singleLineHeight / 2 - OptionButtonSize / 2,
+                OptionButtonSize, OptionButtonSize);
 
+            var image = EditorGUIUtility.IconContent("_Menu");
+            var result = GUI.Button(optionsButtonRect, image, EditorStyles.iconButton);
 
             return result;
         }
@@ -134,9 +133,8 @@ namespace ShalicoEffectProcessor.Editor
                 EditorGUIUtility.singleLineHeight);
             DrawCustomLabel(labelRect, nameText, index, element.displayName, color);
 
-            EditorGUI.PropertyField(rect, element, GUIContent.none, true);
-
             if (OptionButton(rect)) OpenElementMenu(index);
+            EditorGUI.PropertyField(rect, element, GUIContent.none, true);
         }
 
 
@@ -157,15 +155,20 @@ namespace ShalicoEffectProcessor.Editor
 
         private void OpenAddMenu()
         {
-            var menu = new GenericMenu();
-            foreach (var menuItem in GetCachedMenuItems())
-                menu.AddItem(new GUIContent(menuItem.Attribute.Path), false, () =>
-                {
-                    var instance = (TInterface)Activator.CreateInstance(menuItem.Type);
-                    GetNewElement().managedReferenceValue = instance;
-                    _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
-                });
-            menu.ShowAsContext();
+            var dropdown = new ClassAdvancedDropdown(typeof(TBase), new AdvancedDropdownState());
+            dropdown.onSelectItem += type =>
+            {
+                GetNewElement().managedReferenceValue = type == null ? null : Activator.CreateInstance(type);
+                ApplyChanges();
+            };
+            var mousePosition = Event.current.mousePosition;
+            mousePosition.x -= 200;
+            dropdown.Show(new Rect(mousePosition, Vector2.zero));
+        }
+
+        private void ApplyChanges()
+        {
+            _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
         }
 
         private void OpenListMenu()
@@ -184,7 +187,7 @@ namespace ShalicoEffectProcessor.Editor
                 try
                 {
                     JsonUtility.FromJsonOverwrite(EditorGUIUtility.systemCopyBuffer, list);
-                    _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
+                    ApplyChanges();
                 }
                 catch (ArgumentException)
                 {
@@ -197,7 +200,7 @@ namespace ShalicoEffectProcessor.Editor
             menu.AddItem(new GUIContent("Clear All"), false, () =>
             {
                 _reorderableList.serializedProperty.ClearArray();
-                _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
+                ApplyChanges();
             });
 
             menu.AddSeparator("");
@@ -221,7 +224,7 @@ namespace ShalicoEffectProcessor.Editor
                         Debug.LogWarning("Cannot paste item, the serialized data is incompatible.");
                     }
 
-                    _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
+                    ApplyChanges();
                 }
                 catch (Exception e)
                 {
@@ -251,7 +254,7 @@ namespace ShalicoEffectProcessor.Editor
                     SerializationUtility.ClearAllManagedReferencesWithMissingTypes(_reorderableList.serializedProperty
                         .serializedObject.targetObject);
 
-                    _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
+                    ApplyChanges();
                 });
             else
                 menu.AddDisabledItem(new GUIContent("Remove Missing References"));
@@ -266,14 +269,14 @@ namespace ShalicoEffectProcessor.Editor
             menu.AddItem(new GUIContent("Copy"), false, () =>
             {
                 var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
-                var obj = (TInterface)element.managedReferenceValue;
+                var obj = (TBase)element.managedReferenceValue;
                 EditorGUIUtility.systemCopyBuffer = CopiedItem.ToJson(obj);
             });
 
             menu.AddItem(new GUIContent("Duplicate"), false, () =>
             {
                 var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
-                var obj = CopiedItem.ToJson((TInterface)element.managedReferenceValue);
+                var obj = CopiedItem.ToJson((TBase)element.managedReferenceValue);
                 var newElementProperty = GetNewElement();
                 newElementProperty.managedReferenceValue = CopiedItem.FromJson(obj);
                 newElementProperty.serializedObject.ApplyModifiedProperties();
@@ -282,36 +285,12 @@ namespace ShalicoEffectProcessor.Editor
             menu.AddItem(new GUIContent("Remove"), false, () =>
             {
                 _reorderableList.serializedProperty.DeleteArrayElementAtIndex(index);
-                _reorderableList.serializedProperty.serializedObject.ApplyModifiedProperties();
+                ApplyChanges();
             });
 
             menu.ShowAsContext();
         }
 
-        private AddMenuItem[] GetCachedMenuItems()
-        {
-            if (_cachedMenuItems != null)
-                return _cachedMenuItems;
-
-            var classesWithCustomAttribute = new List<AddMenuItem>();
-
-            foreach (var type in TypeCache.GetTypesWithAttribute(typeof(TAddMenuAttribute)))
-            {
-                if (!type.IsClass || type.IsAbstract || !typeof(TInterface).IsAssignableFrom(type))
-                    continue;
-
-                foreach (var addMenuAttribute in type.GetCustomAttributes(typeof(TAddMenuAttribute), false))
-                    classesWithCustomAttribute
-                        .Add(new AddMenuItem((IAddMenuAttribute)addMenuAttribute, type));
-            }
-
-            _cachedMenuItems = classesWithCustomAttribute
-                .OrderByDescending(x => x.Attribute.Order)
-                .ThenBy(x => x.Attribute.Path)
-                .ToArray();
-
-            return _cachedMenuItems;
-        }
 
         public void Draw(Rect position)
         {
@@ -323,42 +302,30 @@ namespace ShalicoEffectProcessor.Editor
             return _reorderableList.GetHeight();
         }
 
-        private class AddMenuItem
-        {
-            public readonly IAddMenuAttribute Attribute;
-            public readonly Type Type;
-
-            public AddMenuItem(IAddMenuAttribute attribute, Type type)
-            {
-                Attribute = attribute;
-                Type = type;
-            }
-        }
-
         [Serializable]
         private class CopiedItem
         {
             [SerializeField] private string json;
             [SerializeField] private string typeName;
 
-            private CopiedItem(TInterface item)
+            private CopiedItem(TBase item)
             {
                 json = JsonUtility.ToJson(item);
                 typeName = item.GetType().AssemblyQualifiedName;
             }
 
-            public TInterface ToItem()
+            public TBase ToItem()
             {
                 var type = Type.GetType(typeName);
-                return JsonUtility.FromJson(json, type) as TInterface;
+                return JsonUtility.FromJson(json, type) as TBase;
             }
 
-            public static string ToJson(TInterface item)
+            public static string ToJson(TBase item)
             {
                 return JsonUtility.ToJson(new CopiedItem(item));
             }
 
-            public static TInterface FromJson(string json)
+            public static TBase FromJson(string json)
             {
                 return JsonUtility.FromJson<CopiedItem>(json).ToItem();
             }

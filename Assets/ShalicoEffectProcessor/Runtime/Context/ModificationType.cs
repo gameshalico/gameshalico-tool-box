@@ -1,6 +1,6 @@
 namespace ShalicoEffectProcessor.Context
 {
-    public enum ContextUpdateMode
+    public enum ModificationType
     {
         Override,
         Additive

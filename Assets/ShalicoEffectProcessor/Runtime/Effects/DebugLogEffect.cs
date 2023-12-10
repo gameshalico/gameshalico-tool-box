@@ -1,4 +1,5 @@
 using System;
+using ShalicoAttributePack;
 using ShalicoColorPalette;
 using ShalicoEffectProcessor.Context;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 namespace ShalicoEffectProcessor.Effects
 {
     [Serializable]
-    [AddEffectMenu("Debug/Debug Log", -1)]
+    [CustomDropdownPath("Debug/Debug Log")]
     [CustomListLabel("Debug Log", Tone.Strong, HueSymbol.RedPurple)]
     public class DebugLogEffect : ImmediateEffect
     {

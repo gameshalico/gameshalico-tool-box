@@ -1,4 +1,5 @@
 using System;
+using ShalicoAttributePack;
 using ShalicoColorPalette;
 using ShalicoEffectProcessor.Context;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 namespace ShalicoEffectProcessor.Effects
 {
     [Serializable]
-    [AddEffectMenu("Game Object/Set Active")]
+    [CustomDropdownPath("Game Object/Set Active")]
     [CustomListLabel("Set Active", Tone.Strong, HueSymbol.Blue2)]
     public class SetActiveEffect : ImmediateEffect
     {

@@ -1,4 +1,5 @@
 using System;
+using ShalicoAttributePack;
 using ShalicoColorPalette;
 using ShalicoEffectProcessor.Context;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 namespace ShalicoEffectProcessor.Effects
 {
     [Serializable]
-    [AddEffectMenu("Particle System/Play")]
+    [CustomDropdownPath("Particle System/Play")]
     [CustomListLabel("Play Particle System", Tone.Strong, HueSymbol.Yellow)]
     public class PlayParticleEffect : ImmediateEffect
     {
