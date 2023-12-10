@@ -14,11 +14,24 @@ namespace ShalicoEffectProcessor.EffectProcessors
     public class TransformToSpatialContextProcessor : IEffectProcessor
     {
         [SerializeField] private Transform transform;
+        [SerializeField] private SpaceType spaceType = SpaceType.World;
+        [SerializeField] private ModificationType modificationType = ModificationType.Override;
 
         public UniTask Run(EffectContext context, EffectFunc function, CancellationToken cancellationToken = default)
         {
-            context.GetContainer<SpatialInfo>().Value =
-                new SpatialInfo(transform.position, transform.rotation, transform.localScale);
+            var spatialInfo = new SpatialInfo(transform, spaceType);
+
+            switch (modificationType)
+            {
+                case ModificationType.Override:
+                    context.GetContainer<SpatialInfo>().Value = spatialInfo;
+                    break;
+                case ModificationType.Additive:
+                    context.GetContainer<SpatialInfo>().Value += spatialInfo;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
             return function(context, cancellationToken);
         }

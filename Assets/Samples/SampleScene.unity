@@ -256,47 +256,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2536e726068b4ef48d4f345a0e357628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chainEffectProcessor:
+  effectProcessor:
     cloneContext: 0
     _runners:
-    - rid: 8461813404150005761
-    - rid: 8461813400705171460
-    - rid: 7091846927525085210
-    - rid: 8461813400705171462
-    - rid: 7091846927525085194
-    - rid: 7091846927525085209
+    - rid: 7091846927525085213
   references:
     version: 2
     RefIds:
-    - rid: 7091846927525085194
-      type: {class: AsyncChainEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+    - rid: 7091846927525085213
+      type: {class: EffectExecutorProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
       data:
-        asyncChain:
-          cloneContext: 0
-          _runners: []
-    - rid: 7091846927525085209
-      type: {class: DelayEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+        synchronize: 1
+        effectGroup:
+          _effects:
+          - rid: 7091846927525085214
+    - rid: 7091846927525085214
+      type: {class: InstantiateEffect, ns: ShalicoEffectProcessor.Effects, asm: ShalicoEffectProcessor}
       data:
-        timeScaleMode: 0
-        delay: 0.5
-    - rid: 7091846927525085210
-      type: {class: DebugLogEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
-      data:
-        message: 1times
-    - rid: 8461813400705171460
-      type: {class: AsyncChainEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
-      data:
-        asyncChain:
-          cloneContext: 0
-          _runners: []
-    - rid: 8461813400705171462
-      type: {class: ParallelChainEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
-      data:
-        chains: []
-    - rid: 8461813404150005761
-      type: {class: TransformToSpatialContextProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
-      data:
-        transform: {fileID: 1539372952}
+        prefab: {fileID: 0}
+        parent: {fileID: 0}
+        spaceType: 1
+        assignContext: 0
 --- !u!1 &1956514570
 GameObject:
   m_ObjectHideFlags: 0

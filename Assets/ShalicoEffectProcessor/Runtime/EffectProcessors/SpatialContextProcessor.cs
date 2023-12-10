@@ -13,24 +13,20 @@ namespace ShalicoEffectProcessor.EffectProcessors
     [CustomListLabel("Spatial", Tone.Light, HueSymbol.Green)]
     public class SpatialContextProcessor : IEffectProcessor
     {
-        [SerializeField] private ContextUpdateMode updateMode = ContextUpdateMode.Override;
+        [SerializeField] private ModificationType modificationType = ModificationType.Override;
         [SerializeField] private Vector3 position;
         [SerializeField] private Quaternion rotation;
-        [SerializeField] private Vector3 scale;
+        [SerializeField] private Vector3 scale = Vector3.one;
 
         public UniTask Run(EffectContext context, EffectFunc function, CancellationToken cancellationToken = default)
         {
-            switch (updateMode)
+            switch (modificationType)
             {
-                case ContextUpdateMode.Override:
+                case ModificationType.Override:
                     context.GetContainer<SpatialInfo>().Value = new SpatialInfo(position, rotation, scale);
                     break;
-                case ContextUpdateMode.Additive:
-                    var container = context.GetContainer<SpatialInfo>();
-                    container.Value = new SpatialInfo(
-                        container.Value.Position + position,
-                        container.Value.Rotation * rotation,
-                        container.Value.Scale + scale);
+                case ModificationType.Additive:
+                    context.GetContainer<SpatialInfo>().Value += new SpatialInfo(position, rotation, scale);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
