@@ -26,7 +26,8 @@ namespace ShalicoEffectProcessor.EffectProcessors
 
             do
             {
-                await function(context.CloneIf(cloneContext), cancellationToken);
+                var subContext = cloneContext ? context.Clone() : context.AddRef();
+                await function(subContext, cancellationToken);
                 repeat--;
             } while (repeatForever || repeat > 0);
         }

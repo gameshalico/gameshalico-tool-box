@@ -18,7 +18,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
         public async UniTask Run(EffectContext context, EffectFunc function,
             CancellationToken cancellationToken = default)
         {
-            asyncChain.Run(context, function, cancellationToken).Forget();
+            asyncChain.RunAsync(context.AddRef(), cancellationToken).Forget();
             await function(context, cancellationToken);
         }
     }

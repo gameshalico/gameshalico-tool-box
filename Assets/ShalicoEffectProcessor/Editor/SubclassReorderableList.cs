@@ -13,6 +13,7 @@ namespace ShalicoEffectProcessor.Editor
         where TContainer : class
         where TBase : class
     {
+        private const float OptionButtonSize = 14;
         private readonly ReorderableList _reorderableList;
 
         public SubclassReorderableList(SerializedProperty property, GUIContent label)
@@ -46,10 +47,11 @@ namespace ShalicoEffectProcessor.Editor
         private bool OptionButton(Rect rect)
         {
             var optionsButtonRect = new Rect(rect.x + rect.width - EditorGUIUtility.singleLineHeight,
-                rect.y,
-                EditorGUIUtility.singleLineHeight, EditorGUIUtility.singleLineHeight);
-            var result = GUI.Button(optionsButtonRect, "⋮");
+                rect.y + EditorGUIUtility.singleLineHeight / 2 - OptionButtonSize / 2,
+                OptionButtonSize, OptionButtonSize);
 
+            var image = EditorGUIUtility.IconContent("_Menu");
+            var result = GUI.Button(optionsButtonRect, image, EditorStyles.iconButton);
 
             return result;
         }
@@ -131,9 +133,8 @@ namespace ShalicoEffectProcessor.Editor
                 EditorGUIUtility.singleLineHeight);
             DrawCustomLabel(labelRect, nameText, index, element.displayName, color);
 
-            EditorGUI.PropertyField(rect, element, GUIContent.none, true);
-
             if (OptionButton(rect)) OpenElementMenu(index);
+            EditorGUI.PropertyField(rect, element, GUIContent.none, true);
         }
 
 

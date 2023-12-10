@@ -9,7 +9,7 @@ namespace ShalicoEffectProcessor.Editor
     [CustomPropertyDrawer(typeof(ChainEffectProcessor))]
     public class ChainEffectProcessorDrawer : PropertyDrawer
     {
-        private readonly InterfaceListContainerView<ChainEffectProcessor, IEffectProcessor> _view = new("_runners");
+        private readonly SubclassListContainerView<ChainEffectProcessor, IEffectProcessor> _view = new("_runners");
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

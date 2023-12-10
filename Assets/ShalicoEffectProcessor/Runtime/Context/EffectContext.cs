@@ -5,13 +5,46 @@ namespace ShalicoEffectProcessor.Context
 {
     public class EffectContext
     {
-        private readonly Dictionary<Type, ICloneable> _data = new();
+        private static readonly Queue<EffectContext> s_pool = new();
 
-        public EffectContext()
+        private readonly Dictionary<Type, ICloneable> _data = new();
+        private int _refCount;
+
+        private EffectContext()
         {
         }
 
-        public EffectContext(EffectContext context)
+        public EffectContext AddRef()
+        {
+            _refCount++;
+            return this;
+        }
+
+        public static EffectContext Get()
+        {
+            if (s_pool.Count > 0)
+                return s_pool.Dequeue();
+
+            return new EffectContext();
+        }
+
+        public void Release()
+        {
+            if (_refCount > 0)
+            {
+                _refCount--;
+                return;
+            }
+
+            if (_refCount < 0)
+                throw new InvalidOperationException("Ref count is less than 0");
+
+            _data.Clear();
+            s_pool.Enqueue(this);
+        }
+
+
+        public void CopyFrom(EffectContext context)
         {
             foreach (var (key, value) in context._data)
                 _data[key] = (ICloneable)value.Clone();
@@ -19,12 +52,9 @@ namespace ShalicoEffectProcessor.Context
 
         public EffectContext Clone()
         {
-            return new EffectContext(this);
-        }
-
-        public EffectContext CloneIf(bool condition)
-        {
-            return condition ? new EffectContext(this) : this;
+            var context = Get();
+            context.CopyFrom(this);
+            return context;
         }
 
         public void Set<T>(T data) where T : ICloneable

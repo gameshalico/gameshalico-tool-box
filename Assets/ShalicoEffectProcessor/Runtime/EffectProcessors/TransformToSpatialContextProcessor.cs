@@ -17,7 +17,8 @@ namespace ShalicoEffectProcessor.EffectProcessors
 
         public UniTask Run(EffectContext context, EffectFunc function, CancellationToken cancellationToken = default)
         {
-            context.SetValue(new SpatialInfo(transform.position, transform.rotation, transform.localScale));
+            context.GetContainer<SpatialInfo>().Value =
+                new SpatialInfo(transform.position, transform.rotation, transform.localScale);
 
             return function(context, cancellationToken);
         }

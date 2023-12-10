@@ -18,8 +18,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
         public async UniTask Run(EffectContext context, EffectFunc function,
             CancellationToken cancellationToken = default)
         {
-            await UniTask.WhenAll(chains.Select(chain =>
-                chain.Run(context, function, cancellationToken)));
+            await UniTask.WhenAll(chains.Select(chain => chain.Run(context, function, cancellationToken)));
 
             await function(context, cancellationToken);
         }

@@ -23,7 +23,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
             switch (updateMode)
             {
                 case ContextUpdateMode.Override:
-                    context.SetValue(new SpatialInfo(position, rotation, scale));
+                    context.GetContainer<SpatialInfo>().Value = new SpatialInfo(position, rotation, scale);
                     break;
                 case ContextUpdateMode.Additive:
                     var container = context.GetContainer<SpatialInfo>();
