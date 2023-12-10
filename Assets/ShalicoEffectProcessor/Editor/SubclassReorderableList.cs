@@ -9,13 +9,13 @@ using UnityEngine;
 
 namespace ShalicoEffectProcessor.Editor
 {
-    public class InterfaceReorderableList<TContainer, TInterface>
+    public class SubclassReorderableList<TContainer, TBase>
         where TContainer : class
-        where TInterface : class
+        where TBase : class
     {
         private readonly ReorderableList _reorderableList;
 
-        public InterfaceReorderableList(SerializedProperty property, GUIContent label)
+        public SubclassReorderableList(SerializedProperty property, GUIContent label)
         {
             _reorderableList = new ReorderableList(property.serializedObject, property);
             _reorderableList.drawHeaderCallback += rect => { DrawHeader(rect, label); };
@@ -38,7 +38,7 @@ namespace ShalicoEffectProcessor.Editor
 
         private void DrawHeader(Rect rect, GUIContent label)
         {
-            var text = $"{typeof(TInterface).Name} ({label.text})";
+            var text = $"{typeof(TBase).Name} ({label.text})";
             EditorGUI.LabelField(rect, text);
             if (OptionButton(rect)) OpenListMenu();
         }
@@ -154,7 +154,7 @@ namespace ShalicoEffectProcessor.Editor
 
         private void OpenAddMenu()
         {
-            var dropdown = new ClassAdvancedDropdown(typeof(TInterface), new AdvancedDropdownState());
+            var dropdown = new ClassAdvancedDropdown(typeof(TBase), new AdvancedDropdownState());
             dropdown.onSelectItem += type =>
             {
                 GetNewElement().managedReferenceValue = type == null ? null : Activator.CreateInstance(type);
@@ -268,14 +268,14 @@ namespace ShalicoEffectProcessor.Editor
             menu.AddItem(new GUIContent("Copy"), false, () =>
             {
                 var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
-                var obj = (TInterface)element.managedReferenceValue;
+                var obj = (TBase)element.managedReferenceValue;
                 EditorGUIUtility.systemCopyBuffer = CopiedItem.ToJson(obj);
             });
 
             menu.AddItem(new GUIContent("Duplicate"), false, () =>
             {
                 var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
-                var obj = CopiedItem.ToJson((TInterface)element.managedReferenceValue);
+                var obj = CopiedItem.ToJson((TBase)element.managedReferenceValue);
                 var newElementProperty = GetNewElement();
                 newElementProperty.managedReferenceValue = CopiedItem.FromJson(obj);
                 newElementProperty.serializedObject.ApplyModifiedProperties();
@@ -307,24 +307,24 @@ namespace ShalicoEffectProcessor.Editor
             [SerializeField] private string json;
             [SerializeField] private string typeName;
 
-            private CopiedItem(TInterface item)
+            private CopiedItem(TBase item)
             {
                 json = JsonUtility.ToJson(item);
                 typeName = item.GetType().AssemblyQualifiedName;
             }
 
-            public TInterface ToItem()
+            public TBase ToItem()
             {
                 var type = Type.GetType(typeName);
-                return JsonUtility.FromJson(json, type) as TInterface;
+                return JsonUtility.FromJson(json, type) as TBase;
             }
 
-            public static string ToJson(TInterface item)
+            public static string ToJson(TBase item)
             {
                 return JsonUtility.ToJson(new CopiedItem(item));
             }
 
-            public static TInterface FromJson(string json)
+            public static TBase FromJson(string json)
             {
                 return JsonUtility.FromJson<CopiedItem>(json).ToItem();
             }

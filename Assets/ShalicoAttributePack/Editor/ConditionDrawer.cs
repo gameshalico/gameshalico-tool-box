@@ -9,33 +9,56 @@ namespace ShalicoAttributePack.Editor
     {
         protected abstract void OnConditionChanged(bool value, VisualElement container, SerializedProperty property);
 
+        protected abstract void OnGUIWithCondition(Rect position, SerializedProperty property, GUIContent label,
+            bool value);
+
+        protected abstract float GetPropertyHeightWithCondition(SerializedProperty property, GUIContent label,
+            bool value);
+
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             var container = new VisualElement();
             var propertyField = new PropertyField(property);
             container.Add(propertyField);
 
-            var conditionAttribute = (ConditionAttribute)attribute;
-
             void UpdateView()
             {
-                var target = property.TraceParentValue();
-                if (ReflectionUtility.TryFindFieldOrPropertyValue(target, conditionAttribute.ConditionName,
-                        out var value))
-                {
-                    OnConditionChanged(Equals(value, conditionAttribute.Value), container, property);
-                }
-                else
-                {
-                    Debug.LogWarning(
-                        $"ConditionAttribute: {((ConditionAttribute)attribute).ConditionName} is not found.");
-                    OnConditionChanged(false, container, property);
-                }
+                TryGetConditionValue(property, out var value);
+                OnConditionChanged(value, container, property);
             }
 
             container.TrackSerializedObjectValue(property.serializedObject, _ => UpdateView());
             UpdateView();
             return container;
+        }
+
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            TryGetConditionValue(property, out var value);
+            OnGUIWithCondition(position, property, label, value);
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            TryGetConditionValue(property, out var value);
+            return GetPropertyHeightWithCondition(property, label, value);
+        }
+
+        private bool TryGetConditionValue(SerializedProperty property, out bool value)
+        {
+            var conditionAttribute = (ConditionAttribute)attribute;
+            var target = property.TraceParentValue();
+            if (ReflectionUtility.TryFindFieldOrPropertyValue(target, conditionAttribute.ConditionName,
+                    out var conditionValue))
+            {
+                value = Equals(conditionValue, conditionAttribute.Value);
+                return true;
+            }
+
+            Debug.LogWarning(
+                $"ConditionAttribute: {((ConditionAttribute)attribute).ConditionName} is not found.");
+            value = false;
+            return false;
         }
     }
 }

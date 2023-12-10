@@ -38,6 +38,25 @@ namespace ShalicoAttributePack.Editor
             return container;
         }
 
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            EditorGUI.PropertyField(position, property, label);
+            var previewAttribute = (PreviewAttribute)attribute;
+            var texture = AssetPreview.GetAssetPreview(property.objectReferenceValue);
+            if (texture == null) return;
+
+            var width = previewAttribute.Height * texture.width / texture.height;
+            var imagePosition = new Rect(position.x + position.width - width, position.y, width,
+                previewAttribute.Height);
+            GUI.DrawTexture(imagePosition, texture);
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            var previewAttribute = (PreviewAttribute)attribute;
+            return EditorGUI.GetPropertyHeight(property, label) + previewAttribute.Height + Margin * 2;
+        }
+
         private void SetImage(Object value, Image image)
         {
             var previewAttribute = (PreviewAttribute)attribute;

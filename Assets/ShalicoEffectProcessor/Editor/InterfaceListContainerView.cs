@@ -10,7 +10,7 @@ namespace ShalicoEffectProcessor.Editor
     {
         private readonly string _propertyName;
 
-        private readonly Dictionary<string, InterfaceReorderableList<TContainer, TInterface>>
+        private readonly Dictionary<string, SubclassReorderableList<TContainer, TInterface>>
             _reorderableLists = new();
 
         public InterfaceListContainerView(string propertyName)
@@ -31,7 +31,7 @@ namespace ShalicoEffectProcessor.Editor
             {
                 if (!_reorderableLists.TryGetValue(property.propertyPath, out var list))
                 {
-                    list = new InterfaceReorderableList<TContainer, TInterface>(
+                    list = new SubclassReorderableList<TContainer, TInterface>(
                         property.FindPropertyRelative(_propertyName), label);
                     _reorderableLists.Add(property.propertyPath, list);
                 }
