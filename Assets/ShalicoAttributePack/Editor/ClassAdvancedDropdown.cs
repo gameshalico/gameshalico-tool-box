@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
@@ -39,12 +40,19 @@ namespace ShalicoAttributePack.Editor
 
             if (node.IsLeaf)
             {
-                item.icon = EditorGUIUtility.Load("cs Script Icon") as Texture2D;
+                item.icon = GetIconByType(node.Type);
                 if (node.Type != null || !_types.ContainsKey(item.id))
                     _types.TryAdd(item.id, node.Type);
             }
 
             return item;
+        }
+
+        private Texture2D GetIconByType(Type type)
+        {
+            if (type.GetCustomAttribute<IconAttribute>() is { } iconAttribute)
+                return AssetDatabase.LoadAssetAtPath<Texture2D>(iconAttribute.path);
+            return EditorGUIUtility.Load("cs Script Icon") as Texture2D;
         }
 
         private bool TryGetType(int id, out Type type)

@@ -284,7 +284,7 @@ MonoBehaviour:
   hideIfInt: 0
   previewTexture: {fileID: -1304905567622442630, guid: b90ed8e971488034b89c37f16e99c42c, type: 3}
   entities:
-  - rid: 7091846894137376777
+  - rid: 7091846894137376778
   entity:
     rid: 7091846894137376776
   references:
@@ -295,11 +295,10 @@ MonoBehaviour:
       data:
         health: 0
         attack: 0
-    - rid: 7091846894137376777
-      type: {class: Goblin, ns: Samples.AttributePack, asm: Sample}
+    - rid: 7091846894137376778
+      type: {class: Slime, ns: Samples.AttributePack, asm: Sample}
       data:
         health: 0
-        attack: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
