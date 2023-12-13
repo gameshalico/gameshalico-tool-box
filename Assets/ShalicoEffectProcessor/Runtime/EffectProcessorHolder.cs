@@ -1,12 +1,11 @@
-using ShalicoEffectProcessor.EffectProcessors;
 using UnityEngine;
 
 namespace ShalicoEffectProcessor
 {
     public class EffectProcessorHolder : MonoBehaviour
     {
-        [SerializeField] private ChainEffectProcessor effectProcessor;
+        [SerializeField] private EffectProcessorGroup effectProcessor;
 
-        public ChainEffectProcessor EffectProcessor => effectProcessor;
+        public EffectProcessorGroup EffectProcessor => effectProcessor;
     }
 }
