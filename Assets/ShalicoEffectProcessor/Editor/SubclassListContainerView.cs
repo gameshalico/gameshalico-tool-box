@@ -21,12 +21,6 @@ namespace ShalicoEffectProcessor.Editor
         public void OnGUI(Rect position, SerializedProperty property,
             GUIContent label)
         {
-            property.isExpanded = EditorGUI.Foldout(
-                new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight),
-                property.isExpanded, label);
-            if (!property.isExpanded)
-                return;
-
             using (new EditorGUI.PropertyScope(position, label, property))
             {
                 if (!_reorderableLists.TryGetValue(property.propertyPath, out var list))
@@ -45,7 +39,7 @@ namespace ShalicoEffectProcessor.Editor
 
         public float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            if (property.isExpanded && _reorderableLists.TryGetValue(property.propertyPath, out var list))
+            if (_reorderableLists.TryGetValue(property.propertyPath, out var list))
                 return list.GetHeight() + EditorGUIUtility.singleLineHeight +
                        EditorGUIUtility.standardVerticalSpacing * 2;
 

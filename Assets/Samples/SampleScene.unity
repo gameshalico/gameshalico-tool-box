@@ -259,24 +259,30 @@ MonoBehaviour:
   effectProcessor:
     cloneContext: 0
     _runners:
-    - rid: 7091846927525085213
+    - rid: 7091847008936525859
+    - rid: 7091847008936525862
   references:
     version: 2
     RefIds:
-    - rid: 7091846927525085213
+    - rid: 7091847008936525859
+      type: {class: AsyncChainEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        asyncChain:
+          cloneContext: 0
+          _runners:
+          - rid: 7091847008936525861
+    - rid: 7091847008936525861
       type: {class: EffectExecutorProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
       data:
         synchronize: 1
         effectGroup:
-          _effects:
-          - rid: 7091846927525085214
-    - rid: 7091846927525085214
-      type: {class: InstantiateEffect, ns: ShalicoEffectProcessor.Effects, asm: ShalicoEffectProcessor}
+          _effects: []
+    - rid: 7091847008936525862
+      type: {class: EffectExecutorProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
       data:
-        prefab: {fileID: 0}
-        parent: {fileID: 0}
-        spaceType: 1
-        assignContext: 0
+        synchronize: 1
+        effectGroup:
+          _effects: []
 --- !u!1 &1956514570
 GameObject:
   m_ObjectHideFlags: 0

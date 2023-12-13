@@ -20,7 +20,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
         public async UniTask Run(EffectContext context, EffectFunc function,
             CancellationToken cancellationToken = default)
         {
-            var task = effectGroup.PlayEffectAsync(context, cancellationToken);
+            var task = effectGroup.PlayAsync(context, cancellationToken);
             if (synchronize)
                 await task;
             else

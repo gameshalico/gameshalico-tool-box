@@ -20,11 +20,19 @@ namespace ShalicoEffectProcessor.Editor
                 if (value is ChainEffectProcessor chainEffectProcessor) chainEffectProcessor.RunAsync().Forget();
             }
 
+            property.isExpanded = EditorGUI.Foldout(
+                new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight),
+                property.isExpanded, label);
+            if (!property.isExpanded)
+                return;
             _view.OnGUI(position, property, label);
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
+            if (!property.isExpanded)
+                return EditorGUIUtility.singleLineHeight;
+
             return _view.GetPropertyHeight(property, label);
         }
     }
