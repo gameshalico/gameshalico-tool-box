@@ -177,23 +177,45 @@ namespace ShalicoEffectProcessor.Editor
 
             menu.AddItem(new GUIContent("Copy List"), false, () =>
             {
-                var list = (TContainer)_reorderableList.serializedProperty.TraceParentValue();
-                EditorGUIUtility.systemCopyBuffer = JsonUtility.ToJson(list);
+                EditorGUIUtility.systemCopyBuffer =
+                    ValueWithType.ToJson(_reorderableList.serializedProperty.TraceParentValue());
             });
-            menu.AddItem(new GUIContent("Paste List"), false, () =>
-            {
-                var list = _reorderableList.serializedProperty.TraceParentValue();
 
-                try
+            if (ValueWithType.TryParse(EditorGUIUtility.systemCopyBuffer, out var value))
+            {
+                var copyText = EditorGUIUtility.systemCopyBuffer;
+                if (value is TContainer)
                 {
-                    JsonUtility.FromJsonOverwrite(EditorGUIUtility.systemCopyBuffer, list);
-                    ApplyChanges();
+                    menu.AddItem(new GUIContent("Paste as List"), false, () =>
+                    {
+                        var list = _reorderableList.serializedProperty.TraceParentValue();
+                        JsonUtility.FromJsonOverwrite(copyText, list);
+                        ApplyChanges();
+                    });
                 }
-                catch (ArgumentException)
+                else
                 {
-                    Debug.LogWarning("Cannot paste list, the serialized data is incompatible.");
+                    string typeName = null;
+                    if (value.GetType().GetCustomAttribute<CustomListLabelAttribute>() is { } pathAttribute)
+                        typeName = pathAttribute.Text;
+                    typeName ??= value.GetType().Name;
+
+                    if (value is TBase)
+                        menu.AddItem(new GUIContent($"Paste Item as {typeName}"), false, () =>
+                        {
+                            var newElementProperty = GetNewElement();
+                            newElementProperty.managedReferenceValue = value;
+                            newElementProperty.serializedObject.ApplyModifiedProperties();
+                            ApplyChanges();
+                        });
+                    else
+                        menu.AddDisabledItem(new GUIContent($"Paste as {typeName}"));
                 }
-            });
+            }
+            else
+            {
+                menu.AddDisabledItem(new GUIContent("Paste"));
+            }
 
             menu.AddSeparator("");
 
@@ -203,61 +225,31 @@ namespace ShalicoEffectProcessor.Editor
                 ApplyChanges();
             });
 
-            menu.AddSeparator("");
-
-            menu.AddItem(new GUIContent("Paste Item"), false, () =>
-            {
-                try
-                {
-                    var json = EditorGUIUtility.systemCopyBuffer;
-
-                    try
-                    {
-                        var obj = CopiedItem.FromJson(json);
-
-                        var newElementProperty = GetNewElement();
-                        newElementProperty.managedReferenceValue = obj;
-                        newElementProperty.serializedObject.ApplyModifiedProperties();
-                    }
-                    catch (ArgumentException)
-                    {
-                        Debug.LogWarning("Cannot paste item, the serialized data is incompatible.");
-                    }
-
-                    ApplyChanges();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-            });
-
-            menu.AddSeparator("");
 
             if (SerializationUtility.HasManagedReferencesWithMissingTypes(_reorderableList.serializedProperty
                     .serializedObject.targetObject))
-                menu.AddItem(new GUIContent("Remove Missing References"), false, () =>
-                {
-                    // Remove missing references
+            {
+                menu.AddSeparator("");
+                var missingReferences = SerializationUtility.GetManagedReferencesWithMissingTypes(
+                    _reorderableList.serializedProperty.serializedObject.targetObject);
 
-                    for (var i = 0; i < _reorderableList.serializedProperty.arraySize; i++)
+                foreach (var missingReference in missingReferences)
+                    menu.AddItem(new GUIContent($"Remove Missing Reference : {missingReference}"), false, () =>
                     {
-                        var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(i);
-                        if (element.managedReferenceValue == null)
-                        {
-                            _reorderableList.serializedProperty.DeleteArrayElementAtIndex(i);
-                            i--;
-                        }
-                    }
+                        SerializationUtility.ClearManagedReferenceWithMissingType(
+                            _reorderableList.serializedProperty.serializedObject.targetObject,
+                            missingReference.referenceId);
+                        ApplyChanges();
+                    });
 
+                menu.AddSeparator("");
+                menu.AddItem(new GUIContent("Remove All Missing References"), false, () =>
+                {
                     SerializationUtility.ClearAllManagedReferencesWithMissingTypes(_reorderableList.serializedProperty
                         .serializedObject.targetObject);
-
                     ApplyChanges();
                 });
-            else
-                menu.AddDisabledItem(new GUIContent("Remove Missing References"));
+            }
 
             menu.ShowAsContext();
         }
@@ -269,16 +261,37 @@ namespace ShalicoEffectProcessor.Editor
             menu.AddItem(new GUIContent("Copy"), false, () =>
             {
                 var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
-                var obj = (TBase)element.managedReferenceValue;
-                EditorGUIUtility.systemCopyBuffer = CopiedItem.ToJson(obj);
+                EditorGUIUtility.systemCopyBuffer = ValueWithType.ToJson(element.managedReferenceValue);
             });
+
+            if (ValueWithType.TryParse(EditorGUIUtility.systemCopyBuffer, out var value))
+            {
+                string typeName = null;
+                if (value.GetType().GetCustomAttribute<CustomListLabelAttribute>() is { } pathAttribute)
+                    typeName = pathAttribute.Text;
+                typeName ??= value.GetType().Name;
+                var pasteText = $"Paste as {typeName}";
+                if (value is TBase)
+                    menu.AddItem(new GUIContent(pasteText), false, () =>
+                    {
+                        var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
+                        element.managedReferenceValue = value;
+                        ApplyChanges();
+                    });
+                else
+                    menu.AddDisabledItem(new GUIContent(pasteText));
+            }
+            else
+            {
+                menu.AddDisabledItem(new GUIContent("Paste"));
+            }
 
             menu.AddItem(new GUIContent("Duplicate"), false, () =>
             {
                 var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
-                var obj = CopiedItem.ToJson((TBase)element.managedReferenceValue);
+                var obj = ValueWithType.ToJson((TBase)element.managedReferenceValue);
                 var newElementProperty = GetNewElement();
-                newElementProperty.managedReferenceValue = CopiedItem.FromJson(obj);
+                newElementProperty.managedReferenceValue = ValueWithType.FromJson(obj);
                 newElementProperty.serializedObject.ApplyModifiedProperties();
             });
 
@@ -300,35 +313,6 @@ namespace ShalicoEffectProcessor.Editor
         public float GetHeight()
         {
             return _reorderableList.GetHeight();
-        }
-
-        [Serializable]
-        private class CopiedItem
-        {
-            [SerializeField] private string json;
-            [SerializeField] private string typeName;
-
-            private CopiedItem(TBase item)
-            {
-                json = JsonUtility.ToJson(item);
-                typeName = item.GetType().AssemblyQualifiedName;
-            }
-
-            public TBase ToItem()
-            {
-                var type = Type.GetType(typeName);
-                return JsonUtility.FromJson(json, type) as TBase;
-            }
-
-            public static string ToJson(TBase item)
-            {
-                return JsonUtility.ToJson(new CopiedItem(item));
-            }
-
-            public static TBase FromJson(string json)
-            {
-                return JsonUtility.FromJson<CopiedItem>(json).ToItem();
-            }
         }
     }
 }
