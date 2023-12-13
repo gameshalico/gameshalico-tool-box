@@ -9,8 +9,6 @@ namespace ShalicoAttributePack.Editor
     [CustomPropertyDrawer(typeof(SubclassSelector))]
     public class SubclassSelectorDrawer : PropertyDrawer
     {
-        private const string NullText = "<null>";
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             var (value, fieldType) = GetPropertyInfo(property);
@@ -22,7 +20,7 @@ namespace ShalicoAttributePack.Editor
                 height = EditorGUIUtility.singleLineHeight,
                 width = buttonWidth
             };
-            if (GUI.Button(buttonRect, GetButtonText(value)))
+            if (GUI.Button(buttonRect, GetTypeName(value)))
                 ShowDropdown(buttonRect, property, fieldType);
 
             if (value == null)
@@ -34,10 +32,10 @@ namespace ShalicoAttributePack.Editor
             EditorGUI.PropertyField(position, property, label, true);
         }
 
-        private string GetButtonText(object value)
+        private string GetTypeName(object value)
         {
             if (value == null)
-                return NullText;
+                return SubclassAdvancedDropdown.NullTypeName;
 
             var type = value.GetType();
             if (type.GetCustomAttribute<CustomDropdownPathAttribute>() is { } pathAttribute &&
@@ -48,8 +46,8 @@ namespace ShalicoAttributePack.Editor
 
         private void ShowDropdown(Rect position, SerializedProperty property, Type fieldType)
         {
-            var dropdown = new ClassAdvancedDropdown(fieldType, new AdvancedDropdownState(), true);
-            dropdown.onSelectItem += type =>
+            var dropdown = new SubclassAdvancedDropdown(fieldType, new AdvancedDropdownState(), true);
+            dropdown.OnSelectItem += type =>
             {
                 property.managedReferenceValue = type == null ? null : Activator.CreateInstance(type);
                 property.serializedObject.ApplyModifiedProperties();

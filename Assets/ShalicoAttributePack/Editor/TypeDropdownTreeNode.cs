@@ -4,16 +4,17 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using UnityEditor;
+using Object = UnityEngine.Object;
 
 namespace ShalicoAttributePack.Editor
 {
-    public class ClassDropdownTreeNode
+    public class TypeDropdownTreeNode
     {
         private static readonly string DefaultPath = "Scripts";
-        private ClassDropdownTreeNode _child;
-        private ClassDropdownTreeNode _next;
+        private TypeDropdownTreeNode _child;
+        private TypeDropdownTreeNode _sibling;
 
-        private ClassDropdownTreeNode(string name)
+        private TypeDropdownTreeNode(string name)
         {
             Name = name;
         }
@@ -23,18 +24,24 @@ namespace ShalicoAttributePack.Editor
         public string Name { get; private set; }
         public Type Type { get; private set; }
 
-
-        private static bool IsTypeInvalid(Type type)
+        private static bool IsTypeValid(Type type)
         {
-            return type.IsAbstract || type.IsGenericType || type.IsInterface;
+            if (!type.IsSerializable || type.IsAbstract || type.IsGenericType || type.IsInterface)
+                return false;
+            if (type.IsSubclassOf(typeof(Object)))
+                return false;
+            if (type.GetConstructor(Type.EmptyTypes) == null)
+                return false;
+
+            return true;
         }
 
-        public static ClassDropdownTreeNode ConstructTypeTree(Type baseType)
+        public static TypeDropdownTreeNode ConstructTypeTree(Type baseType)
         {
-            var typeTreeRoot = new ClassDropdownTreeNode(baseType.Name);
+            var typeTreeRoot = new TypeDropdownTreeNode(baseType.Name);
             foreach (var type in TypeCache.GetTypesDerivedFrom(baseType))
             {
-                if (IsTypeInvalid(type))
+                if (!IsTypeValid(type))
                     continue;
 
                 typeTreeRoot.AddTypeToClassTree(type);
@@ -65,7 +72,7 @@ namespace ShalicoAttributePack.Editor
             return sb.ToString();
         }
 
-        private void AddChild(ClassDropdownTreeNode child)
+        private void AddChild(TypeDropdownTreeNode child)
         {
             if (_child == null)
             {
@@ -74,9 +81,9 @@ namespace ShalicoAttributePack.Editor
             }
 
             foreach (var node in Children())
-                if (node._next == null)
+                if (node._sibling == null)
                 {
-                    node._next = child;
+                    node._sibling = child;
                     return;
                 }
         }
@@ -93,7 +100,10 @@ namespace ShalicoAttributePack.Editor
             var hierarchy = type.Namespace?.Split('.')
                 .Prepend(DefaultPath).Append(type.Name).ToArray();
             if (hierarchy == null)
-                return new[] { DefaultPath, type.Name };
+                return new[]
+                {
+                    DefaultPath, type.Name
+                };
             return hierarchy;
         }
 
@@ -112,20 +122,20 @@ namespace ShalicoAttributePack.Editor
                 parent = parent.GetOrCreateChild(parentName);
 
 
-            var node = new ClassDropdownTreeNode(nodeName)
+            var node = new TypeDropdownTreeNode(nodeName)
             {
                 Type = type
             };
             parent.AddChild(node);
         }
 
-        private ClassDropdownTreeNode GetOrCreateChild(string name)
+        private TypeDropdownTreeNode GetOrCreateChild(string name)
         {
             foreach (var node in Children())
-                if (node.Name == name)
+                if (node.Name.Equals(name))
                     return node;
 
-            var newNode = new ClassDropdownTreeNode(name);
+            var newNode = new TypeDropdownTreeNode(name);
             AddChild(newNode);
             return newNode;
         }
@@ -137,10 +147,8 @@ namespace ShalicoAttributePack.Editor
                 var target = _child;
                 if (target == null)
                     return;
-                // 複数の子ノードがあるならマージしない
-                if (target._next != null)
+                if (target._sibling != null)
                     return;
-                // 葉ノードならマージしない
                 if (target._child == null)
                     return;
 
@@ -155,9 +163,9 @@ namespace ShalicoAttributePack.Editor
             foreach (var child in Children()) child.MergeSingleBranches(separator);
         }
 
-        public IEnumerable<ClassDropdownTreeNode> Children()
+        public IEnumerable<TypeDropdownTreeNode> Children()
         {
-            for (var node = _child; node != null; node = node._next)
+            for (var node = _child; node != null; node = node._sibling)
                 yield return node;
         }
     }

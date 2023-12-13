@@ -155,8 +155,8 @@ namespace ShalicoEffectProcessor.Editor
 
         private void OpenAddMenu()
         {
-            var dropdown = new ClassAdvancedDropdown(typeof(TBase), new AdvancedDropdownState());
-            dropdown.onSelectItem += type =>
+            var dropdown = new SubclassAdvancedDropdown(typeof(TBase), new AdvancedDropdownState());
+            dropdown.OnSelectItem += type =>
             {
                 GetNewElement().managedReferenceValue = type == null ? null : Activator.CreateInstance(type);
                 ApplyChanges();
