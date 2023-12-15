@@ -257,32 +257,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectProcessor:
-    effectProcessor:
-      cloneContext: 0
-      _runners:
-      - rid: 7091847032052645891
-      - rid: 7091847032052645892
+    cloneContext: 0
+    _runners:
+    - rid: 7091847040915996677
+    - rid: 7091847040915996678
+    - rid: 7091847040915996679
+    - rid: 7091847040915996680
+    - rid: 7091847040915996681
+    - rid: 7091847040915996689
+    - rid: 7091847040915996690
+    - rid: 7091847040915996683
+    - rid: 7091847040915996691
   references:
     version: 2
     RefIds:
-    - rid: 7091847032052645891
+    - rid: 7091847040915996677
+      type: {class: ScriptableObjectLinkEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        scriptableObject: {fileID: 0}
+    - rid: 7091847040915996678
+      type: {class: EffectProcessorHolderLink, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        effectProcessorHolder: {fileID: 0}
+    - rid: 7091847040915996679
+      type: {class: AsyncChainEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        asyncChain:
+          cloneContext: 0
+          _runners: []
+    - rid: 7091847040915996680
+      type: {class: ChainEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        cloneContext: 0
+        _runners: []
+    - rid: 7091847040915996681
+      type: {class: CooldownEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        timeScaleMode: 0
+        cooldown: 0
+    - rid: 7091847040915996683
+      type: {class: DelayEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        timeScaleMode: 0
+        delay: 0
+    - rid: 7091847040915996689
+      type: {class: GroupCooldownEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        timeScaleMode: 0
+        cooldown: 1
+        group: a
+    - rid: 7091847040915996690
       type: {class: TransformToSpatialContextProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
       data:
-        transform: {fileID: 1444990133}
+        transform: {fileID: 0}
         spaceType: 0
         modificationType: 0
-    - rid: 7091847032052645892
+    - rid: 7091847040915996691
       type: {class: EffectExecutorProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
       data:
         synchronize: 1
         effectGroup:
-          _effects:
-          - rid: 7091847032052645895
-    - rid: 7091847032052645895
-      type: {class: SetActiveEffect, ns: ShalicoEffectProcessor.Effects, asm: ShalicoEffectProcessor}
-      data:
-        target: {fileID: 1539372951}
-        active: 0
+          _effects: []
 --- !u!1 &1956514570
 GameObject:
   m_ObjectHideFlags: 0

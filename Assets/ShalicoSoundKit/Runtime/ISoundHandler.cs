@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Cysharp.Threading.Tasks;
-using UniRx;
 
 namespace ShalicoSoundKit
 {
@@ -10,8 +8,8 @@ namespace ShalicoSoundKit
         public bool IsValid { get; }
         public int SoundID { get; }
 
-        public IObservable<Unit> OnReleaseAsObservable { get; }
-        public ISoundHandler Play(float volume = 1f);
+        public ISoundHandler Play();
+        public UniTask PlayAsync(CancellationToken cancellationToken = default);
         public ISoundHandler Stop();
         public void Release();
         public ISoundHandler SetVolume(float volume);

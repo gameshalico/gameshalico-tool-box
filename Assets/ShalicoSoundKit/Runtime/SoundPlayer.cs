@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -10,11 +12,13 @@ namespace ShalicoSoundKit
     internal class SoundPlayer : MonoBehaviour
     {
         private static readonly Queue<SoundPlayer> s_pool = new();
+        private readonly Subject<Unit> _releasedSubject = new();
 
         private AudioSource _audioSource;
         private bool _releaseOnStop;
         private CancellationTokenSource _tweenCancellationTokenSource;
         public SoundHandler CurrentHandler { get; private set; }
+        public IObservable<Unit> ReleasedAsObservable => _releasedSubject;
 
         private void Update()
         {
@@ -27,9 +31,8 @@ namespace ShalicoSoundKit
             s_pool.Clear();
         }
 
-        public void Play(float volume)
+        public void Play()
         {
-            _audioSource.volume = volume;
             _audioSource.Play();
         }
 

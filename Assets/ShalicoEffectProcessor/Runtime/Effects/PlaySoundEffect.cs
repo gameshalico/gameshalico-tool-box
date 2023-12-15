@@ -53,7 +53,7 @@ namespace ShalicoEffectProcessor.Effects
 
             SetPitch(handler);
 
-            await handler.Play().OnReleaseAsObservable.ToUniTask(cancellationToken: cancellationToken);
+            await handler.PlayAsync(cancellationToken: cancellationToken);
         }
 
         private void SetPitch(ISoundHandler soundHandler)

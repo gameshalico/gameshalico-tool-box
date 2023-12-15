@@ -8,7 +8,7 @@ namespace ShalicoSoundKit
     {
         public static ISoundHandler PlayWithFadeIn(this ISoundHandler handler, float duration, float volume = 1f)
         {
-            handler.Play(0f);
+            handler.SetVolume(0).Play();
             handler.TweenVolumeUpAsync(duration, volume).Forget();
             return handler;
         }
@@ -17,7 +17,7 @@ namespace ShalicoSoundKit
             float volume = 1f,
             CancellationToken cancellationToken = default)
         {
-            handler.Play(0f);
+            handler.SetVolume(0).Play();
             await handler.TweenVolumeUpAsync(duration, volume, cancellationToken);
             return handler;
         }

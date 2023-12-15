@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using UniRx;
 
 namespace ShalicoSoundKit
 {
     internal class SoundHandler : ISoundHandler
     {
-        private readonly Subject<Unit> _onRelease = new();
         private readonly SoundPlayer _soundPlayer;
 
         internal SoundHandler(SoundPlayer soundPlayer)
@@ -16,17 +14,15 @@ namespace ShalicoSoundKit
             SoundID = 0;
         }
 
-        public IObservable<Unit> OnReleaseAsObservable => _onRelease;
-
         public bool IsValid => _soundPlayer.CurrentHandler == this;
         public int SoundID { get; private set; }
 
-        public ISoundHandler Play(float volume = 1)
+        public ISoundHandler Play()
         {
             if (!IsValid)
                 throw new InvalidOperationException("This sound handler is already released.");
 
-            _soundPlayer.Play(volume);
+            _soundPlayer.Play();
             return this;
         }
 
@@ -44,7 +40,6 @@ namespace ShalicoSoundKit
             if (!IsValid)
                 return;
 
-            _onRelease.OnNext(Unit.Default);
             _soundPlayer.Release();
         }
 
@@ -98,6 +93,25 @@ namespace ShalicoSoundKit
             if (!IsValid)
                 throw new InvalidOperationException("This sound handler is already released.");
             await _soundPlayer.TweenVolumeDownAsync(duration, volume, cancellationToken);
+        }
+
+        public async UniTask PlayAsync(CancellationToken cancellationToken = default)
+        {
+            if (!IsValid)
+                throw new InvalidOperationException("This sound handler is already released.");
+
+            _soundPlayer.Play();
+            try
+            {
+                await _soundPlayer.ReleasedAsObservable.ToUniTask(cancellationToken: cancellationToken);
+            }
+            catch (OperationCanceledException e)
+            {
+                if (IsValid)
+                    Release();
+
+                throw;
+            }
         }
     }
 }
