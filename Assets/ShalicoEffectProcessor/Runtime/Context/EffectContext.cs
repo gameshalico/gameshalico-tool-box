@@ -78,6 +78,15 @@ namespace ShalicoEffectProcessor.Context
             return context;
         }
 
+        public EffectContext Merge(EffectContext context, bool overwrite = false)
+        {
+            foreach (var (key, value) in context._data)
+                if (overwrite || !_data.ContainsKey(key))
+                    _data[key] = value;
+
+            return this;
+        }
+
         /// <summary>
         ///     Set data in this EffectContext.
         /// </summary>
