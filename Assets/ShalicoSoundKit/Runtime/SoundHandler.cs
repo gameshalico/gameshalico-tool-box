@@ -11,11 +11,11 @@ namespace ShalicoSoundKit
         internal SoundHandler(SoundPlayer soundPlayer)
         {
             _soundPlayer = soundPlayer;
-            SoundID = 0;
+            SoundGroupID = 0;
         }
 
         public bool IsValid => _soundPlayer.CurrentHandler == this;
-        public int SoundID { get; private set; }
+        public int SoundGroupID { get; private set; }
 
         public ISoundHandler Play()
         {
@@ -70,12 +70,12 @@ namespace ShalicoSoundKit
             return this;
         }
 
-        public ISoundHandler SetID(int soundID)
+        public ISoundHandler SetGroupID(int soundGroupID)
         {
             if (!IsValid)
                 throw new InvalidOperationException("This sound handler is already released.");
 
-            SoundID = soundID;
+            SoundGroupID = soundGroupID;
             return this;
         }
 

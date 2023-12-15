@@ -6,7 +6,7 @@ namespace ShalicoSoundKit
     public interface ISoundHandler
     {
         public bool IsValid { get; }
-        public int SoundID { get; }
+        public int SoundGroupID { get; }
 
         public ISoundHandler Play();
         public UniTask PlayAsync(CancellationToken cancellationToken = default);
@@ -15,7 +15,7 @@ namespace ShalicoSoundKit
         public ISoundHandler SetVolume(float volume);
         public ISoundHandler SetPitch(float pitch);
         public ISoundHandler SetLoop(bool loop);
-        public ISoundHandler SetID(int soundID);
+        public ISoundHandler SetGroupID(int soundGroupID);
 
         public UniTask TweenVolumeUpAsync(float duration, float volume,
             CancellationToken cancellationToken = default);

@@ -29,7 +29,7 @@ namespace ShalicoEffectProcessor.Effects
         [SerializeField] private AudioClip audioClip;
         [SerializeField] private AudioMixerGroup audioMixerGroup;
 
-        [SerializeField] private int soundID;
+        [SerializeField] private int groupID;
         [SerializeField] private float volume = 1f;
 
         [Header("Pitch")] [SerializeField] private PitchMode pitchMode;
@@ -48,12 +48,12 @@ namespace ShalicoEffectProcessor.Effects
         public async UniTask PlayEffectAsync(EffectContext context, CancellationToken cancellationToken = default)
         {
             var handler = SoundManager.GetPlayer(audioClip, audioMixerGroup)
-                .SetID(soundID)
+                .SetGroupID(groupID)
                 .SetVolume(volume);
 
             SetPitch(handler);
 
-            await handler.PlayAsync(cancellationToken: cancellationToken);
+            await handler.PlayAsync(cancellationToken);
         }
 
         private void SetPitch(ISoundHandler soundHandler)

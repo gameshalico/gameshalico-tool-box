@@ -53,7 +53,7 @@ namespace ShalicoSoundKit
 
         public static IEnumerable<ISoundHandler> GetHandlers(int soundID)
         {
-            return s_soundHandlers.Where(x => x.SoundID == soundID);
+            return s_soundHandlers.Where(x => x.SoundGroupID == soundID);
         }
 
 
