@@ -7,8 +7,8 @@ using UnityEngine;
 namespace ShalicoEffectProcessor.Effects
 {
     [Serializable]
-    [CustomDropdownPath("Particle System/Play")]
-    [CustomListLabel("Play Particle System", Tone.Strong, HueSymbol.Yellow)]
+    [CustomDropdownPath("Particle System/Play Particle System")]
+    [CustomListLabel(Tone.Strong, HueSymbol.Yellow)]
     public class PlayParticleEffect : ImmediateEffect
     {
         [SerializeField] private ParticleSystem particleSystem;

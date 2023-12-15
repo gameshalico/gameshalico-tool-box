@@ -10,7 +10,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
     [CustomDropdownPath("Condition/Cooldown")]
-    [CustomListLabel("Cooldown", Tone.Light, HueSymbol.Green)]
+    [CustomListLabel(Tone.Light, HueSymbol.Green)]
     public class CooldownEffectProcessor : IEffectProcessor
     {
         [SerializeField] private TimeScaleMode timeScaleMode;

@@ -8,7 +8,7 @@ namespace ShalicoEffectProcessor.Effects
 {
     [Serializable]
     [CustomDropdownPath("Debug/Debug Log")]
-    [CustomListLabel("Debug Log", Tone.Strong, HueSymbol.RedPurple)]
+    [CustomListLabel(Tone.Strong, HueSymbol.RedPurple)]
     public class DebugLogEffect : ImmediateEffect
     {
         [SerializeField] private string message;

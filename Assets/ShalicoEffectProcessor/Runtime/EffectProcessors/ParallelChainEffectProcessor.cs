@@ -10,7 +10,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
     [CustomDropdownPath("Multiple/Parallel Chain")]
-    [CustomListLabel("Parallel Chain", Tone.Light, HueSymbol.RedPurple)]
+    [CustomListLabel(Tone.Light, HueSymbol.RedPurple)]
     public class ParallelChainEffectProcessor : IEffectProcessor
     {
         [SerializeField] private ChainEffectProcessor[] chains = Array.Empty<ChainEffectProcessor>();

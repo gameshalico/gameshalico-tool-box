@@ -8,7 +8,7 @@ namespace ShalicoEffectProcessor.Effects
 {
     [Serializable]
     [CustomDropdownPath("Game Object/Set Active")]
-    [CustomListLabel("Set Active", Tone.Strong, HueSymbol.Blue2)]
+    [CustomListLabel(Tone.Strong, HueSymbol.Blue2)]
     public class SetActiveEffect : ImmediateEffect
     {
         [SerializeField] private GameObject target;

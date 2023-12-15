@@ -10,14 +10,14 @@ namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
     [CustomDropdownPath("Context/Spatial/Transform To Spatial")]
-    [CustomListLabel("Transform To Spatial", Tone.Light, HueSymbol.Green)]
-    public class TransformToSpatialContextProcessor : IEffectProcessor
+    [CustomListLabel(Tone.Light, HueSymbol.Violet)]
+    public class TransformToSpatialContextProcessor : UniformEffectProcessor
     {
         [SerializeField] private Transform transform;
         [SerializeField] private SpaceType spaceType = SpaceType.World;
         [SerializeField] private ModificationType modificationType = ModificationType.Override;
 
-        public UniTask Run(EffectContext context, EffectFunc function, CancellationToken cancellationToken = default)
+        protected override UniTask Run(EffectContext context, CancellationToken cancellationToken)
         {
             var spatialInfo = new SpatialInfo(transform, spaceType);
 
@@ -33,7 +33,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
                     throw new ArgumentOutOfRangeException();
             }
 
-            return function(context, cancellationToken);
+            return UniTask.CompletedTask;
         }
     }
 }

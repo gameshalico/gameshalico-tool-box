@@ -10,7 +10,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
     [CustomDropdownPath("Multiple/Chain")]
-    [CustomListLabel("Chain", Tone.Light, HueSymbol.RedPurple)]
+    [CustomListLabel(Tone.Light, HueSymbol.RedPurple)]
     public class ChainEffectProcessor : IEffectProcessor
     {
         [SerializeField] private bool cloneContext;

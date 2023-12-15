@@ -9,17 +9,16 @@ using UnityEngine;
 namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
-    [CustomListLabel("Debug Log", Tone.Light, HueSymbol.Yellow)]
+    [CustomListLabel(Tone.Light, HueSymbol.Yellow)]
     [CustomDropdownPath("Action/Debug Log")]
-    public class DebugLogEffectProcessor : IEffectProcessor
+    public class DebugLogEffectProcessor : UniformEffectProcessor
     {
         [SerializeField] private string message;
 
-        public UniTask Run(EffectContext context, EffectFunc function,
-            CancellationToken cancellationToken = default)
+        protected override UniTask Run(EffectContext context, CancellationToken cancellationToken)
         {
             Debug.Log(message);
-            return function(context, cancellationToken);
+            return UniTask.CompletedTask;
         }
     }
 }

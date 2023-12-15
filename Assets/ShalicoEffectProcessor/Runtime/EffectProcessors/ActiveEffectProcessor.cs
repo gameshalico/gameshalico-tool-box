@@ -10,7 +10,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
     [CustomDropdownPath("Condition/Active")]
-    [CustomListLabel("Active", Tone.Light, HueSymbol.Green)]
+    [CustomListLabel(Tone.Light, HueSymbol.Green)]
     public class ActiveEffectProcessor : IEffectProcessor
     {
         [SerializeField] private bool active = true;

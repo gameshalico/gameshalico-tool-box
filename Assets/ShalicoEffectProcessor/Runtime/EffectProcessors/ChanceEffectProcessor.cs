@@ -11,7 +11,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
     [CustomDropdownPath("Condition/Chance")]
-    [CustomListLabel("Chance", Tone.Light, HueSymbol.Green)]
+    [CustomListLabel(Tone.Light, HueSymbol.Green)]
     public class ChanceEffectProcessor : IEffectProcessor
     {
         [Range(0, 1)] [SerializeField] private float chance = 1f;

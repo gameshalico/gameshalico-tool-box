@@ -10,18 +10,16 @@ namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
     [CustomDropdownPath("Delay/Delay")]
-    [CustomListLabel("Delay", Tone.Light, HueSymbol.Blue2)]
-    public class DelayEffectProcessor : IEffectProcessor
+    [CustomListLabel(Tone.Light, HueSymbol.Blue2)]
+    public class DelayEffectProcessor : UniformEffectProcessor
     {
         [SerializeField] private TimeScaleMode timeScaleMode;
         [SerializeField] private float delay;
 
-        public async UniTask Run(EffectContext context, EffectFunc function,
-            CancellationToken cancellationToken = default)
+        protected override async UniTask Run(EffectContext context, CancellationToken cancellationToken)
         {
             await UniTask.Delay(TimeSpan.FromSeconds(delay), timeScaleMode.ToDelayType(),
                 cancellationToken: cancellationToken);
-            await function(context, cancellationToken);
         }
     }
 }

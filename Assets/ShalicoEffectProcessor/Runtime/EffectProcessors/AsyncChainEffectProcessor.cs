@@ -10,7 +10,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
     [CustomDropdownPath("Multiple/Async Chain")]
-    [CustomListLabel("Async Chain", Tone.Light, HueSymbol.RedPurple)]
+    [CustomListLabel(Tone.Light, HueSymbol.RedPurple)]
     public class AsyncChainEffectProcessor : IEffectProcessor
     {
         [SerializeField] private ChainEffectProcessor asyncChain;

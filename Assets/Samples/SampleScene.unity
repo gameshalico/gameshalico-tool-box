@@ -257,32 +257,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectProcessor:
-    cloneContext: 0
-    _runners:
-    - rid: 7091847008936525859
-    - rid: 7091847008936525862
+    effectProcessor:
+      cloneContext: 0
+      _runners:
+      - rid: 7091847032052645891
+      - rid: 7091847032052645892
   references:
     version: 2
     RefIds:
-    - rid: 7091847008936525859
-      type: {class: AsyncChainEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+    - rid: 7091847032052645891
+      type: {class: TransformToSpatialContextProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
       data:
-        asyncChain:
-          cloneContext: 0
-          _runners:
-          - rid: 7091847008936525861
-    - rid: 7091847008936525861
+        transform: {fileID: 1444990133}
+        spaceType: 0
+        modificationType: 0
+    - rid: 7091847032052645892
       type: {class: EffectExecutorProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
       data:
         synchronize: 1
         effectGroup:
-          _effects: []
-    - rid: 7091847008936525862
-      type: {class: EffectExecutorProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+          _effects:
+          - rid: 7091847032052645895
+    - rid: 7091847032052645895
+      type: {class: SetActiveEffect, ns: ShalicoEffectProcessor.Effects, asm: ShalicoEffectProcessor}
       data:
-        synchronize: 1
-        effectGroup:
-          _effects: []
+        target: {fileID: 1539372951}
+        active: 0
 --- !u!1 &1956514570
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
     [CustomDropdownPath("Multiple/Repeat")]
-    [CustomListLabel("Repeat", Tone.Light, HueSymbol.RedPurple)]
+    [CustomListLabel(Tone.Light, HueSymbol.RedPurple)]
     public class RepeatEffectProcessor : IEffectProcessor
     {
         [EnableIf(nameof(repeatForever), false)] [SerializeField]

@@ -8,7 +8,7 @@ namespace ShalicoEffectProcessor.Effects
 {
     [Serializable]
     [CustomDropdownPath("Context/Transform By Spatial")]
-    [CustomListLabel("Transform By Spatial", Tone.Strong, HueSymbol.Green)]
+    [CustomListLabel(Tone.Strong, HueSymbol.Green)]
     public class TransformBySpatialEffect : ImmediateEffect
     {
         [SerializeField] private Transform target;

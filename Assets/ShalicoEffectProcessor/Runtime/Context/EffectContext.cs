@@ -28,7 +28,7 @@ namespace ShalicoEffectProcessor.Context
         ///     Get a new EffectContext from the pool. EffectContext must be released after use with Release().
         /// </summary>
         /// <returns> new EffectContext </returns>
-        public static EffectContext Get()
+        public static EffectContext Rent()
         {
             if (s_pool.Count > 0)
                 return s_pool.Dequeue();
@@ -73,7 +73,7 @@ namespace ShalicoEffectProcessor.Context
         /// <returns> cloned EffectContext </returns>
         public EffectContext Clone()
         {
-            var context = Get();
+            var context = Rent();
             context.CopyFrom(this);
             return context;
         }
@@ -86,6 +86,11 @@ namespace ShalicoEffectProcessor.Context
         public void Set<T>(T data) where T : IContextItem
         {
             _data[typeof(T)] = data;
+        }
+
+        public void Set(Type type, IContextItem data)
+        {
+            _data[type] = data;
         }
 
         /// <summary>
@@ -102,6 +107,14 @@ namespace ShalicoEffectProcessor.Context
             throw new KeyNotFoundException($"EffectContext does not contain {typeof(T)}");
         }
 
+        public IContextItem Get(Type type)
+        {
+            if (_data.TryGetValue(type, out var data))
+                return data;
+
+            throw new KeyNotFoundException($"EffectContext does not contain {type}");
+        }
+
         /// <summary>
         ///     Try to get data from this EffectContext.
         /// </summary>
@@ -113,6 +126,18 @@ namespace ShalicoEffectProcessor.Context
             if (_data.TryGetValue(typeof(T), out var d))
             {
                 data = (T)d;
+                return true;
+            }
+
+            data = default;
+            return false;
+        }
+
+        public bool TryGet(Type type, out IContextItem data)
+        {
+            if (_data.TryGetValue(type, out var d))
+            {
+                data = d;
                 return true;
             }
 

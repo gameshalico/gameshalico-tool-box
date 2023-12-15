@@ -18,6 +18,12 @@ namespace ShalicoEffectProcessor
             _hueSymbol = hueSymbol;
         }
 
+        public CustomListLabelAttribute(Tone tone, HueSymbol hueSymbol = HueSymbol.Red)
+        {
+            _tone = tone;
+            _hueSymbol = hueSymbol;
+        }
+
         public Color32 Color => Tones.GetColor(_tone, _hueSymbol);
         public string Text { get; }
     }

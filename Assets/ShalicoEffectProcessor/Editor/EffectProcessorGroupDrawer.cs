@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShalicoEffectProcessor.Editor
 {
-    [CustomPropertyDrawer(typeof(EffectProcessorGroup))]
+    [CustomPropertyDrawer(typeof(EffectPlayer))]
     public class EffectProcessorGroupDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

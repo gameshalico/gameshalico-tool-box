@@ -14,7 +14,7 @@ namespace ShalicoEffectProcessor.EffectProcessors
         public static async UniTask RunAsync(this IEffectProcessor effectProcessor,
             CancellationToken cancellationToken = default)
         {
-            await effectProcessor.RunAsync(EffectContext.Get(), cancellationToken);
+            await effectProcessor.RunAsync(EffectContext.Rent(), cancellationToken);
         }
 
         public static void Run(this IEffectProcessor effectProcessor, EffectContext context,

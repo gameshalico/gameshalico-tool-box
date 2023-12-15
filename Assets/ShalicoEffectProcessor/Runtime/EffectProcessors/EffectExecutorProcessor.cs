@@ -4,29 +4,25 @@ using Cysharp.Threading.Tasks;
 using ShalicoAttributePack;
 using ShalicoColorPalette;
 using ShalicoEffectProcessor.Context;
-using ShalicoEffectProcessor.Effects;
 using UnityEngine;
 
 namespace ShalicoEffectProcessor.EffectProcessors
 {
     [Serializable]
     [CustomDropdownPath("Action/Effect")]
-    [CustomListLabel("Effect", Tone.Light, HueSymbol.Yellow)]
-    public class EffectExecutorProcessor : IEffectProcessor
+    [CustomListLabel(Tone.Light, HueSymbol.Yellow)]
+    public class EffectExecutorProcessor : UniformEffectProcessor
     {
         [SerializeField] private bool synchronize = true;
         [SerializeField] private EffectGroup effectGroup;
 
-        public async UniTask Run(EffectContext context, EffectFunc function,
-            CancellationToken cancellationToken = default)
+        protected override async UniTask Run(EffectContext context, CancellationToken cancellationToken)
         {
             var task = effectGroup.PlayAsync(context, cancellationToken);
             if (synchronize)
                 await task;
             else
                 task.Forget();
-
-            await function(context, cancellationToken);
         }
     }
 }

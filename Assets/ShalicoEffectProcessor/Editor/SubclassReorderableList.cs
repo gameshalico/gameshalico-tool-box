@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using ShalicoAttributePack;
 using ShalicoAttributePack.Editor;
 using ShalicoColorPalette;
 using UnityEditor;
@@ -121,13 +122,23 @@ namespace ShalicoEffectProcessor.Editor
 
             var type = element.managedReferenceValue.GetType();
             var color = Color.white;
-            var nameText = type.Name;
+            var nameText = "";
 
             if (type.GetCustomAttribute(typeof(CustomListLabelAttribute)) is CustomListLabelAttribute attribute)
             {
                 color = attribute.Color;
                 nameText = attribute.Text;
             }
+
+            if (string.IsNullOrEmpty(nameText))
+            {
+                if (type.GetCustomAttribute(typeof(CustomDropdownPathAttribute)) is CustomDropdownPathAttribute
+                    pathAttribute)
+                    nameText = pathAttribute.Name;
+                else
+                    nameText = type.Name;
+            }
+
 
             var labelRect = new Rect(rect.x + 14, rect.y, rect.width - 14,
                 EditorGUIUtility.singleLineHeight);
