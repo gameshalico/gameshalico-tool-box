@@ -2,35 +2,35 @@ using System.Collections.Generic;
 
 namespace ShalicoDesignPatterns
 {
+    public interface IEnterableState<TOwner>
+    {
+        /// <summary>
+        ///     別のステートからこのステートに遷移するときに呼ばれる
+        /// </summary>
+        /// <param name="prevState">遷移元ステート。初期ステートではnullになる</param>
+        void Enter(StateMachine<TOwner>.State prevState);
+    }
+
+    public interface IExitableState<TOwner>
+    {
+        /// <summary>
+        ///     このステートが別のステートに遷移するときに呼ばれる
+        /// </summary>
+        /// <param name="nextState">遷移先ステート</param>
+        void Exit(StateMachine<TOwner>.State nextState);
+    }
+
+    public interface ITickableState
+    {
+        /// <summary>
+        ///     StateMachineのTickで呼ばれる
+        /// </summary>
+        /// <param name="deltaTime">経過時間</param>
+        public void Tick(float deltaTime);
+    }
+    
     public partial class StateMachine<TOwner>
     {
-        public interface IEnterableState
-        {
-            /// <summary>
-            ///     別のステートからこのステートに遷移するときに呼ばれる
-            /// </summary>
-            /// <param name="prevState">遷移元ステート。初期ステートではnullになる</param>
-            void Enter(State prevState);
-        }
-
-        public interface IExitableState
-        {
-            /// <summary>
-            ///     このステートが別のステートに遷移するときに呼ばれる
-            /// </summary>
-            /// <param name="nextState">遷移先ステート</param>
-            void Exit(State nextState);
-        }
-
-        public interface ITickableState
-        {
-            /// <summary>
-            ///     StateMachineのTickで呼ばれる
-            /// </summary>
-            /// <param name="deltaTime">経過時間</param>
-            public void Tick(float deltaTime);
-        }
-
         /// <summary>
         ///     ステート
         /// </summary>

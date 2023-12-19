@@ -63,7 +63,7 @@ namespace ShalicoDesignPatterns
         public void Start<TFirst>() where TFirst : State, new()
         {
             CurrentState = GetOrAddState<TFirst>();
-            if (CurrentState is IEnterableState enterableState)
+            if (CurrentState is IEnterableState<TOwner> enterableState)
                 enterableState.Enter(null);
         }
 
@@ -123,9 +123,9 @@ namespace ShalicoDesignPatterns
 
         private void ChangeState(State nextState)
         {
-            if (CurrentState is IExitableState exitableState)
+            if (CurrentState is IExitableState<TOwner> exitableState)
                 exitableState.Exit(nextState);
-            if (nextState is IEnterableState enterableState)
+            if (nextState is IEnterableState<TOwner> enterableState)
                 enterableState.Enter(CurrentState);
             CurrentState = nextState;
         }
