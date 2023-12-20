@@ -9,26 +9,25 @@ namespace ShalicoToolBox
 {
     public static class EasingFunctions
     {
-        public static async IAsyncEnumerable<float> EaseAsyncEnumerable(EaseType easeType, float duration,
+        public static async IAsyncEnumerable<float> LinearAsyncEnumerable(float duration,
             IDeltaTimeProvider deltaTimeProvider = null,
             PlayerLoopTiming playerLoopTiming = PlayerLoopTiming.Update,
             [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             deltaTimeProvider ??= DeltaTimeProvider.Scaled;
             float t = 0;
-            yield return Ease(easeType, 0);
 
             while (t < duration)
             {
+                yield return t / duration;
+                
                 await UniTask.Yield(playerLoopTiming);
                 if (cancellationToken.IsCancellationRequested)
                     yield break;
-
-                yield return Ease(easeType, t / duration);
                 t += deltaTimeProvider.ProvideDeltaTime(playerLoopTiming);
             }
 
-            yield return Ease(easeType, 1);
+            yield return 1;
         }
 
         public static float Ease(EaseType easeType, float t)
