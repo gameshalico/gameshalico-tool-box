@@ -28,7 +28,7 @@ namespace ShalicoToolBox
             };
         }
 
-        public class ScaledDeltaTimeProvider : IDeltaTimeProvider
+        private class ScaledDeltaTimeProvider : IDeltaTimeProvider
         {
             public float ProvideDeltaTime(PlayerLoopTiming playerLoopTiming = PlayerLoopTiming.Update)
             {
@@ -36,7 +36,7 @@ namespace ShalicoToolBox
             }
         }
 
-        public class UnscaledDeltaTimeProvider : IDeltaTimeProvider
+        private class UnscaledDeltaTimeProvider : IDeltaTimeProvider
         {
             public float ProvideDeltaTime(PlayerLoopTiming playerLoopTiming = PlayerLoopTiming.Update)
             {
