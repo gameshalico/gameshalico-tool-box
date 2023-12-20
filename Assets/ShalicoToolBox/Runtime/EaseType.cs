@@ -1,6 +1,6 @@
 namespace ShalicoToolBox
 {
-    public enum EasingType
+    public enum EaseType
     {
         Linear,
         InQuad,

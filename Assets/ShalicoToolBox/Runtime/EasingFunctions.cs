@@ -1,47 +1,72 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace ShalicoToolBox
 {
-
     public static class EasingFunctions
     {
-        public static float Ease(EasingType easingType, float t)
+        public static async IAsyncEnumerable<float> EaseAsyncEnumerable(EaseType easeType, float duration,
+            IDeltaTimeProvider deltaTimeProvider = null,
+            PlayerLoopTiming playerLoopTiming = PlayerLoopTiming.Update,
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
-            return easingType switch
+            deltaTimeProvider ??= DeltaTimeProvider.Scaled;
+            float t = 0;
+            yield return Ease(easeType, 0);
+
+            while (t < duration)
             {
-                EasingType.Linear => Linear(t),
-                EasingType.InQuad => InQuad(t),
-                EasingType.OutQuad => OutQuad(t),
-                EasingType.InOutQuad => InOutQuad(t),
-                EasingType.InCubic => InCubic(t),
-                EasingType.OutCubic => OutCubic(t),
-                EasingType.InOutCubic => InOutCubic(t),
-                EasingType.InQuart => InQuart(t),
-                EasingType.OutQuart => OutQuart(t),
-                EasingType.InOutQuart => InOutQuart(t),
-                EasingType.InQuint => InQuint(t),
-                EasingType.OutQuint => OutQuint(t),
-                EasingType.InOutQuint => InOutQuint(t),
-                EasingType.InSine => InSine(t),
-                EasingType.OutSine => OutSine(t),
-                EasingType.InOutSine => InOutSine(t),
-                EasingType.InExpo => InExpo(t),
-                EasingType.OutExpo => OutExpo(t),
-                EasingType.InOutExpo => InOutExpo(t),
-                EasingType.InCirc => InCirc(t),
-                EasingType.OutCirc => OutCirc(t),
-                EasingType.InOutCirc => InOutCirc(t),
-                EasingType.InBack => InBack(t),
-                EasingType.OutBack => OutBack(t),
-                EasingType.InOutBack => InOutBack(t),
-                EasingType.InElastic => InElastic(t),
-                EasingType.OutElastic => OutElastic(t),
-                EasingType.InOutElastic => InOutElastic(t),
-                EasingType.InBounce => InBounce(t),
-                EasingType.OutBounce => OutBounce(t),
-                EasingType.InOutBounce => InOutBounce(t),
-                _ => throw new ArgumentOutOfRangeException(nameof(easingType), easingType, null)
+                await UniTask.Yield(playerLoopTiming);
+                if (cancellationToken.IsCancellationRequested)
+                    yield break;
+
+                yield return Ease(easeType, t / duration);
+                t += deltaTimeProvider.ProvideDeltaTime(playerLoopTiming);
+            }
+
+            yield return Ease(easeType, 1);
+        }
+
+        public static float Ease(EaseType easeType, float t)
+        {
+            return easeType switch
+            {
+                EaseType.Linear => Linear(t),
+                EaseType.InQuad => InQuad(t),
+                EaseType.OutQuad => OutQuad(t),
+                EaseType.InOutQuad => InOutQuad(t),
+                EaseType.InCubic => InCubic(t),
+                EaseType.OutCubic => OutCubic(t),
+                EaseType.InOutCubic => InOutCubic(t),
+                EaseType.InQuart => InQuart(t),
+                EaseType.OutQuart => OutQuart(t),
+                EaseType.InOutQuart => InOutQuart(t),
+                EaseType.InQuint => InQuint(t),
+                EaseType.OutQuint => OutQuint(t),
+                EaseType.InOutQuint => InOutQuint(t),
+                EaseType.InSine => InSine(t),
+                EaseType.OutSine => OutSine(t),
+                EaseType.InOutSine => InOutSine(t),
+                EaseType.InExpo => InExpo(t),
+                EaseType.OutExpo => OutExpo(t),
+                EaseType.InOutExpo => InOutExpo(t),
+                EaseType.InCirc => InCirc(t),
+                EaseType.OutCirc => OutCirc(t),
+                EaseType.InOutCirc => InOutCirc(t),
+                EaseType.InBack => InBack(t),
+                EaseType.OutBack => OutBack(t),
+                EaseType.InOutBack => InOutBack(t),
+                EaseType.InElastic => InElastic(t),
+                EaseType.OutElastic => OutElastic(t),
+                EaseType.InOutElastic => InOutElastic(t),
+                EaseType.InBounce => InBounce(t),
+                EaseType.OutBounce => OutBounce(t),
+                EaseType.InOutBounce => InOutBounce(t),
+                _ => throw new ArgumentOutOfRangeException(nameof(easeType), easeType, null)
             };
         }
 
