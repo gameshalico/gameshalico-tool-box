@@ -1,9 +1,10 @@
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using UniRx;
 
 namespace ShalicoToolBox
 {
-    public class TimeSpace
+    public class TimeSpace : IDeltaTimeProvider
     {
         private readonly HierarchyScaler _hierarchyScaler;
         private readonly PriorityValueArbiter<float> _timeScaleArbiter;
@@ -21,6 +22,11 @@ namespace ShalicoToolBox
         public static TimeSpace GlobalTimeSpace { get; } = new();
 
         public float TimeScale => _timeScaleArbiter.ValueReactiveProperty.Value;
+
+        public float ProvideDeltaTime(PlayerLoopTiming playerLoopTiming = PlayerLoopTiming.Update)
+        {
+            return DeltaTimeProvider.GetUnscaledDeltaTime(playerLoopTiming) * TimeScale;
+        }
 
         [MustUseReturnValue]
         public IPriorityValueHandler<float> Register(int priority, float timeScale)

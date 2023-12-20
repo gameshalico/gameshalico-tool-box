@@ -1,11 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace ShalicoToolBox
 {
-
     public static class EasingFunctions
     {
+        public static async IAsyncEnumerable<float> EaseAsyncEnumerable(EasingType easingType, float duration,
+            IDeltaTimeProvider deltaTimeProvider = null,
+            PlayerLoopTiming playerLoopTiming = PlayerLoopTiming.Update,
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            if (deltaTimeProvider == null)
+                deltaTimeProvider = DeltaTimeProvider.Scaled;
+
+            float t = 0;
+            yield return Ease(easingType, 0);
+
+            while (t < duration)
+            {
+                await UniTask.Yield(playerLoopTiming);
+                if (cancellationToken.IsCancellationRequested)
+                    yield break;
+
+                yield return Ease(easingType, t / duration);
+                t += deltaTimeProvider.ProvideDeltaTime(playerLoopTiming);
+            }
+
+            yield return Ease(easingType, 1);
+        }
+
         public static float Ease(EasingType easingType, float t)
         {
             return easingType switch
