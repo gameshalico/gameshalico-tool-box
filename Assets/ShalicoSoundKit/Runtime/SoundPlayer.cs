@@ -75,7 +75,8 @@ namespace ShalicoSoundKit
         public void Release()
         {
             s_pool.Enqueue(this);
-            gameObject.SetActive(false);
+            if (gameObject != null)
+                gameObject.SetActive(false);
             SoundManager.UnregisterHandler(CurrentHandler);
             CurrentHandler = null;
             _releasedSubject.OnNext(Unit.Default);
