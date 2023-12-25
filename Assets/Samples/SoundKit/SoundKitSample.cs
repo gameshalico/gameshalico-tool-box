@@ -1,4 +1,6 @@
-﻿using ShalicoSoundKit;
+﻿using Cysharp.Threading.Tasks;
+using ShalicoEffectProcessor;
+using ShalicoSoundKit;
 using ShalicoToolBox;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -8,6 +10,7 @@ namespace Samples.SoundKit
     public class SoundKitSample : MonoBehaviour
     {
         [SerializeField] private AudioClip audioClip;
+        [SerializeField] private EffectPlayer effectPlayer;
 
         private UIDocument _uiDocument;
 
@@ -32,6 +35,11 @@ namespace Samples.SoundKit
                     handler.Release();
                 });
             };
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space)) effectPlayer.PlayAsync().Forget();
         }
 
         [ContextMenu("Normalize and remove silence")]

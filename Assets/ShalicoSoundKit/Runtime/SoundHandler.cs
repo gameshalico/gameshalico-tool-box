@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UniRx;
 
 namespace ShalicoSoundKit
 {
@@ -103,7 +104,7 @@ namespace ShalicoSoundKit
             _soundPlayer.Play();
             try
             {
-                await _soundPlayer.ReleasedAsObservable.ToUniTask(cancellationToken: cancellationToken);
+                await _soundPlayer.ReleasedAsObservable.Take(1).ToUniTask(cancellationToken: cancellationToken);
             }
             catch (OperationCanceledException e)
             {
