@@ -15,6 +15,8 @@ namespace ShalicoSoundKit
         private readonly Subject<Unit> _releasedSubject = new();
 
         private AudioSource _audioSource;
+
+        private bool _isDestroyed;
         private bool _releaseOnStop;
         private CancellationTokenSource _tweenCancellationTokenSource;
         public SoundHandler CurrentHandler { get; private set; }
@@ -28,6 +30,7 @@ namespace ShalicoSoundKit
 
         private void OnDestroy()
         {
+            _isDestroyed = true;
             s_pool.Clear();
         }
 
@@ -74,9 +77,11 @@ namespace ShalicoSoundKit
 
         public void Release()
         {
+            if (_isDestroyed)
+                return;
+
             s_pool.Enqueue(this);
-            if (gameObject != null)
-                gameObject.SetActive(false);
+            gameObject.SetActive(false);
             SoundManager.UnregisterHandler(CurrentHandler);
             CurrentHandler = null;
             _releasedSubject.OnNext(Unit.Default);
