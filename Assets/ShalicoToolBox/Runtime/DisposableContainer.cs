@@ -1,20 +1,28 @@
 ﻿using System;
+using System.Threading;
 using UniRx;
 
 namespace ShalicoToolBox
 {
     public class DisposableContainer : IDisposable, IDisposableContainer
     {
-        private readonly CompositeDisposable _disposable = new();
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
+        private readonly CompositeDisposable _disposables = new();
 
         public void Dispose()
         {
-            _disposable.Dispose();
+            _disposables.Dispose();
+            _cancellationTokenSource.Cancel();
         }
 
         public void AddDisposable(IDisposable disposable)
         {
-            _disposable.Add(disposable);
+            _disposables.Add(disposable);
+        }
+
+        public CancellationToken GetCancellationTokenOnDispose()
+        {
+            return _cancellationTokenSource.Token;
         }
     }
 
