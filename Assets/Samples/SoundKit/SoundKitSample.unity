@@ -130,6 +130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 261382250}
   - component: {fileID: 261382249}
+g  - component: {fileID: 261382251}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -164,6 +165,44 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &261382251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261382248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2536e726068b4ef48d4f345a0e357628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectProcessor:
+    cloneContext: 0
+    _runners:
+    - rid: 7091847275397513216
+  references:
+    version: 2
+    RefIds:
+    - rid: 7091847275397513216
+      type: {class: EffectExecutorProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        synchronize: 1
+        effectGroup:
+          _effects:
+          - rid: 7091847275397513217
+    - rid: 7091847275397513217
+      type: {class: PlaySoundEffect, ns: ShalicoEffectProcessor.Effects, asm: ShalicoEffectProcessor}
+      data:
+        audioClip: {fileID: 8300000, guid: 36ba6722db660b749a0d4d556934e9f6, type: 3}
+        audioMixerGroup: {fileID: 0}
+        groupID: 0
+        volume: 1
+        pitchMode: 0
+        pitch: 1
+        pitchRange:
+          min: -1
+          max: 1
 --- !u!1 &648364634
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,6 +333,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: 36ba6722db660b749a0d4d556934e9f6, type: 3}
+  effectPlayer:
+    effectProcessor:
+      cloneContext: 0
+      _runners:
+      - rid: 7091847275397513221
+      - rid: 7091847275397513218
+      - rid: 7091847275397513220
+  references:
+    version: 2
+    RefIds:
+    - rid: 7091847275397513218
+      type: {class: EffectExecutorProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        synchronize: 1
+        effectGroup:
+          _effects:
+          - rid: 7091847275397513219
+    - rid: 7091847275397513219
+      type: {class: PlaySoundEffect, ns: ShalicoEffectProcessor.Effects, asm: ShalicoEffectProcessor}
+      data:
+        audioClip: {fileID: 8300000, guid: c331c75f279293845807a5d4e5be3a7d, type: 3}
+        audioMixerGroup: {fileID: 0}
+        groupID: 0
+        volume: 1
+        pitchMode: 0
+        pitch: 1
+        pitchRange:
+          min: -1
+          max: 1
+    - rid: 7091847275397513220
+      type: {class: DebugLogEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        message: End
+    - rid: 7091847275397513221
+      type: {class: DebugLogEffectProcessor, ns: ShalicoEffectProcessor.EffectProcessors, asm: ShalicoEffectProcessor}
+      data:
+        message: Start
 --- !u!1 &1444990130
 GameObject:
   m_ObjectHideFlags: 0
