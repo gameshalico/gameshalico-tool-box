@@ -78,6 +78,7 @@ namespace ShalicoSoundKit
             gameObject.SetActive(false);
             SoundManager.UnregisterHandler(CurrentHandler);
             CurrentHandler = null;
+            _releasedSubject.OnNext(Unit.Default);
         }
 
         private CancellationToken CancelAndCreateTweenLinkedToken(CancellationToken cancellationToken)
